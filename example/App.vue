@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <img src="./assets/tap.png" class="logo">
     <router-view/>
-    <tap-button>11</tap-button>
   </div>
 </template>
 
@@ -12,13 +11,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="css">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
 }
+.logo{
+    size:50px;
+}
+
 </style>

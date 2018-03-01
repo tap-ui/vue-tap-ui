@@ -3,8 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import {install} from '../src/index.js'
-Vue.use(install)
+import tapUI from '../src/index.js'
+Vue.use(tapUI.install)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
