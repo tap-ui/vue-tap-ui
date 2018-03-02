@@ -44,7 +44,7 @@
 
 <style scoped >
 	@import '../../style/variable.css';
-	
+
   @component-namespace tap {
     @component button {
       appearance: none;
@@ -61,7 +61,7 @@
       text-align: center;
     }
     @modifier default {
-    	
+
     }
   }
 

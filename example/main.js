@@ -4,7 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import tapUI from '../src/index.js'
-Vue.use(tapUI.install)
+
+import '../src/assets/font/iconfont.css'
+
+Vue.use(tapUI.install);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

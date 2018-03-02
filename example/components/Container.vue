@@ -1,6 +1,8 @@
 <template>
   <ul class="container">
-    <router-link to="/button" tag="li">按钮</router-link>
+    <router-link to="/button" tag="li">按钮 Button</router-link>
+    <router-link to="/button" tag="li">按钮 Button</router-link>
+    <router-link to="/button" tag="li">按钮 Button</router-link>
   </ul>
 </template>
 
@@ -15,10 +17,12 @@
 </script>
 
 <style lang="css">
-  .container{
+  .container {
     li{
-      text-decoration: none;
-      color: red；
+      list-style: none;
+      border-bottom: 1px solid #eee;
+      height: 40px;
+      line-height: 40px;
     }
   }
 

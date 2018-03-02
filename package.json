@@ -10,11 +10,8 @@
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
     "build": "node build/build.js",
-<<<<<<< HEAD
-    "lib":"node build/build-lib.js"
-=======
     "lib": "webpack --config build/build-lib.js"
->>>>>>> 872cf5ce31f75fc02ef790c3351bc7dd6b02088f
+
   },
   "dependencies": {
     "vue": "^2.5.2",
