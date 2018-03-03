@@ -1,24 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+//引入路由配置文件
 import config from './config'
 Vue.use(Router)
 
-let routers = [];
-config.forEach((item)=> {
-  routers.push({})
-})
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'container',
-      component: () => import('../components/Container.vue'),
-    },
-    {
-      path: '/button',
-      component: () => import('../components/Button/button.vue')
-    }
+let routes = [];
+//读取配置
+for( let router in config) {
+  let {path, name, component} = config[router];
+  routes.push({path,name,component})
+}
 
-  ]
+//注入配置
+export default new Router({
+  routes
 })

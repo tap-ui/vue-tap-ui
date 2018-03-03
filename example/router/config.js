@@ -1,16 +1,18 @@
-let config = [
-  {
+import Container from '../components/Container'
+import Button from '../components/Button/button';
+
+
+let config = {
+  container: {
     path: '/',
     name: 'container',
-    component: () => import('../components/Container.vue'),
-    desc: '列表容器'
+    component: Container
   },
-  {
-    path: '/button',
-    name: 'container',
-    component: () => import('../components/Container.vue'),
-    desc: 'Button 按钮'
+  button:{
+    path:'/button:Button按钮',
+    name: 'button',
+    component: Button
   }
-]
+}
 
 export default config;

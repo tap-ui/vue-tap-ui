@@ -10,7 +10,7 @@
       </div>
       <div class="detail" v-else>
         <i class="iconfont icon-back back" @click="back" ></i>
-        <h1>按钮</h1>
+        <h1>{{title}}</h1>
       </div>
     </header>
 
@@ -20,9 +20,21 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      title: ''
+    }
+  },
   methods: {
     back() {
       this.$router.go(-1)
+    }
+  },
+  watch: {
+    //根据路由参数，动态改变例子组件的title
+    '$route'(router) {
+      if(router.path == '/') return;
+      this.title = router.path.match(/:(.*?)+$/g)[0].replace(":","");
     }
   }
 }

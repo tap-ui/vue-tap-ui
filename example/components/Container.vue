@@ -1,18 +1,21 @@
 <template>
   <ul class="container">
-    <router-link to="/button" tag="li">按钮 Button</router-link>
-    <router-link to="/button" tag="li">按钮 Button</router-link>
-    <router-link to="/button" tag="li">按钮 Button</router-link>
+    <router-link :to="routerConf.button.path" tag="li">按钮 Button</router-link>
   </ul>
 </template>
 
 <script>
+  import routerConf from '../router/config.js'
   export default {
     data() {
       return {
-
+        routerConf: ''
       }
-    }
+    },
+    created() {
+      this.routerConf = routerConf
+      console.log(this.routerConf)
+    },
   }
 </script>
 
