@@ -11,7 +11,6 @@
     "test": "npm run unit",
     "build": "node build/build.js",
     "lib": "webpack --config build/build-lib.js"
-
   },
   "dependencies": {
     "vue": "^2.5.2",
@@ -46,6 +45,7 @@
     "ora": "^1.2.0",
     "portfinder": "^1.0.13",
     "postcss": "^6.0.19",
+    "postcss-bem": "^0.4.1",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
     "postcss-salad": "^2.0.1",

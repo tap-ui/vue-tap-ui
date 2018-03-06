@@ -33,7 +33,15 @@
         }
       },
       size: {
-        default:'small'
+        default:'normal',
+        validator(value) {
+          return [
+            'small',
+            'normal',
+            'large',
+            'block'
+          ]
+        }
       },
       disable: {
         default: false
@@ -59,10 +67,50 @@
       overflow: hidden;
       position: relative;
       text-align: center;
-    }
-    @modifier default {
 
+      /* 主题 */
+
+      @modifier default {
+        color: $button-default-color;
+        background-color: $button-default-background-color;
+        box-shadow: $button-default-box-shadow;
+      }
+      @modifier primary {
+        color: $button-write-color;
+        background-color: $button-primary-background-color;
+      }
+      @modifier danger{
+        color: $button-write-color;
+        background-color: $button-danger-background-color;
+      }
+      @modifier success{
+        color: $button-write-color;
+        background-color: $button-success-backrgound-color;
+      }
+      @modifier warning{
+        color: $button-write-color;
+        background-color: $button-warning-backrgound-color;
+      }
+
+      /* 尺寸 */
+      @modifier small {
+        width: 50px;
+        fong-size: 14px;
+      }
+      @modifier block {
+        width: 100%;
+        display: block;
+      }
+      @modifier normal {
+        width: 100px;
+
+        padding: 0 12px;
+      }
     }
+
+
+
+
   }
 
 </style>

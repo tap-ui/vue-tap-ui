@@ -1,9 +1,14 @@
 /* Button Component */
+$button-write-color:#fff;
 $button-default-color: #656b79;
 $button-default-background-color: #f6f8fa;
 $button-default-plain-color: #5a5a5a;
 $button-default-box-shadow: 0 0 1px #b8bbbf;
-$button-primary-color: #fff;
+$button-primary-color: #26a2ff;
 $button-primary-background-color: #26a2ff;
-$button-danger-color: #fff;
+$button-success-color: #67c23a;
+$button-success-backrgound-color: #67c23a;
+$button-danger-color: #ef4f4f;
 $button-danger-background-color: #ef4f4f;
+$button-warning-color: #e6a23c;
+$button-warning-backrgound-color:#e6a23c;
