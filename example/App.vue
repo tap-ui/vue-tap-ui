@@ -18,6 +18,8 @@
   </div>
 </template>
 <script>
+import { valueToName } from './common/utils/utils.js';
+
 export default {
   name: 'App',
   data() {
@@ -28,13 +30,21 @@ export default {
   methods: {
     back() {
       this.$router.go(-1)
+    },
+    setTitle() {
+      const { name } = this.$router.history.current;
+      if (name !== 'container') {
+        this.title = valueToName(name)
+      }
     }
+  },
+  mounted() {
+    this.setTitle();
   },
   watch: {
     //根据路由参数，动态改变例子组件的title
     '$route'(router) {
-      if(router.path == '/') return;
-      this.title = router.path.match(/:(.*?)+$/g)[0].replace(":","");
+        this.setTitle();
     }
   }
 }

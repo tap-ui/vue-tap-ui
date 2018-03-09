@@ -9,7 +9,7 @@ let config = {
     component: Container
   },
   button:{
-    path:'/button:Button按钮',
+    path:'/button',
     name: 'button',
     component: Button
   }

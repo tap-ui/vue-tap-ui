@@ -14,7 +14,7 @@
     },
     created() {
       this.routerConf = routerConf
-      console.log(this.routerConf)
+      // console.log(this.routerConf)
     },
   }
 </script>
