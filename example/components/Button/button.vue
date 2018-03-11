@@ -51,7 +51,7 @@
   }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
   section{
     border-bottom: 1px solid #eee;
     h1{

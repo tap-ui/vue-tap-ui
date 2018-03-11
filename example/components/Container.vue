@@ -1,10 +1,11 @@
 <template>
   <ul class="container">
-    <router-link :to="routerConf.button.path" tag="li">按钮 Button</router-link>
+    <router-link v-for="router in routerConf" :to="router.path" :key="router.path" tag="li">{{`${router.name} ${_valueToName(router.name)}`}}</router-link>
   </ul>
 </template>
 
 <script>
+  import { valueToName } from '../common/utils/utils.js';
   import routerConf from '../router/config.js'
   export default {
     data() {
@@ -12,8 +13,14 @@
         routerConf: ''
       }
     },
+    methods: {
+      _valueToName(value) {
+        return valueToName(value);
+      }
+    },
     created() {
-      this.routerConf = routerConf
+      this.routerConf = routerConf;
+      delete this.routerConf['container'];
       // console.log(this.routerConf)
     },
   }
