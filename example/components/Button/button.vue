@@ -11,9 +11,9 @@
     <section>
       <h1>尺寸</h1>
       <tap-button size='small'>small</tap-button>
-      <tap-button>默认</tap-button>
+      <tap-button>default</tap-button>
       <tap-button size='large'>large</tap-button>
-      <tap-button size='block'>block</tap-button>
+      <tap-button size='block' style="margin: 5px 0">block</tap-button>
     </section>
     <section>
       <h1>
@@ -27,7 +27,16 @@
     </section>
     <section>
       <h1>禁用</h1>
-      <tap-button type='primary' disable>primary</tap-button>
+      <tap-button disabled>default</tap-button>
+      <tap-button type='primary' disabled>primary</tap-button>
+      <tap-button type='success' disabled>success</tap-button>
+      <tap-button type='danger' disabled>danger</tap-button>
+      <tap-button type='warning' disabled>warning</tap-button>
+    </section>
+    <section>
+      <h1>带图标的Button</h1>
+      <tap-button icon='form'>表单</tap-button>
+      <tap-button icon='back'>返回</tap-button>
     </section>
   </div>
 </template>
@@ -47,9 +56,13 @@
     border-bottom: 1px solid #eee;
     h1{
       border-bottom: 1px solid #eee;
+      text-align: left;
+      font-weight: bold;
+      text-indent: 10px;
+      font-size: 18px;
     }
     button{
-      margin:10px auto;
+      margin:10px;
 
     }
   }

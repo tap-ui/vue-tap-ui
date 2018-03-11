@@ -4,11 +4,16 @@
     class="tap-button"
     :class="['tap-button--'+ type, 'tap-button--'+size, {
       'is-plain':plain,
-      'is-disable':disabled
+      'is-disabled':disabled
     }]"
     @click="handleClick"
     :disabled='disabled'
   >
+  <span class="mint-button-icon" v-if='icon'>
+    <slot name='icon'>
+      <i v-if='icon' class="iconfont" :class="'icon-'+  icon"></i>
+    </slot>
+  </span>
     <slot></slot>
   </button>
 </template>
@@ -24,6 +29,8 @@
     props: {
       plain: Boolean,
       disabled: Boolean,
+      icon: String,
+      iconMarginRight: Number,
       type:{
         default:'default',
         validator(value) {
@@ -72,6 +79,7 @@
       overflow: hidden;
       position: relative;
       text-align: center;
+      transition: all 0.2s;
 
       /* 点击的active样式 */
       &::after {
@@ -83,6 +91,12 @@
       }
       &:not(.is-disable):active::after {
         opacity: .4;
+      }
+
+      /* icon */
+      @descendent icon {
+        vertical-align: middle;
+        display: inline-block;
       }
 
       /* 主题 */
@@ -112,6 +126,7 @@
         color: $button-write-color;
         background-color: $button-danger-background-color;
 
+        /* plain 也就是幽灵按钮，把主题色设置为字体和边框颜色。背景色为白色 */
         @when plain {
           border: 1px solid $button-danger-background-color;
           background-color: $button-write-color;
@@ -166,6 +181,8 @@
       @when disabled {
         opacity: .4;
       }
+
+
     }
   }
 
