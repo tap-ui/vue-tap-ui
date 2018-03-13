@@ -114,43 +114,44 @@
       }
       @modifier primary {
         color: $button-write-color;
-        background-color: $button-primary-background-color;
+        background-color: $color-primary;
+        transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
 
         @when plain {
-          border:1px solid $button-primary-background-color;
+          border:1px solid $color-primary;
           background-color: $button-write-color;
-          color: $button-primary-background-color;
+          color: $color-primary;
         }
       }
       @modifier danger{
         color: $button-write-color;
-        background-color: $button-danger-background-color;
+        background-color: $color-error;
 
         /* plain 也就是幽灵按钮，把主题色设置为字体和边框颜色。背景色为白色 */
         @when plain {
-          border: 1px solid $button-danger-background-color;
+          border: 1px solid $color-error;
           background-color: $button-write-color;
-          color: $button-danger-background-color;
+          color: $color-error;
         }
       }
       @modifier success{
         color: $button-write-color;
-        background-color: $button-success-backrgound-color;
+        background-color: $color-success;
 
         @when plain {
-          border: 1px solid $button-success-backrgound-color;
+          border: 1px solid $color-success;
           background-color: $button-write-color;
-          color: $button-success-backrgound-color;
+          color: $color-success;
         }
       }
       @modifier warning{
         color: $button-write-color;
-        background-color: $button-warning-backrgound-color;
+        background-color: $color-warning;
 
         @when plain {
-          border: 1px solid $button-warning-backrgound-color;
+          border: 1px solid $color-warning;
           background-color: $button-write-color;
-          color: $button-warning-backrgound-color;
+          color: $color-warning;
         }
       }
 
