@@ -1,5 +1,6 @@
 import Container from '../components/Container'
 import Button from '../components/Button/button';
+import Badge from '../components/Badge/badge';
 
 
 let config = {
@@ -12,6 +13,11 @@ let config = {
     path:'/button',
     name: 'button',
     component: Button
+  },
+  badge: {
+    path: '/badge',
+    name: 'badge',
+    component: Badge
   }
 }
 

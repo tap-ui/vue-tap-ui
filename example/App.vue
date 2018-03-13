@@ -35,6 +35,7 @@ export default {
       const { name } = this.$router.history.current;
       if (name !== 'container') {
         this.title = valueToName(name)
+        document.title = name;
       }
     }
   },
