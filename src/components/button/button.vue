@@ -62,7 +62,7 @@
   }
 </script>
 
-<style scoped >
+<style  >
 	@import '../../style/variable.css';
 
   @component-namespace tap {
@@ -74,7 +74,7 @@
       color: inherit;
       display: block;
       font-size: 16px;
-      height: 41px;
+      height: 40px;
       outline: 0;
       overflow: hidden;
       position: relative;

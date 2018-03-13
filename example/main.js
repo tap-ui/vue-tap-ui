@@ -5,6 +5,11 @@ import App from './App'
 import router from './router'
 import tapUI from '../src/index.js'
 
+// 消除移动端浏览器300ms延迟。
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.FastClick) window.FastClick.attach(document.body);
+}, false);
+
 import '../src/assets/font/iconfont.css'
 
 Vue.use(tapUI.install);

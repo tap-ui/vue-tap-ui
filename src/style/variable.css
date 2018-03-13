@@ -6,7 +6,11 @@ $success-color: #4caf50;
 $error-color: #f44336;
 $warning-color: #ffc107;
 
+/* Header Component */
+$header-height: 40px;
+
 /* Button Component */
+
 $button-write-color:#fff;
 $button-default-color: #656b79;
 $button-default-background-color: #f6f8fa;
@@ -20,3 +24,7 @@ $button-danger-color: #ef4f4f;
 $button-danger-background-color: #ef4f4f;
 $button-warning-color: #e6a23c;
 $button-warning-backrgound-color:#e6a23c;
+
+
+/* z-index */
+$z-index-normal: 1;
