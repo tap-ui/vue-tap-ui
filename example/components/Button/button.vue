@@ -2,7 +2,7 @@
   <div>
     <section>
       <h1>主题</h1>
-      <tap-button>default</tap-button>
+      <tap-button >default</tap-button>
       <tap-button type="primary">primary</tap-button>
       <tap-button type="success">success</tap-button>
       <tap-button type="danger">danger</tap-button>
@@ -48,6 +48,7 @@
 
       }
     }
+
   }
 </script>
 

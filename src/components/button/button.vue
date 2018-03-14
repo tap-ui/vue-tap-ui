@@ -9,29 +9,46 @@
     @click="handleClick"
     :disabled='disabled'
   >
-  <span class="mint-button-icon" v-if='icon'>
-    <slot name='icon'>
-      <i v-if='icon' class="iconfont" :class="'icon-'+  icon"></i>
-    </slot>
-  </span>
+    <!-- icon图标 -->
+    <span class="mint-button-icon" v-if='icon'>
+      <slot name='icon'>
+        <i v-if='icon' class="iconfont" :class="'icon-'+  icon"></i>
+      </slot>
+    </span>
+
+    <!-- 插槽 -->
     <slot></slot>
   </button>
 </template>
 
 <script>
+/**
+ * tap-button
+ * @desc 按钮
+ * @param {string} [type=default] - 显示类型，接受 default, primary, danger
+ * @param {boolean} [disabled=false] - 禁用
+ * @param {boolean} [plain=false] - 幽灵按钮
+ * @param {string} [size=normal] - 尺寸，接受 normal, small, large
+ * @param {string} [icon] - 图标，提供 more, back
+ * @param {slot} - 显示文本
+ * @param {slot} [icon] 显示图标
+ *
+ * @example
+ * <tap-button size="large" icon="form" type="primary">按钮</tap-button>
+ */
+
   export default {
     name: 'tap-button',
     methods: {
-      handleClick(evt) {
+      handleClick(evt) {       //向父组件传递事件。告诉父组件我被点击了
         this.$emit('click', evt);
       }
     },
     props: {
-      plain: Boolean,
-      disabled: Boolean,
-      icon: String,
-      iconMarginRight: Number,
-      type:{
+      plain: Boolean,    // 是否扁平化
+      disabled: Boolean, // 是否禁用
+      icon: String,      // icon 图标
+      type:{             //按钮主题
         default:'default',
         validator(value) {
           return [
@@ -45,7 +62,7 @@
           }) > -1
         }
       },
-      size: {
+      size: {             //按钮尺寸
         default:'normal',
         validator(value) {
           return [
@@ -62,7 +79,7 @@
   }
 </script>
 
-<style scoped >
+<style lang='css'>
 	@import '../../style/variable.css';
 
   @component-namespace tap {
