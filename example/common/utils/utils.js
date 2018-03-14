@@ -1,7 +1,10 @@
 const changeName = {
-  'button': '按钮',
-  'container': '',
-  'badge': '徽章',
+  'Button': '按钮',
+  'Container': '',
+  'Badge': '徽章',
+  'Toast': '吐丝',
+  'Header': '导航',
+  'LazyLoad': '图片懒加载'
 }
 
 export function valueToName (value) {
