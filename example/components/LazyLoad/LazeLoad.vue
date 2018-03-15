@@ -1,19 +1,48 @@
 <template lang="html">
   <div class="">
     这是懒加载
-    <img src="../../assets/logo.png" alt="a" v-lazy='src'>
+    <ul>
+      <li>11</li>
+        <li>11</li>
+          <li>11</li>
+            <li>11</li>
+              <li>11</li>
+                <li>11</li>
+                  <li>11</li>
+                    <li>11</li>
+                      <li>11</li>
+                        <li>11</li>
+                          <li>11</li>
+                            <li>11</li>
+                              <li>11</li>
+                                <li>11</li>
+                                  <li>11</li>
+                                  <li>11</li>
+                                <li>11</li>
+
+    </ul>
+    <img alt="a" v-lazy='src'>
+    <img src="" alt="" v-lazy='src2'>
+    <img src="" alt="" v-lazy="'https://www.dzkandian.com/images/m-1.png'">
   </div>
 </template>
 
 <script>
 export default {
-  data(){
+  data() {
     return {
-      src: '../../assets/logo.png'
+      src: require('../../assets/logo.png'),
+      src2: '../../assets/tap.png'
+      // src: '../../as'
     }
   }
 }
 </script>
 
 <style lang="css">
+  ul{
+    li{
+      height: 40px
+    }
+  }
 </style>
