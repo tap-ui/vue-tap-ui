@@ -8,7 +8,7 @@ let throttle = function(fn, interval = 500) {
    let _self = fn,   //保存需要被延迟执行的函数引用
       timer,         // 定时器
       firstTime = true;
-      
+
     return function() {
       var args = arguments;
 

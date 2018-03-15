@@ -3,7 +3,7 @@ import Button from '../components/Button/button';
 import Badge from '../components/Badge/badge';
 import Toast from '../components/Toast/toast';
 import Header from '../components/Header/header';
-
+import LazyLoad from "../components/LazyLoad/LazeLoad.vue";
 
 let config = {
   container: {
@@ -26,6 +26,11 @@ let config = {
     name: 'Header',
     component: Header
   },
+  LazyLoad: {
+    path: '/lazyLoad',
+    name: "LazyLoad",
+    component: LazyLoad
+  }
 /*   toast: {
     path: '/toast',
     name: 'Toast',
