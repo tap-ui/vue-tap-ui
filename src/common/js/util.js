@@ -29,6 +29,6 @@ let throttle = function(fn, interval = 500) {
   }
 }
 
-export const util = {
+export default {
   throttle
 }

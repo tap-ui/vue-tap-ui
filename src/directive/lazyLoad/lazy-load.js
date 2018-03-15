@@ -2,10 +2,26 @@ import LazyLoad from './directive'
 
 import Vue from 'vue'
 
-const install = function(Vue) {
-  Vue.directive('lazy', LazyLoad);
+const install = function(Vue, options = {}) {
+
+
+console.log(lazy)
+  Vue.directive('lazy', {
+    bind: lazy.add,
+    undind: lazy.unbind
+  });
 }
 
-LazyLoad.install = install;
+// LazyLoad.install = install;
 
-export default LazyLoad
+export default {
+  install (Vue, options = {}) {
+    const LazyClass = LazyLoad(Vue)
+    const lazy = new LazyClass(options)
+
+    Vue.directive('lazy', {
+      bind: lazy.bind.bind(lazy),
+      unbind: lazy.unbind.bind(lazy)
+    })
+  }
+}

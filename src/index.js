@@ -4,14 +4,13 @@ import Toast from './components/toast';
 import Header from './components/header';
 import LazyLoad from './directive/lazyLoad'
 
-const install = function(Vue, options = {
-  a: 1
-}) {
+const install = function(Vue, options = {}) {
+  let {lazy} = options
   Vue.component(Button.name, Button);
   Vue.component(Badge.name, Badge);
   Vue.component(Toast.name, Toast);
   Vue.component(Header.name, Header);
-  Vue.use(LazyLoad, options)
+  Vue.use(LazyLoad, lazy ? lazy : {})
 }
 
 // auto install

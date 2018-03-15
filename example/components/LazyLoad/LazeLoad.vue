@@ -19,7 +19,6 @@
                                   <li>11</li>
                                   <li>11</li>
                                 <li>11</li>
-
     </ul>
     <img alt="a" v-lazy='src'>
     <img src="" alt="" v-lazy='src2'>
@@ -32,7 +31,7 @@ export default {
   data() {
     return {
       src: require('../../assets/logo.png'),
-      src2: '../../assets/tap.png'
+      src2: require('../../assets/tap.png'),
       // src: '../../as'
     }
   }
@@ -42,7 +41,7 @@ export default {
 <style lang="css">
   ul{
     li{
-      height: 40px
+      height: 60px
     }
   }
 </style>
