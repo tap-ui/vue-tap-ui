@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <header>
+    <header class="demo-header" v-show="$route.name !== 'Header'">
 
-      <div class="list" v-if="$route.name =='container'">
+      <div class="list" v-if="$route.name =='Container'">
         <i>
           <img src="./assets/tap.png" class="logo">
         </i>
@@ -31,7 +31,7 @@ export default {
     back() {
       this.$router.go(-1)
     },
-    setTitle() {
+    _setTitle() {
       const { name } = this.$router.history.current;
       if (name !== 'container') {
         this.title = valueToName(name)
@@ -40,12 +40,12 @@ export default {
     }
   },
   mounted() {
-    this.setTitle();
+    this._setTitle();
   },
   watch: {
     //根据路由参数，动态改变例子组件的title
     '$route'(router) {
-        this.setTitle();
+        this._setTitle();
     }
   }
 }
@@ -59,7 +59,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  header{
+  .demo-header{
     display: flex;
     justify-content: center;
     background: #eee;
