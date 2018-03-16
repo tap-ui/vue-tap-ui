@@ -12,6 +12,7 @@ export default function(Vue) {
       throttleWait = 200
     }) {
 
+      this.ListenerQueue = [];
       this.options = {
         loading: loading,
         error: error,
@@ -19,14 +20,25 @@ export default function(Vue) {
       }
     }
 
-    bind(el, binding, vnode) {
+    _lazyloadHandler() {
+
+    }
+
+
+
+
+
+
+
+
+
+    add(el, binding, vnode) {
       // console.log('bind')
       // console.log(this.options);
       let _this = this;
       window.addEventListener('scroll', util.throttle(
         this.setSrc.bind(this, el, binding),
-      this.throttleWait)
-      )
+        this.throttleWait))
     }
 
     unbind(el, binding, vnode) {
