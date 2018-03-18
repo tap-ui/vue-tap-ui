@@ -21,8 +21,8 @@
                                 <li>11</li>
     </ul>
     <img alt="a" v-lazy='src'>
-    <img src="" alt="" v-lazy='src2'>
-    <img src="" alt="" v-lazy="'https://www.dzkandian.com/images/m-1.png'">
+    <img src="" alt="b" v-lazy='src2'>
+    <img src="" alt="c" v-lazy="'https://www.dzkandian.com/images/m-1.png'">
   </div>
 </template>
 
