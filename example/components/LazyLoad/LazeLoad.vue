@@ -2,23 +2,19 @@
   <div class="">
     这是懒加载
     <ul>
-      <li>11</li>
-        <li>11</li>
-          <li>11</li>
-            <li>11</li>
-              <li>11</li>
-                <li>11</li>
-                  <li>11</li>
-                    <li>11</li>
-                      <li>11</li>
-                        <li>11</li>
-                          <li>11</li>
-                            <li>11</li>
-                              <li>11</li>
-                                <li>11</li>
-                                  <li>11</li>
-                                  <li>11</li>
-                                <li>11</li>
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
+      <!-- <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li> -->
+      <li>向下滚动↓</li>
+      <li>向下滚动↓</li>
     </ul>
     <img alt="a" v-lazy='src'>
     <img src="" alt="b" v-lazy='src2'>

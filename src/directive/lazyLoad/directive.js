@@ -23,19 +23,15 @@ export default function(Vue) {
 
       //函数节流处理
       this.lazyloadHandler = throttle(this._lazyloadHandler.bind(this), this.options.throttleWait);
+
+
+      // Vue.nextTick(()=> {
+      //   this._lazyloadHandler()
+      // })
+
       this.bindScroll();
     }
-
-
-
     add(el, binding, vnode) {
-      // console.log('bind')
-      // console.log(this.options);
-      // let _this = this;
-      // window.addEventListener('scroll', util.throttle(
-      //   this.setSrc.bind(this, el, binding),
-      //   this.throttleWait))
-
       let newlistener = new ReactiveListener({
         el,
         src: binding.value,
@@ -55,18 +51,18 @@ export default function(Vue) {
       let _this = this;
       // addEvent(el,'scroll', _this.lazyloadHandler);
       window.addEventListener('scroll', this.lazyloadHandler)
-      return;
+      return this;
     }
 
     _lazyloadHandler() {
         let isView = false;
-
+        console.log(this.ListenerQueue);
         this.ListenerQueue.forEach((listener, index) => {
           // console.log(listener)
           if(listener.state.loaded) return;
           isView = listener.isView();
           console.log(isView)
-          if(!isView) return
+          if(!isView) return;
           listener.load();
         })
     }

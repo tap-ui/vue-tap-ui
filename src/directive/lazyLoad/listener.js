@@ -30,7 +30,7 @@ export default class ReactiveListener {
 
   /**
    * [判断目标dom是否进入可视区域]
-   * @return {Boolean} [元素是否进入可是区域]
+   * @return {Boolean} [元素是否进入可视区域]
    */
   isView() {
     this._getRect();
@@ -40,7 +40,6 @@ export default class ReactiveListener {
 
   load() {
     this.loadImageAsync().then((oImg)=> {
-
       this.el.src = oImg.src;
       this.state.rendered = true;
       console.log(this)
@@ -49,8 +48,6 @@ export default class ReactiveListener {
     })
 
   }
-
-
   loadImageAsync() {
       return new Promise((resolve, reject)=>{
           let oImg = new Image();
