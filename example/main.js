@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 import '../src/assets/font/iconfont.css'
 //注册组件， 并给懒加载组件传值
-Vue.use(tapUI.install, {
+Vue.use(tapUI, {
   lazy: {
     loading: require('./assets/phone.png'),
     error:'21'

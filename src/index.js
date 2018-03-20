@@ -3,9 +3,10 @@ import Badge from './components/badge';
 import Toast from './components/toast';
 import Header from './components/header';
 import LazyLoad from './directive/lazyLoad'
+// let LazyLoad  = () => import('./directive/lazyLoad')
 
 const install = function(Vue, options = {}) {
-  let {lazy} = options
+  let {lazy} = options;
   Vue.component(Button.name, Button);
   Vue.component(Badge.name, Badge);
   Vue.component(Toast.name, Toast);
@@ -13,10 +14,10 @@ const install = function(Vue, options = {}) {
   Vue.use(LazyLoad, lazy ? lazy : {})
 }
 
-// auto install
-if (typeof window !== 'undefined' && window.Vue) {
-  install(window.Vue);
-};
+// // auto install
+// if (typeof window !== 'undefined' && window.Vue) {
+//   install(window.Vue);
+// };
 
 export default {
   install,

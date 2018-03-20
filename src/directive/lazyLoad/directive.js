@@ -24,31 +24,33 @@ export default function(Vue) {
       //函数节流处理
       this.lazyloadHandler = throttle(this._lazyloadHandler.bind(this), this.options.throttleWait);
 
-
-      // Vue.nextTick(()=> {
-      //   this._lazyloadHandler()
-      // })
+      Vue.nextTick(()=> {
+        this._lazyloadHandler()
+      })
 
       this.bindScroll();
+      // this.init(Vue);
     }
     add(el, binding, vnode) {
       let newlistener = new ReactiveListener({
         el,
         src: binding.value,
+        bindType: binding.arg,
         error: this.options.error,
         loading: this.options.loading,
         options: this.options
       })
 
       this.ListenerQueue.push(newlistener);
+      this.init();
     }
-
     unbind(el, binding, vnode) {
 
     }
 
     bindScroll(el) {
       let _this = this;
+
       // addEvent(el,'scroll', _this.lazyloadHandler);
       window.addEventListener('scroll', this.lazyloadHandler)
       return this;
@@ -56,17 +58,22 @@ export default function(Vue) {
 
     _lazyloadHandler() {
         let isView = false;
-        console.log(this.ListenerQueue);
         this.ListenerQueue.forEach((listener, index) => {
           // console.log(listener)
           if(listener.state.loaded) return;
           isView = listener.isView();
-          console.log(isView)
           if(!isView) return;
           listener.load();
         })
     }
 
+    //如果图片一开始默认在可视区域
+    init() {
+      this._lazyloadHandler();
+      Vue.nextTick(()=> {
+        this._lazyloadHandler();
+      })
+    }
     // setSrc(el, binding) {
     //   let src = binding.value;
     //   let seeHeight = window.innerHeight;
