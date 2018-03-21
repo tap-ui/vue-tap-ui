@@ -14,8 +14,8 @@ import '../src/assets/font/iconfont.css'
 //注册组件， 并给懒加载组件传值
 Vue.use(tapUI, {
   lazy: {
-    loading: require('./assets/phone.png'),
-    error:'21'
+    loading: require('./assets/loading.jpg'),
+    error: require('./assets/error.jpg')
   }
 });
 
@@ -25,6 +25,8 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

@@ -13,7 +13,9 @@ export default function(Vue) {
       loading = DEFAULT_URL,
       error = DEFAULT_URL,
       throttleWait = 200,
-      preLoad = 1.3
+      preLoad = 1.3,
+      retry = 3,
+      retryInterval = 1000
     }) {
 
       this.ListenerQueue = [];
@@ -21,13 +23,16 @@ export default function(Vue) {
         loading: loading,
         error: error,
         throttleWait,
-        preLoad
+        preLoad,
+        retry: parseInt(retry),
+        retryInterval
       }
 
       //函数节流处理
       this.lazyloadHandler = throttle(this._lazyloadHandler.bind(this), this.options.throttleWait);
       this.bindScroll();
     }
+
     add(el, binding, vnode) {
       let newlistener = new ReactiveListener({
         el,
@@ -35,11 +40,12 @@ export default function(Vue) {
         bindType: binding.arg,
         error: this.options.error,
         loading: this.options.loading,
+        retry: this.options.retry,
         options: this.options
       })
 
       this.ListenerQueue.push(newlistener);
-      this.init();
+      this.preProcess();
     }
     unbind(el, binding, vnode) {
 
@@ -47,68 +53,58 @@ export default function(Vue) {
 
     bindScroll(el) {
       let _this = this;
-
-      // addEvent(el,'scroll', _this.lazyloadHandler);
       window.addEventListener('scroll', this.lazyloadHandler)
       return this;
     }
 
+    //图片加载
     _lazyloadHandler() {
-      console.log('xx');
       let isView = false;
+      if (!this.ListenerQueue.length) return;
       this.ListenerQueue.forEach((listener, index) => {
-        // console.log(listener)
         if (listener.state.loaded) return;
         isView = listener.isView();
         if (!isView) return;
         listener.load()
           .then(() => {
-            console.log('加载成功')
-            this.remove(listener, i)();
-            // let deleteIndex = this.ListenerQueue.findIndex((listen, i) => {
-            //   return listen.el == listener.el && index == i
-            // });
-            // this.ListenerQueue.splice(deleteIndex, 1);
+            this.remove(listener, index);
           })
           .catch((err) => {
-            console.log('加载失败')
+            this.toTryLoad(listener, index);
           });
       })
     }
 
+    //图片出错时尝试重新加载
+    toTryLoad(ReactiveListener, index) {
+      if (ReactiveListener.retry) {
+        ReactiveListener.toTryLoad();
+      } else {
+        ReactiveListener.finallyError();
+        this.remove(ReactiveListener, index);
+      }
+    }
+
     //如果图片一开始默认在可视区域
-    init() {
+    preProcess() {
       this._lazyloadHandler();
       Vue.nextTick(() => {
         this._lazyloadHandler();
       })
     }
 
-
-    remove(renderedListener, i) {
-      console.log(renderedListener);
-      console.log(this.ListenerQueue);
+    /**
+     * [加载完毕，将对应ReactiveListener对象从ListenerQueue数组中移除]
+     * @param  {[type]} ReactiveListener [description]
+     * @param  {[type]} i                [ReactiveListener 所在数组中的索引， 防止2张图片相同导致误删]
+     */
+    remove(RenderedListener, i) {
       let deleteIndex = this.ListenerQueue.findIndex((listen, index) => {
-        return listen.el == renderedListener.el && index == i
+        return listen.el == RenderedListener.el && index == i;
       });
+      if (deleteIndex == -1) return; //findIndex 找不到对应元素，会返回-1
 
       this.ListenerQueue.splice(deleteIndex, 1);
-
     }
-    // setSrc(el, binding) {
-    //   let src = binding.value;
-    //   let seeHeight = window.innerHeight;
-    //   let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-    //   if (el.offsetTop < seeHeight + scrollTop) {
-    //     el.src = this.options.loading;
-    //     console.log('11')
-    //     let oImg = new Image();
-    //     oImg.src = src;
-    //     let _this = this;
-    //     oImg.onload = function() {
-    //       el.src = oImg.src
-    //     }
-    //   }
-    // }
   }
 }

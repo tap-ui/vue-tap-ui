@@ -1,1 +1,4 @@
-export { default } from './lazy-load';
+export {
+  default
+}
+from './lazy-load';
