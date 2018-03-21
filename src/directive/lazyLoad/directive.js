@@ -1,4 +1,7 @@
-import {throttle, addEvent} from '../../common/js/util'
+import {
+  throttle,
+  addEvent
+} from '../../common/js/util'
 import ReactiveListener from './listener'
 //默认的占位图， 1px的base图片
 const DEFAULT_URL = 'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==';
@@ -23,13 +26,7 @@ export default function(Vue) {
 
       //函数节流处理
       this.lazyloadHandler = throttle(this._lazyloadHandler.bind(this), this.options.throttleWait);
-
-      Vue.nextTick(()=> {
-        this._lazyloadHandler()
-      })
-
       this.bindScroll();
-      // this.init(Vue);
     }
     add(el, binding, vnode) {
       let newlistener = new ReactiveListener({
@@ -57,22 +54,46 @@ export default function(Vue) {
     }
 
     _lazyloadHandler() {
-        let isView = false;
-        this.ListenerQueue.forEach((listener, index) => {
-          // console.log(listener)
-          if(listener.state.loaded) return;
-          isView = listener.isView();
-          if(!isView) return;
-          listener.load();
-        })
+      console.log('xx');
+      let isView = false;
+      this.ListenerQueue.forEach((listener, index) => {
+        // console.log(listener)
+        if (listener.state.loaded) return;
+        isView = listener.isView();
+        if (!isView) return;
+        listener.load()
+          .then(() => {
+            console.log('加载成功')
+            this.remove(listener, i)();
+            // let deleteIndex = this.ListenerQueue.findIndex((listen, i) => {
+            //   return listen.el == listener.el && index == i
+            // });
+            // this.ListenerQueue.splice(deleteIndex, 1);
+          })
+          .catch((err) => {
+            console.log('加载失败')
+          });
+      })
     }
 
     //如果图片一开始默认在可视区域
     init() {
       this._lazyloadHandler();
-      Vue.nextTick(()=> {
+      Vue.nextTick(() => {
         this._lazyloadHandler();
       })
+    }
+
+
+    remove(renderedListener, i) {
+      console.log(renderedListener);
+      console.log(this.ListenerQueue);
+      let deleteIndex = this.ListenerQueue.findIndex((listen, index) => {
+        return listen.el == renderedListener.el && index == i
+      });
+
+      this.ListenerQueue.splice(deleteIndex, 1);
+
     }
     // setSrc(el, binding) {
     //   let src = binding.value;

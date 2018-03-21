@@ -12,9 +12,9 @@ export default class ReactiveListener {
     this.loading = loading; //loading占位图
     this.error = error; //图片请求错误占位图
     this.bindType = bindType,
-    this.options = options; //参数
+      this.options = options; //参数
     this.rect = null;
-    this.isBGType = false  //是否为背景图片
+    this.isBGType = false //是否为背景图片
     this.state = {
       error: false, //出错
       loaded: false, //加载中
@@ -22,7 +22,7 @@ export default class ReactiveListener {
     }
 
 
-    this.checkBindTypeBackground();//检查是否为背景图片
+    this.checkBindTypeBackground(); //检查是否为背景图片
   }
 
   /**
@@ -32,7 +32,7 @@ export default class ReactiveListener {
     this.rect = this.el.getBoundingClientRect();
   }
   checkBindTypeBackground() {
-      this.isBGType = (this.bindType == 'bg' || this.bindType == 'background') ? true : false
+    this.isBGType = (this.bindType == 'bg' || this.bindType == 'background') ? true : false
   }
 
   /**
@@ -42,42 +42,43 @@ export default class ReactiveListener {
   isView() {
     this._getRect();
     return (this.rect.top < window.innerHeight * this.options.preLoad && this.rect.bottom > this.options.preLoad) &&
-          (this.rect.left < window.innerWidth * this.options.preLoad && this.rect.right > 0)
+      (this.rect.left < window.innerWidth * this.options.preLoad && this.rect.right > 0)
   }
 
   load() {
-    this.loadImageAsync().then((oImg)=> {
-      console.log(this.isBGType);
-      this.isBGType ? this.setBackground(oImg) : this.setImgSrc(oImg);
-
-      this.state.rendered = true;
-      console.log(this)
-    }).catch((err)=> {
+    return this.loadImageAsync().then((oImg) => {
+      return this.isBGType ? this.setBackground(oImg) : this.setImgSrc(oImg);
+    }).catch((err) => {
       this.state.error = true;
+      return Promise.reject()
     })
   }
 
   setImgSrc(oImg) {
-      this.el.src = oImg.src;
+    this.el.src = oImg.src;
+    this.state.rendered = true;
+    return Promise.resolve()
   }
 
   setBackground(oImg) {
-      this.el.setAttribute('style', `background-image:url(${oImg.src})`)
+    this.el.setAttribute('style', `background-image:url(${oImg.src})`)
+    this.state.rendered = true;
+    return Promise.resolve()
   }
 
   loadImageAsync() {
-      return new Promise((resolve, reject)=>{
-          let oImg = new Image();
-          oImg.src = this.src;
+    return new Promise((resolve, reject) => {
+      let oImg = new Image();
+      oImg.src = this.src;
 
-          oImg.onload = () => {
-            this.state.loaded = true;
-            return resolve(oImg)
-          }
-          oImg.error = () => {
-            return reject(oImg)
-          }
-      })
+      oImg.onload = () => {
+        this.state.loaded = true;
+        resolve(oImg)
+      }
+      oImg.error = () => {
+        reject(oImg)
+      }
+    })
   }
 
   destroy() {
