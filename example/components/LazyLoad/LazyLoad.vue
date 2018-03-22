@@ -1,48 +1,14 @@
 <template lang="html">
-  <div class="">
-    这是懒加载
-    <ul>
-      <img src="" alt="b" v-lazy='src'>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <div class="bg" v-lazy:background='bgsrc'>
-        背景图片
-      </div>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <div class="bg" v-lazy:background='bgsrc'>
-        背景图片
-      </div>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
-      <li>向下滚动↓</li>
+  <section class="">
+      <h2>img标签</h2>
+      <img v-for='src in srclist' v-lazy='src'>
+      <h2>
+          背景图片
+      </h2>
+      <div v-for='src in bglist' v-lazy:background='src'>
 
-    </ul>
-    <img alt="a" v-lazy='src2'>
-    <img alt="a" v-lazy='src3'>
-    <img src="" v-lazy="src4">
-  </div>
+      </div>
+  </section>
 
 </template>
 
@@ -50,27 +16,40 @@
 export default {
   data() {
     return {
-      src:'http://m.360buyimg.com/mobilecms/s307x307_jfs/t10801/248/1736247611/118169/f639d154/59f2fb9cNa2efcd7a.jpg!q70.jpg',
-      src2: 'http://img1.360buyimg.com/n6/jfs/t277/193/1005339798/768456/29136988/542d0798N19d42ce3.jpg',
-      src3: 'http://img1.360buyimg.com/n6/jfs/t12799/137/845945755/154462/3fe2ff73/5a51e7dcNa887eb0e.jpg',
-      src4: 'http://img1.360buyimg.com/n6/jfs/t13843/221/1774845413/76503/a26f7740/5a51ea83N9385a146.jpg',
-      bgsrc: 'http://img1.360buyimg.com/n6/jfs/t8107/37/1359438185/72159/a6129e26/59b857f8N977f476c.jpg'
-      // src: '../../as'
+      srclist: [
+        'https://photo.tuchong.com/952191/f/12138253.jpg',
+        'https://photo.tuchong.com/952191/f/12138256.jpg',
+        'https://photo.tuchong.com/952191/f/12138257.jpg',
+        'https://photo.tuchong.com/952191/f/12138255.jpg'
+      ],
+      bglist: [
+        'https://photo.tuchong.com/952191/f/12138260.jpg',
+        'https://photo.tuchong.com/952191/f/12138273.jpg',
+        'https://photo.tuchong.com/952191/f/12138276.jpg',
+        'https://photo.tuchong.com/952191/f/12138259.jpg'
+      ]
+
     }
   }
 }
 </script>
 
 <style lang="css">
-  ul{
-    li{
-      line-height: 60px;
-      height: 60px
+
+  section{
+    background-color: #eee;
+
+    img{
+      width: 90%;
+      box-sizing: content-box;
+      margin: 20px 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
     }
-    .bg{
-      color: #fff;
+    div{
+      width: 90%;
+      height: 12rem;
+      margin: 20px 10px;
       background-size: cover;
-      height: 220px;
     }
   }
 </style>

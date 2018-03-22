@@ -48,12 +48,14 @@ export default function(Vue) {
       this.preProcess();
     }
     unbind(el, binding, vnode) {
-
+      let _this = this;
+      window.removeEventListener('scroll', _this.lazyloadHandler)
     }
 
-    bindScroll(el) {
+    bindScroll() {
       let _this = this;
-      window.addEventListener('scroll', this.lazyloadHandler)
+
+      window.addEventListener('scroll', _this.lazyloadHandler);
       return this;
     }
 

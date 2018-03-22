@@ -35,13 +35,13 @@ const throttle = function(fn, interval = 500) {
  * @param  {[string]}   type [绑定的类型， 例如click]
  * @param  {Function} fn   [需要绑定的函数]
  */
-let addEvent = function(el, type, fn) {
-  console.log(fn)
-  if(window.addEventListener) {
-    addEvent = function(el, type, fn){
-        el.addEventListener(type, fn, false)
+let addEvent = function(el, type, fn, capture = false) {
+  console.log(el)
+  if (window.addEventListener) {
+    addEvent = function(el, type, fn) {
+      el.addEventListener(type, fn, capture)
     }
-  }else if(addEvent) {
+  } else if (addEvent) {
     addEvent = function(el, type, fn) {
       el.attachEvent('on' + type, fn)
     }
@@ -50,5 +50,6 @@ let addEvent = function(el, type, fn) {
 }
 
 export {
-  throttle
+  throttle,
+  addEvent
 }
