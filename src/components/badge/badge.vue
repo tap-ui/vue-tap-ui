@@ -53,28 +53,28 @@ export default {
 </script>
 
 <style scoped>
-	@import '../../style/variable.css';
+	/* @import '../../style/variable.css'; */
+  @import '../../common/style/variable.css';
 
   @component-namespace tap {
     @component badge {
       color: $color-white;
       text-align: center;
       display: inline-block;
-
       @when success {
-        background-color: $success-color;
+        background-color:$color-success;
       }
 
       @when primary {
-        background-color: $color-blue;
+        background-color:$color-primary;
       }
 
       @when error {
-        background-color: $error-color;
+        background-color:$color-error;
       }
 
       @when warning {
-        background-color: $warning-color;
+        background-color: $color-warning;
       }
 
       @when size-small {

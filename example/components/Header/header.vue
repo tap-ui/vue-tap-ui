@@ -41,7 +41,7 @@ export default {
 @component-namespace page {
   @component header {
     @descendent main {
-      margin-top: 50px;
+      margin-top: 15px;
 
       .title{
         font-size: 18px;
