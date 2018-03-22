@@ -75,6 +75,7 @@ export default class ReactiveListener {
     this.state.error = true;
     this.errorPlaceholder();
   }
+
   //图片异步加载
   loadImageAsync() {
     return new Promise((resolve, reject) => {

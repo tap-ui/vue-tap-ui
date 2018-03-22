@@ -8,7 +8,6 @@ export default {
 
     Vue.directive('lazy', {
       bind: lazy.add.bind(lazy),
-      unbind: lazy.unbind.bind(lazy),
       componentUpdated: lazy._lazyloadHandler.bind(lazy)
     })
   }

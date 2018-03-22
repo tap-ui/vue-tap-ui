@@ -3,7 +3,7 @@ import {
   addEvent
 } from '../../common/js/util'
 import ReactiveListener from './listener'
-//默认的占位图， 1px的base图片
+//默认的占位图， 1px的base64图片
 const DEFAULT_URL = 'data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==';
 
 export default function(Vue) {
@@ -18,7 +18,7 @@ export default function(Vue) {
       retryInterval = 1000
     }) {
 
-      this.ListenerQueue = [];
+      this.ListenerQueue = []; //监听队列
       this.options = {
         loading: loading,
         error: error,
@@ -33,6 +33,7 @@ export default function(Vue) {
       this.bindScroll();
     }
 
+    //指令第一次绑定到元素时， 将el传入ReactiveListener 类中。并推入监听队列
     add(el, binding, vnode) {
       let newlistener = new ReactiveListener({
         el,
@@ -45,16 +46,12 @@ export default function(Vue) {
       })
 
       this.ListenerQueue.push(newlistener);
-      this.preProcess();
-    }
-    unbind(el, binding, vnode) {
-      let _this = this;
-      window.removeEventListener('scroll', _this.lazyloadHandler)
+      this.preProcess(); //预防图片本来就在可视区域，先执行一遍_lazyloadHandler
     }
 
+    //绑定事件
     bindScroll() {
       let _this = this;
-
       window.addEventListener('scroll', _this.lazyloadHandler);
       return this;
     }
@@ -105,7 +102,7 @@ export default function(Vue) {
         return listen.el == RenderedListener.el && index == i;
       });
       if (deleteIndex == -1) return; //findIndex 找不到对应元素，会返回-1
-
+      this.ListenerQueue[deleteIndex].destroy();
       this.ListenerQueue.splice(deleteIndex, 1);
     }
   }
