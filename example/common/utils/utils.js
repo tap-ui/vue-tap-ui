@@ -4,9 +4,10 @@ const changeName = {
   'Badge': '徽章',
   'Toast': '吐丝',
   'Header': '导航',
-  'LazyLoad': '图片懒加载'
+  'LazyLoad': '图片懒加载',
+  'Select': '选择器'
 }
 
-export function valueToName (value) {
+export function valueToName(value) {
   return value ? changeName[value] : '';
 }

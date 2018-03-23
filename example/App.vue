@@ -62,7 +62,7 @@ export default {
   color: #2c3e50;
   .demo-header{
     display: flex;
-    position: fixed 0 * *;
+    position: fixed 0 0 * *;
     width: 100%;
     z-index: 100;
     justify-content: center;

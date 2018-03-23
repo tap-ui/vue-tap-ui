@@ -1,19 +1,39 @@
 <template lang="html">
-  <div class="tap-select">
-
+  <div class="tap-select" @touchstart='onTouchStatr'>
+    <input type="hidden" name="" value="">
+    <tap-option v-if='vis' :rect='rect'><slot></slot></tap-option>
   </div>
 </template>
 
 <script>
+import tapOption from './tap-option.vue'
   export default {
-    name: 'tap-select'
+    name: 'tap-select',
+    components: {tapOption},
+    data() {
+      return {
+        rect : {},
+        vis: false
+      }
+    },
+    methods:{
+      onTouchStatr(ev){
+        this.vis = true;
+        this.rect = ev.target.getBoundingClientRect();
+        console.log(this.rect);
+      }
+    }
   }
 </script>
 
 <style lang="css">
+  @import '../../common/style/variable.css';
+
   @component-namespace tap{
     @component select {
-
+      border: 1px solid $color-border;
+      height: 40px;
+      overflow: hidden;
     }
   }
 </style>

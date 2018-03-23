@@ -3,9 +3,9 @@ import Button from '../components/Button/button';
 import Badge from '../components/Badge/badge';
 import Toast from '../components/Toast/toast';
 import Header from '../components/Header/header';
-// import LazyLoad from "../components/LazyLoad/LazyLoad.vue";
-let LazyLoad = () =>
-  import ('../components/LazyLoad/LazyLoad');
+import LazyLoad from "../components/LazyLoad/LazyLoad";
+import Select from '../components/Select/Select';
+
 let config = {
   container: {
     path: '/',
@@ -31,6 +31,11 @@ let config = {
     path: '/lazyLoad',
     name: "LazyLoad",
     component: LazyLoad
+  },
+  Select: {
+    path: '/select',
+    name: 'Select',
+    component: Select
   }
   /*   toast: {
       path: '/toast',
