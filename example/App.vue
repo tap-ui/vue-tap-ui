@@ -58,9 +58,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  padding-top: 40px;
   color: #2c3e50;
   .demo-header{
     display: flex;
+    position: fixed 0 * *;
+    width: 100%;
+    z-index: 100;
     justify-content: center;
     background: #eee;
     box-shadow:0 15px 10px -12px rgba(0,0,0,.22),0 -15px 10px -10px rgba(0,0,0,.22);
