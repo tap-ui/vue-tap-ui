@@ -62,7 +62,7 @@
   }
 </script>
 
-<style  >
+<style  lang="css">
 	@import '../../style/variable.css';
 
   @component-namespace tap {

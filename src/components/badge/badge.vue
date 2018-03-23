@@ -52,7 +52,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="css" >
 	@import '../../style/variable.css';
 
   @component-namespace tap {
@@ -62,19 +62,19 @@ export default {
       display: inline-block;
 
       @when success {
-        background-color: $success-color;
+        background-color: $color-success;
       }
 
       @when primary {
-        background-color: $color-blue;
+        background-color: $color-primary;
       }
 
       @when error {
-        background-color: $error-color;
+        background-color: $color-error;
       }
 
       @when warning {
-        background-color: $warning-color;
+        background-color: $color-warning;
       }
 
       @when size-small {

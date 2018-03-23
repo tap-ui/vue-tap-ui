@@ -39,13 +39,13 @@ export default {
 }
 </script>
 
-<style >
+<style lang="css">
   @import "../../style/variable.css";
 
   @component-namespace tap {
     @component header {
       display: flex;
-      background-color: $color-blue;
+      background-color: $color-primary;
       box-sizing: border-box;
       color: $color-white;
       font-size: 14px;
