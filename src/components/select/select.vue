@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="tap-select" @touchstart='onTouchStatr'>
     <input type="hidden" name="" value="">
-    <tap-option v-if='vis' :rect='rect'><slot></slot></tap-option>
+    <tap-option v-if='vis' :offsetTop='offsetTop'><slot></slot></tap-option>
   </div>
 </template>
 
@@ -12,15 +12,16 @@ import tapOption from './tap-option.vue'
     components: {tapOption},
     data() {
       return {
-        rect : {},
+        offsetTop : {},
         vis: false
       }
     },
     methods:{
       onTouchStatr(ev){
         this.vis = true;
-        this.rect = ev.target.getBoundingClientRect();
-        console.log(this.rect);
+        // this.rect = ev.target.getBoundingClientRect();
+        this.offsetTop = ev.target.offsetTop;
+        console.log(this.offsetTop);
       }
     }
   }

@@ -6,7 +6,7 @@
     <p>触摸选择器</p>
     <p>触摸选择器</p>
     <p>触摸选择器</p>
-    <p>触摸选择器</p>
+
     <tap-select class="select">
       <option>1</option>
       <option>2</option>
