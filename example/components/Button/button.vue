@@ -54,15 +54,17 @@
 <style lang="css" scoped>
   section{
     border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding: 5px;
     h1{
-      border-bottom: 1px solid #eee;
+      /*border-bottom: 1px solid #eee;*/
       text-align: left;
       font-weight: bold;
       text-indent: 10px;
       font-size: 18px;
     }
     button{
-      margin:10px;
+      margin:5px;
 
     }
   }

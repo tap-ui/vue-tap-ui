@@ -20,7 +20,7 @@
       <tap-badge type="warning" size="small">10</tap-badge>
     </section>
     <section>
-      <tap-badge color="#333">自定义颜色</tap-badge>
+      <tap-badge color="#9F79EE">自定义颜色</tap-badge>
     </section>
     <section class="cell">
       <div class="cell-left">

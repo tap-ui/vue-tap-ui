@@ -83,7 +83,7 @@
 
       /* 点击的active样式 */
       &::after {
-        background-color: #fff;
+        background-color: $color-white;
         content: " ";
         opacity: 0;
         position: absolute 0 0 0 0;
@@ -92,7 +92,6 @@
       &:not(.is-disable):active::after {
         opacity: .4;
       }
-
       /* icon */
       @descendent icon {
         vertical-align: middle;
@@ -101,56 +100,56 @@
 
       /* 主题 */
       @modifier default {
-        color: $button-default-color;
-        background-color: $button-default-background-color;
-        box-shadow: $button-default-box-shadow;
-
+        color: $color-content;
+        background-color:$color-background;
+        box-shadow: $color-border;
+        border: $color-border 1px solid;
         @when plain {
-         border: 1px solid $button-default-plain-color;
-         background-color: transparent;
+         border: 1px solid  $color-border;
+         background-color: $color-white;
          box-shadow: none;
-         color: $button-default-plain-color;
+         color:  $color-content;
         }
       }
       @modifier primary {
-        color: $button-write-color;
+        color: $color-white;
         background-color: $color-primary;
         transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
 
         @when plain {
           border:1px solid $color-primary;
-          background-color: $button-write-color;
+          background-color:$color-white;
           color: $color-primary;
         }
       }
+      @modifier success{
+        color: $color-white;
+        background-color:$color-success;
+
+        @when plain {
+          border: 1px solid $color-success;
+          background-color:$color-white;
+          color: $color-success;
+        }
+      }
       @modifier danger{
-        color: $button-write-color;
+        color: $color-white;
         background-color: $color-error;
 
         /* plain 也就是幽灵按钮，把主题色设置为字体和边框颜色。背景色为白色 */
         @when plain {
           border: 1px solid $color-error;
-          background-color: $button-write-color;
+          background-color: $color-white;
           color: $color-error;
         }
       }
-      @modifier success{
-        color: $button-write-color;
-        background-color: $color-success;
-
-        @when plain {
-          border: 1px solid $color-success;
-          background-color: $button-write-color;
-          color: $color-success;
-        }
-      }
       @modifier warning{
-        color: $button-write-color;
+        color: $color-white;
         background-color: $color-warning;
 
         @when plain {
           border: 1px solid $color-warning;
-          background-color: $button-write-color;
+          background-color: $color-white;
           color: $color-warning;
         }
       }
@@ -181,6 +180,7 @@
       /* 禁用 */
       @when disabled {
         opacity: .4;
+        cursor: not-allowed;
       }
 
 

@@ -60,7 +60,6 @@ export default {
       color: $color-white;
       text-align: center;
       display: inline-block;
-
       @when success {
         background-color: $color-success;
       }

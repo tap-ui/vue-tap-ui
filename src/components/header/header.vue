@@ -49,12 +49,12 @@ export default {
       box-sizing: border-box;
       color: $color-white;
       font-size: 14px;
-      height: $header-height;
+      height: $height-header;
       padding:0 10px;
       align-items: center;
       text-align: center;
       white-space: nowrap;
-
+      box-shadow:0 15px 10px -12px rgba(0,0,0,.22),0 -15px 10px -10px rgba(0,0,0,.22);
 
       .tap-button {
         display: inline-block;
@@ -68,7 +68,6 @@ export default {
 
       @descendent button {
         flex: .5;
-
         > a {
           color: inherit;
         }

@@ -11,14 +11,22 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 import '../src/assets/font/iconfont.css'
+//注册组件， 并给懒加载组件传值
+Vue.use(tapUI, {
+  lazy: {
+    loading: require('./assets/loading.jpg'),
+    error: require('./assets/error.jpg')
+  }
+});
 
-Vue.use(tapUI.install);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })
