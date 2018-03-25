@@ -1,8 +1,6 @@
 <template lang="html">
   <div class="tap-option">
-    <div class="tap-option-range" ref='selectRange'>
-
-    </div>
+    <div class="tap-option-range" ref='selectRange'></div>
 
     <div class="tap-option-optionBox"
       @touchstart='start'
@@ -22,62 +20,73 @@
 export default {
   data()  {
     return{
-
+      // _selectStartTouch:{}
+      offsetTop: -1
     }
   },
   props: {
-    offsetTop: Number
-  },
-  computed: {
-    // setRect: function() {
-    //   return this.rect
-    // }
-  },
-  watch: {
+    selectStartTouch: {
+      default: {},
+      type: Object
+    },
+    selectMoveTouch: Object,
 
   },
+  computed: {
+
+  },
+  watch: {
+    selectStartTouch(statrTouches) {
+      let {offsetTop,pageX, pageY} = statrTouches;
+      if(this.offsetTop == -1) {
+        this.offsetTop = offsetTop;
+        // this.setRangeTop();
+      }
+    },
+    selectMoveTouch(moveTouches) {
+
+      let distance = this.selectStartTouch.pageY - moveTouches.pageY;
+        this.moveOptionBox(distance);
+
+    }
+  },
   mounted() {
-      this.touchstart = {};
-      this.touchmove = {};
-      this.setRangeTop();
-      // this.$nextTick(()=> {
-      //   this.test();
-      // })
+      this.$nextTick(()=> {
+          this.setRangeTop()
+      })
 
   },
   methods: {
     test() {
       let box = document.querySelector('.tap-option-optionBox');
-      console.log(box);
-      // box.addEventListener('touchstart', function() {alert('zhixla')})
-      let event = new Event('touchstart2');
-      event.initEvent('touchstart', true, true);
+
+      let event = new Event('touchmove');
+      event.initEvent('touchmove', true, true);
       this.$refs.box.dispatchEvent(event);
     },
-    setRangeTop() {
-      //这里非常重要， select展开后的选择范围，要和父容器的select位置一直。这里根据select的offsetTop去设置决定定位的top值
-      this.$refs.selectRange.style.top = this.offsetTop + 'px';
+    moveOptionBox(distance) {
+      this.$refs.box.setAttribute('style', `transform:translateY(${-distance}px)`)
+    },
+    setRangeTop(top) {
+      //这里非常重要， 列表展开后的选择范围，要和父容器的select位置一直。这里根据select的offsetTop决定范围框绝对定位的top值
+      this.offsetTop == -1 ?
+          this.$refs.selectRange.style.top = this.selectStartTouch.offsetTop + 'px':
+          this.$refs.selectRange.style.top = this.offsetTop + 'px';
+
+      this.offsetTop = this.selectStartTouch.offsetTop;
     },
     start(ev) {
-      console.log(ev);
-      // ev.preventDefault();
       this.touchstart = ev.touches[0];
-      // console.log(this.touchstart)
     },
     move(ev) {
-      console.log(ev);
       ev.preventDefault();
-
       this.touchmove = ev.touches[0];
       let distance = this.touchmove.pageY - this.touchstart.pageY;
 
       this.$refs.box.setAttribute('style', `transform:translateY(${distance}px)`)
-      // console.log(ev)
     },
     end(ev) {
       ev.preventDefault();
-      console.log('结束');
-      console.log(ev);
     }
   }
 }
@@ -95,19 +104,27 @@ export default {
       @descendent range{
         border-top: 1px solid $color-divider;
         border-bottom: 1px solid $color-divider;
-        height: 40px;
+        height: 35px;
         width: 100%;
         position: absolute;
         z-index: -1;
+        box-sizing: content-box;
       }
-      @descendent optionBox {
-        /* background-color: #eee; */
 
-          /* transform: translateY(-10px); */
+      @descendent optionBox {
+        & option {
+          display: block;
+          color: red;
+          height: 35px;
+          text-align: left;
+           padding: 0 10px 0 20px;
+
+
+        }
       }
       @descendent comfirm{
-        height: 40px;
-        line-height: 40px;
+        height: 35px;
+        line-height: 35px;
         position: fixed * * 0 0;
         width: 100%;
         border-top: 1px solid $color-border;
@@ -116,9 +133,5 @@ export default {
     }
   }
 
-  .tap-option{
-    option{
-       margin: 20px;
-    }
-  }
+
 </style>

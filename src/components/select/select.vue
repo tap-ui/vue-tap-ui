@@ -1,7 +1,11 @@
 <template lang="html">
-  <div class="tap-select" @touchstart='onTouchStatr'>
-    <input type="hidden" name="" value="">
-    <tap-option v-if='vis' :offsetTop='offsetTop'><slot></slot></tap-option>
+  <div class="tap-select" @touchstart='onTouchStatr' @touchmove='ontouchMove'>
+    <input type="hidden" name="" value="xx">
+    <div class="">
+      这是内容
+    </div>
+    <i class="iconfont icon-ICON-"></i>
+    <tap-option v-if='vis' :selectStartTouch='selectStartTouch' :selectMoveTouch='selectMoveTouch' ><slot></slot></tap-option>
   </div>
 </template>
 
@@ -12,16 +16,31 @@ import tapOption from './tap-option.vue'
     components: {tapOption},
     data() {
       return {
-        offsetTop : {},
+        // offsetTop : {},
+        selectStartTouch: {},
+        selectMoveTouch: {},
         vis: false
       }
     },
     methods:{
       onTouchStatr(ev){
+        ev.preventDefault();
         this.vis = true;
-        // this.rect = ev.target.getBoundingClientRect();
-        this.offsetTop = ev.target.offsetTop;
-        console.log(this.offsetTop);
+
+        this.selectStartTouch = {
+            offsetTop: ev.target.offsetTop,
+            pageX: ev.touches[0].pageX,
+            pageY: ev.touches[0].pageY
+        }
+
+      },
+      ontouchMove(ev) {
+        ev.preventDefault();
+        let {pageX, pageY} = ev.touches[0]
+        this.selectMoveTouch = {
+          pageX,
+          pageY
+        }
       }
     }
   }
@@ -32,9 +51,15 @@ import tapOption from './tap-option.vue'
 
   @component-namespace tap{
     @component select {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border: 1px solid $color-border;
-      height: 40px;
+      height: 35px;
+      box-sizing: content-box;
+      padding: 0 10px 0 20px;
       overflow: hidden;
+      box-shadow:2px 2px 5px $color-border;
     }
   }
 </style>
