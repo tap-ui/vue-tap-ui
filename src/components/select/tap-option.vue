@@ -17,41 +17,42 @@
 </template>
 
 <script>
+import Select from './Select.js';
 export default {
   data()  {
     return{
       // _selectStartTouch:{}
-      offsetTop: -1
+      offsetTop: -1,
+      oSelect : null
     }
   },
   props: {
-    selectStartTouch: {
-      default: {},
-      type: Object
-    },
-    selectMoveTouch: Object,
-
+    startEv: {},  //父组件的touchstart的event对象
+    moveEv: {}, //父组件的touchmove的event对象
+    selectBoxTop: Number //父组件的offsetTop
   },
   computed: {
 
   },
   watch: {
-    selectStartTouch(statrTouches) {
-      let {offsetTop,pageX, pageY} = statrTouches;
-      if(this.offsetTop == -1) {
-        this.offsetTop = offsetTop;
-        // this.setRangeTop();
-      }
+    startEv(ev) {
+
     },
-    selectMoveTouch(moveTouches) {
-
-      let distance = this.selectStartTouch.pageY - moveTouches.pageY;
-        this.moveOptionBox(distance);
-
+    moveEv(ev) {
+      this.oSelect.boxMove(ev)
+        // let distance = this.startEv.touches[0].pageY - this.moveEv.touches[0].pageY;
+        // this.moveOptionBox(distance);
     }
   },
+  created() {
+
+  },
   mounted() {
+    // console.log(Select);
+
+      // this.oSelect.boxMove
       this.$nextTick(()=> {
+          this.oSelect = new Select(this.$refs.box, this.startEv, this.moveEv, this.selectBoxTop);
           this.setRangeTop()
       })
 
@@ -64,26 +65,26 @@ export default {
       event.initEvent('touchmove', true, true);
       this.$refs.box.dispatchEvent(event);
     },
-    moveOptionBox(distance) {
-      this.$refs.box.setAttribute('style', `transform:translateY(${-distance}px)`)
-    },
+    // moveOptionBox(distance) {
+    //   this.$refs.box.setAttribute('style', `transform:translateY(${-distance}px)`)
+    // },
     setRangeTop(top) {
       //这里非常重要， 列表展开后的选择范围，要和父容器的select位置一直。这里根据select的offsetTop决定范围框绝对定位的top值
       this.offsetTop == -1 ?
-          this.$refs.selectRange.style.top = this.selectStartTouch.offsetTop + 'px':
+          this.$refs.selectRange.style.top = this.selectBoxTop + 'px':
           this.$refs.selectRange.style.top = this.offsetTop + 'px';
 
-      this.offsetTop = this.selectStartTouch.offsetTop;
+      this.offsetTop = this.selectBoxTop;
     },
     start(ev) {
       this.touchstart = ev.touches[0];
     },
     move(ev) {
-      ev.preventDefault();
-      this.touchmove = ev.touches[0];
-      let distance = this.touchmove.pageY - this.touchstart.pageY;
-
-      this.$refs.box.setAttribute('style', `transform:translateY(${distance}px)`)
+      // ev.preventDefault();
+      // this.touchmove = ev.touches[0];
+      // let distance = this.touchmove.pageY - this.touchstart.pageY;
+      //
+      // this.$refs.box.setAttribute('style', `transform:translateY(${distance}px)`)
     },
     end(ev) {
       ev.preventDefault();

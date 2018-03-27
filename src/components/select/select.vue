@@ -1,11 +1,16 @@
 <template lang="html">
-  <div class="tap-select" @touchstart='onTouchStatr' @touchmove='ontouchMove'>
+  <div class="tap-select" @touchstart='onTouchStart' @touchmove='onTouchMove'>
     <input type="hidden" name="" value="xx">
     <div class="">
       这是内容
     </div>
     <i class="iconfont icon-ICON-"></i>
-    <tap-option v-if='vis' :selectStartTouch='selectStartTouch' :selectMoveTouch='selectMoveTouch' ><slot></slot></tap-option>
+    <tap-option v-if='vis'
+                :startEv='startEv'
+                :moveEv='moveEv'
+                :selectBoxTop='selectBoxTop'>
+        <slot></slot>
+    </tap-option>
   </div>
 </template>
 
@@ -17,30 +22,33 @@ import tapOption from './tap-option.vue'
     data() {
       return {
         // offsetTop : {},
-        selectStartTouch: {},
-        selectMoveTouch: {},
+        startEv: {},
+        moveEv: {},
+        selectBoxTop: 0,
         vis: false
       }
     },
     methods:{
-      onTouchStatr(ev){
+      onTouchStart(ev){
         ev.preventDefault();
         this.vis = true;
-
-        this.selectStartTouch = {
-            offsetTop: ev.target.offsetTop,
-            pageX: ev.touches[0].pageX,
-            pageY: ev.touches[0].pageY
-        }
+        this.startEv = ev;
+        this.selectBoxTop = ev.target.offsetTop;
+        // this.selectStartTouch = {
+        //     offsetTop: ev.target.offsetTop,
+        //     pageX: ev.touches[0].pageX,
+        //     pageY: ev.touches[0].pageY
+        // }
 
       },
-      ontouchMove(ev) {
+      onTouchMove(ev) {
         ev.preventDefault();
+        this.moveEv = ev;
         let {pageX, pageY} = ev.touches[0]
-        this.selectMoveTouch = {
-          pageX,
-          pageY
-        }
+        // this.selectMoveTouch = {
+        //   pageX,
+        //   pageY
+        // }
       }
     }
   }
@@ -54,7 +62,7 @@ import tapOption from './tap-option.vue'
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border: 1px solid $color-border;
+      /* border: 1px solid $color-border; */
       height: 35px;
       box-sizing: content-box;
       padding: 0 10px 0 20px;
