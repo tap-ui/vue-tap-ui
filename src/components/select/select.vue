@@ -1,14 +1,15 @@
 <template lang="html">
   <div class="tap-select" @touchstart='onTouchStart' @touchmove='onTouchMove'>
-    <input type="hidden" name="" value="xx">
+    <input type="hidden" :name='name' v-model="model">
     <div class="">
-      这是内容
+      {{model}}
     </div>
     <i class="iconfont icon-ICON-"></i>
     <tap-option v-if='vis'
                 :startEv='startEv'
                 :moveEv='moveEv'
-                :selectBoxTop='selectBoxTop'>
+                :selectBoxTop='selectBoxTop'
+                :valueChange='valueChange'>
         <slot></slot>
     </tap-option>
   </div>
@@ -22,33 +23,37 @@ import tapOption from './tap-option.vue'
     data() {
       return {
         // offsetTop : {},
+        model: this.value,
         startEv: {},
         moveEv: {},
         selectBoxTop: 0,
-        vis: false
+        vis: false,
       }
     },
+    props:{
+      name: String,
+      value: {
+        type:[String, Number, Array]
+      }
+    },
+    mounted() {
+
+
+    },
     methods:{
+      valueChange(ev) {
+
+      },
       onTouchStart(ev){
         ev.preventDefault();
         this.vis = true;
         this.startEv = ev;
         this.selectBoxTop = ev.target.offsetTop;
-        // this.selectStartTouch = {
-        //     offsetTop: ev.target.offsetTop,
-        //     pageX: ev.touches[0].pageX,
-        //     pageY: ev.touches[0].pageY
-        // }
-
       },
       onTouchMove(ev) {
         ev.preventDefault();
         this.moveEv = ev;
         let {pageX, pageY} = ev.touches[0]
-        // this.selectMoveTouch = {
-        //   pageX,
-        //   pageY
-        // }
       }
     }
   }

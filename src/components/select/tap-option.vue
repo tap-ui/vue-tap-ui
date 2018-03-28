@@ -23,7 +23,8 @@ export default {
     return{
       // _selectStartTouch:{}
       offsetTop: -1,
-      oSelect : null
+      oSelect : null,
+      options: []
     }
   },
   props: {
@@ -39,37 +40,36 @@ export default {
 
     },
     moveEv(ev) {
-      this.oSelect.boxMove(ev)
-        // let distance = this.startEv.touches[0].pageY - this.moveEv.touches[0].pageY;
-        // this.moveOptionBox(distance);
+      this.oSelect.boxMove(ev);
     }
   },
   created() {
 
   },
   mounted() {
-    // console.log(Select);
-
-      // this.oSelect.boxMove
-      this.$nextTick(()=> {
-          this.oSelect = new Select(this.$refs.box, this.startEv, this.moveEv, this.selectBoxTop);
-          this.setRangeTop()
-      })
-
+      this.oSelect = new Select(this.$refs.box, this.startEv, this.moveEv, this.selectBoxTop);
+      this.setRangeTop();
+      this.extractOptions();
   },
   methods: {
-    test() {
-      let box = document.querySelector('.tap-option-optionBox');
-
-      let event = new Event('touchmove');
-      event.initEvent('touchmove', true, true);
-      this.$refs.box.dispatchEvent(event);
+    //提取参数
+    extractOptions() {
+      console.log(this.$slots.default);
+      this.$slots.default.forEach((vnode)=> {
+        if(vnode.tag !== 'option') return;
+        if(!vnode.data) {
+          throw new Error(`<option>of value is required`);
+          return;
+        }
+        this.options.push({
+          label: vnode.children[0].text,
+          value: vnode.data.domProps.value,
+          dom: vnode.elm
+        })
+      })
     },
-    // moveOptionBox(distance) {
-    //   this.$refs.box.setAttribute('style', `transform:translateY(${-distance}px)`)
-    // },
     setRangeTop(top) {
-      //这里非常重要， 列表展开后的选择范围，要和父容器的select位置一直。这里根据select的offsetTop决定范围框绝对定位的top值
+      //这里非常重要， 列表展开后的选择范围，要和父容器的select位置一致。这里根据select的offsetTop决定范围框绝对定位的top值
       this.offsetTop == -1 ?
           this.$refs.selectRange.style.top = this.selectBoxTop + 'px':
           this.$refs.selectRange.style.top = this.offsetTop + 'px';
@@ -80,11 +80,6 @@ export default {
       this.touchstart = ev.touches[0];
     },
     move(ev) {
-      // ev.preventDefault();
-      // this.touchmove = ev.touches[0];
-      // let distance = this.touchmove.pageY - this.touchstart.pageY;
-      //
-      // this.$refs.box.setAttribute('style', `transform:translateY(${distance}px)`)
     },
     end(ev) {
       ev.preventDefault();

@@ -9,14 +9,14 @@ export default class Select {
     this.optionBox = optionBox;
     this.startEv = startEv;
     this.moveEv = moveEv;
+
     this.selectBoxTop = selectBoxTop;
     this.scopeMaxTop = 0;
     this.scopeMaxBottom = 0;
     this.optionHeight = 0;
 
-    this.getOptionHeight();
-    console.log(this.startEv);
-    console.log(this.moveEv);
+    this.getOptionHeight().calcScrope();
+    console.log(this.optionBox.getBoundingClientRect());
   }
 
   _getMoveDistance(moveEv) {
@@ -25,6 +25,7 @@ export default class Select {
 
   getOptionHeight() {
     this.optionHeight = this.optionBox.children[0].getBoundingClientRect().height;
+    return this;
   }
 
   /**
@@ -33,14 +34,20 @@ export default class Select {
    * @return {[type]}        [description]
    */
   boxMove(moveEv) {
-    console.log('移动了');
     let distance = this._getMoveDistance(moveEv);
+    // console.log(distance);
+    console.log(this.selectBoxTop);
+    console.log('top: '+ this.scopeMaxTop);
+    console.log('bottom: '+ this.scopeMaxBottom);
+    if(distance > this.scopeMaxTop || distance < this.scopeMaxBottom) return;
     this.optionBox.setAttribute('style', `transform:translateY(${-distance}px)`)
   }
 
   calcScrope() {
-    // this.scopeMaxTop = this.selectBoxTop +
+    //offsetTop -
+    this.scopeMaxTop = this.selectBoxTop + (this.optionHeight / 2);
+    this.scopeMaxBottom =  this.selectBoxTop - this.optionBox.getBoundingClientRect().height;
   }
 
-  move
+
 }
