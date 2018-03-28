@@ -21,10 +21,8 @@ import Select from './Select.js';
 export default {
   data()  {
     return{
-      // _selectStartTouch:{}
       offsetTop: -1,
       oSelect : null,
-      options: []
     }
   },
   props: {
@@ -47,27 +45,25 @@ export default {
 
   },
   mounted() {
-      this.oSelect = new Select(this.$refs.box, this.startEv, this.moveEv, this.selectBoxTop);
+      this.oSelect = new Select(this, this.$refs.box, this.startEv, this.moveEv, this.selectBoxTop);
       this.setRangeTop();
-      this.extractOptions();
   },
   methods: {
     //提取参数
-    extractOptions() {
-      console.log(this.$slots.default);
-      this.$slots.default.forEach((vnode)=> {
-        if(vnode.tag !== 'option') return;
-        if(!vnode.data) {
-          throw new Error(`<option>of value is required`);
-          return;
-        }
-        this.options.push({
-          label: vnode.children[0].text,
-          value: vnode.data.domProps.value,
-          dom: vnode.elm
-        })
-      })
-    },
+    // extractOptions() {
+    //   this.$slots.default.forEach((vnode)=> {
+    //     if(vnode.tag !== 'option') return;
+    //     if(!vnode.data) {
+    //       throw new Error(`<option>of value is required`);
+    //       return;
+    //     }
+    //     this.options.push({
+    //       label: vnode.children[0].text,
+    //       value: vnode.data.domProps.value,
+    //       dom: vnode.elm
+    //     })
+    //   })
+    // },
     setRangeTop(top) {
       //这里非常重要， 列表展开后的选择范围，要和父容器的select位置一致。这里根据select的offsetTop决定范围框绝对定位的top值
       this.offsetTop == -1 ?

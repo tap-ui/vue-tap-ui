@@ -36,9 +36,13 @@ import tapOption from './tap-option.vue'
         type:[String, Number, Array]
       }
     },
+    watch: {
+      model: function() {
+        this.$emit('input', this.model)
+      }
+    },
     mounted() {
-
-
+      this.model = '12'
     },
     methods:{
       valueChange(ev) {
