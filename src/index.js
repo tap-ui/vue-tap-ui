@@ -2,7 +2,9 @@ import Button from './components/button';
 import Badge from './components/badge';
 import Toast from './components/toast';
 import Header from './components/header';
-import LazyLoad from './directive/lazyLoad'
+import Swipe from './components/swipe';
+import SwipeItem from './components/swipe-item';
+import LazyLoad from './directive/lazyLoad';
 // let LazyLoad  = () => import('./directive/lazyLoad')
 
 const install = function(Vue, options = {}) {
@@ -11,6 +13,8 @@ const install = function(Vue, options = {}) {
   Vue.component(Badge.name, Badge);
   Vue.component(Toast.name, Toast);
   Vue.component(Header.name, Header);
+  Vue.component(Swipe.name, Swipe);
+  Vue.component(SwipeItem.name, SwipeItem);
   Vue.use(LazyLoad, lazy ? lazy : {})
 }
 

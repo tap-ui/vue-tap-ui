@@ -63,7 +63,7 @@
 </script>
 
 <style  lang="css">
-	@import '../../style/variable.css';
+	@import '../../common/style/variable.css';
 
   @component-namespace tap {
     @component button {

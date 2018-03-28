@@ -3,6 +3,8 @@ import Button from '../components/Button/button';
 import Badge from '../components/Badge/badge';
 import Toast from '../components/Toast/toast';
 import Header from '../components/Header/header';
+import Swipe from '../components/Swipe/Swipe';
+// import Header from '../components/Header/header';
 // import LazyLoad from "../components/LazyLoad/LazyLoad.vue";
 let LazyLoad = ()=> import('../components/LazyLoad/LazyLoad');
 let config = {
@@ -25,6 +27,11 @@ let config = {
     path: '/header',
     name: 'Header',
     component: Header
+  },
+  Swipe: {
+    path: '/swipe',
+    name: 'Swipe',
+    component: Swipe
   },
   LazyLoad: {
     path: '/lazyLoad',
