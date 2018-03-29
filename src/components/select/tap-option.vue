@@ -84,7 +84,6 @@ export default {
     position: absolute 0 0 0 0;
     background-color: $color-white;
     z-index: 10;
-
     @descendent range {
       border-top: 1px solid $color-divider;
       border-bottom: 1px solid $color-divider;

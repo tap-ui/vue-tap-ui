@@ -2,6 +2,7 @@
   <div class="tap-select"
       @touchstart='onTouchStart'
       @touchmove='onTouchMove'
+      @touchend='onTouchEnd'
       ref='selectInput'>
 
     <input type="hidden" :name='name' v-model="model">
@@ -42,7 +43,7 @@ export default {
       model: this.value,
       startEv: {},
       moveEv: {},
-      selectBoxTop: 0,
+      selectBoxTop:0,
       vis: false,
       oSelect: {},
     }
@@ -54,28 +55,30 @@ export default {
     }
   },
   watch: {
-    model: function(newvalue) {
+    model: function() {
       this.$emit('input', this.model)
     }
   },
   created() {
 
-
   },
   mounted() {
     this.$nextTick(() => {
-      this.oSelect = new Select(this, this.$refs.selectInput, this.startEv, this.moveEv, this.selectBoxTop)
+      //实例化
+      this.oSelect = new Select(this, this.$refs.selectInput,  this.selectBoxTop)
+      //激活watch， 向上传递数据
       this.model = this.oSelect.selected;
     })
-    // console.log(this.oSelect)
   },
   methods: {
     changeModel(value) {
       this.modle = value;
     },
+
     valueChange(ev) {
 
     },
+
     onTouchStart(ev) {
       ev.preventDefault();
 
@@ -84,13 +87,17 @@ export default {
       this.oSelect.selectBoxTop = ev.target.offsetTop;
 
       this.selectBoxTop = ev.target.offsetTop;
-      this.startEv = ev;
-
-
+      // this.startEv = ev;
+      console.log(ev.touches[0]);
       this.$nextTick(() => {
 
-        let dom = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox')
-        this.oSelect.presetPlace(dom);
+        let dom = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
+        //预设位置
+        this.oSelect.presetPlace(dom).calcScrope();
+
+          // console.log(this.oSelect.curPos);
+          // console.log(this.oSelect.selectBoxTop);
+        this.oSelect.selectBoxTop = ev.target.offsetTop;
       })
 
     },
@@ -98,6 +105,11 @@ export default {
       ev.preventDefault();
 
       this.oSelect.boxMove(ev)
+    },
+    onTouchEnd(ev) {
+      // ev.preventDefault()
+      console.log(ev);
+      this.oSelect.curPos = ev.changedTouches[0].pageY;
     }
   }
 }
