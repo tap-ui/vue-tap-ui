@@ -1,66 +1,106 @@
 <template lang="html">
-  <div class="tap-select" @touchstart='onTouchStart' @touchmove='onTouchMove'>
+  <div class="tap-select"
+      @touchstart='onTouchStart'
+      @touchmove='onTouchMove'
+      ref='selectInput'>
+
     <input type="hidden" :name='name' v-model="model">
-    <div class="">
-      {{model}}
+    <div class="" v-if='model'>
+      {{model.label}}
     </div>
     <i class="iconfont icon-ICON-"></i>
-    <tap-option v-if='vis'
-                :startEv='startEv'
-                :moveEv='moveEv'
-                :selectBoxTop='selectBoxTop'
-                :valueChange='valueChange'>
-        <slot></slot>
+    <tap-option
+      ref='optionsBox'
+      :oSelect='oSelect'
+      :startEv='startEv'
+      :moveEv='moveEv'
+      :selectBoxTop='selectBoxTop'
+      :valueChange='valueChange'
+      @input='changeModel'
+      v-if='vis'>
+
+          <slot></slot>
     </tap-option>
   </div>
 </template>
 
 <script>
 import tapOption from './tap-option.vue'
-  export default {
-    name: 'tap-select',
-    components: {tapOption},
-    data() {
-      return {
-        // offsetTop : {},
-        model: this.value,
-        startEv: {},
-        moveEv: {},
-        selectBoxTop: 0,
-        vis: false,
-      }
-    },
-    props:{
-      name: String,
-      value: {
-        type:[String, Number, Array]
-      }
-    },
-    watch: {
-      model: function() {
-        this.$emit('input', this.model)
-      }
-    },
-    mounted() {
-      this.model = '12'
-    },
-    methods:{
-      valueChange(ev) {
+import Select from './Select.js';
+import {
+  domFind
+} from './util'
 
-      },
-      onTouchStart(ev){
-        ev.preventDefault();
-        this.vis = true;
-        this.startEv = ev;
-        this.selectBoxTop = ev.target.offsetTop;
-      },
-      onTouchMove(ev) {
-        ev.preventDefault();
-        this.moveEv = ev;
-        let {pageX, pageY} = ev.touches[0]
-      }
+export default {
+  name: 'tap-select',
+  components: {
+    tapOption
+  },
+  data() {
+    return {
+      // offsetTop : {},
+      model: this.value,
+      startEv: {},
+      moveEv: {},
+      selectBoxTop: 0,
+      vis: false,
+      oSelect: {},
+    }
+  },
+  props: {
+    name: String,
+    value: {
+      type: [String, Number, Array, Object]
+    }
+  },
+  watch: {
+    model: function(newvalue) {
+      this.$emit('input', this.model)
+    }
+  },
+  created() {
+
+
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.oSelect = new Select(this, this.$refs.selectInput, this.startEv, this.moveEv, this.selectBoxTop)
+      this.model = this.oSelect.selected;
+    })
+    // console.log(this.oSelect)
+  },
+  methods: {
+    changeModel(value) {
+      this.modle = value;
+    },
+    valueChange(ev) {
+
+    },
+    onTouchStart(ev) {
+      ev.preventDefault();
+
+      this.vis = true;
+      this.oSelect.startEv = ev;
+      this.oSelect.selectBoxTop = ev.target.offsetTop;
+
+      this.selectBoxTop = ev.target.offsetTop;
+      this.startEv = ev;
+
+
+      this.$nextTick(() => {
+
+        let dom = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox')
+        this.oSelect.presetPlace(dom);
+      })
+
+    },
+    onTouchMove(ev) {
+      ev.preventDefault();
+
+      this.oSelect.boxMove(ev)
     }
   }
+}
 </script>
 
 <style lang="css">

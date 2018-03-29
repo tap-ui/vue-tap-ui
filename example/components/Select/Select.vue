@@ -8,7 +8,7 @@
       <option v-for='item in options' :value="item.value">{{item.label}}</option>
     </tap-select>
     <div class="">
-      值：{{value1}}
+      值：{{value1.label}}
     </div>
 
     <tap-select class="select">
