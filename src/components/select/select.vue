@@ -56,7 +56,7 @@ export default {
   },
   watch: {
     model: function() {
-      this.$emit('input', this.model)
+      this.$emit('input', this.model) //技巧，向上传递数据
     }
   },
   created() {
@@ -64,43 +64,33 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      //实例化
-      this.oSelect = new Select(this, this.$refs.selectInput, this.selectBoxTop)
-      //激活watch， 向上传递数据
-      this.model = this.oSelect.selected;
+      this.oSelect = new Select(this, this.$refs.selectInput, this.selectBoxTop); //实例化
+      this.model = this.oSelect.selected;//触发watch， 向上传递数据
     })
   },
   methods: {
     changeModel(value) {
       this.modle = value;
     },
-
     valueChange(ev) {
 
     },
-
     onTouchStart(ev) {
       ev.preventDefault();
-
       this.vis = true;
-      this.oSelect.startEv = ev;
-      this.oSelect.selectBoxTop = ev.target.offsetTop;
-
       this.selectBoxTop = ev.target.offsetTop;
       this.$nextTick(() => {
-        let dom = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
-        //预设位置
-        this.oSelect.presetPlace(dom).calcScrope();
-        this.oSelect.selectBoxTop = ev.target.offsetTop;
+        let domOptionsBox = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
+        this.oSelect.onTouchStart(ev, domOptionsBox);
       })
-
     },
     onTouchMove(ev) {
       ev.preventDefault();
-      this.oSelect.boxMove(ev);
+      this.oSelect.onTouchMove(ev);
     },
     onTouchEnd(ev) {
-      this.oSelect.moveEnd();
+      ev.preventDefault();
+      this.oSelect.onTouchEnd();
     }
   }
 }

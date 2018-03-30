@@ -58,7 +58,6 @@ export default {
         this.offsetTop == -1 ?
           this.$refs.selectRange.style.top = this.selectBoxTop + 'px' :
           this.$refs.selectRange.style.top = this.offsetTop + 'px';
-
         this.offsetTop = this.oSelect.selectBoxTop;
       })
     },
