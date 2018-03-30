@@ -21,9 +21,7 @@ import Select from './Select.js';
 export default {
   data() {
     return {
-      offsetTop: -1,
-
-      // oSelect : null,
+      offsetTop: -1
     }
   },
   props: {
@@ -87,27 +85,26 @@ export default {
     @descendent range {
       border-top: 1px solid $color-divider;
       border-bottom: 1px solid $color-divider;
-      height: 35px;
+      height: $height-select;
       width: 100%;
       position: absolute;
       z-index: -1;
-      box-sizing: content-box;
+      box-sizing: border-box;
     }
 
     @descendent optionBox {
+      transition: transform 0.1s;
       & option {
         display: block;
-        color: red;
-        height: 35px;
+        height: $height-select;
         text-align: left;
         padding: 0 10px 0 20px;
-
-
+        box-sizing: border-box;
       }
     }
     @descendent comfirm {
-      height: 35px;
-      line-height: 35px;
+      height: $height-select;
+      line-height: $height-select;
       position: fixed * * 0 0;
       width: 100%;
       border-top: 1px solid $color-border;

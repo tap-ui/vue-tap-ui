@@ -1,4 +1,5 @@
 /* 这是所有组件的基础配色 */
+
 $color-primary:#2d8cf0;
 $color-light-primary: #5cadff;
 $color-dark-primary: #2b85e4;
@@ -14,9 +15,12 @@ $color-border: #dddee1;
 $color-divider: #e9eaec;
 $color-background: #f8f8f9;
 $color-white: #FFFFFF;
-
 /* 高度 */
-$height-header: 40px;
 
+$height-header: 40px;
 /* z-index */
+
 $z-index-normal: 1;
+/* select组件 */
+
+$height-select: 40px;

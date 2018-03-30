@@ -15,7 +15,7 @@ export default class Select {
     this.options = []; //传参集合
     this.index = 0;
     this.selected = {};
-    this.curPos = 0; //当前位置
+    this.curPosY = 0; //当前位置
     this.scopeMaxTop = 0;
     this.scopeMaxBottom = 0;
     this.optionHeight = 0;
@@ -48,10 +48,10 @@ export default class Select {
   calcScrope() {
     if (this.scopeMaxTop !== 0 && this.scopeMaxBottom !== 0) return;
 
-    this.scopeMaxTop = this.selectBoxTop + (this.optionHeight / 4);
-    this.scopeMaxBottom = this.selectBoxTop - (this.optionHeight / 4 * this.options.length)
-    // console.log(this.scopeMaxTop)
-    // console.log(this.scopeMaxBottom)
+    this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.options.length - 1));
+    this.scopeMaxBottom = this.selectBoxTop;
+    console.log(this.scopeMaxTop)
+    console.log(this.scopeMaxBottom)
     return this;
   }
 
@@ -60,43 +60,41 @@ export default class Select {
     this.selected = this.options[index];
   }
 
-  //计算移动距离
+  //计算移动偏移值
   _getMoveDistance(moveEv) {
-
-    // console.log(moveEv.touches[0].pageY);
-    // console.log(this.startEv.touches[0].pageY - moveEv.touches[0].pageY);
-    // return this.startEv.touches[0].pageY - moveEv.touches[0].pageY;
-    return this.curPos - moveEv.touches[0].pageY;
+    return this.startEv.touches[0].pageY - moveEv.touches[0].pageY; //偏移值 = 起点坐标 - 移动坐标
   }
 
-
-
   /**
-   * [boxMove 选项列表跟随拇指滑动，在touchMove的watch中调用，并传入event对象]
    * @param  {[type]} moveEv [touchMove事件的event对象]
    */
   boxMove(moveEv) {
-    let distance = this._getMoveDistance(moveEv);
-    // if (distance > this.scopeMaxTop || distance < this.scopeMaxBottom) return;
-    this.domOptionBox.setAttribute('style', `transform:translateY(${-distance}px)`);
-    this.curPos = distance;
+    let distance = this._getMoveDistance(moveEv); //获取偏移值
+    // if (distance < this.scopeMaxTop || distance > this.scopeMaxBottom) return;
+
+    this.domOptionBox.setAttribute('style', `transform:translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
+    this.retPosY = this.curPosY - distance; //记录临时坐标
   }
 
-  //预设位置
+  /**
+   * [presetPlace 预设列表位置]
+   * @param {[DOM]} dom [option列表的dom容器元素]
+   */
   presetPlace(dom) {
-
     if (this.isTouched) return this;
     let distance = this.index == 0 ?
       this.selectBoxTop + this.optionHeight / 4 :
-      this.selectBoxTop - (this.index * this.optionHeight) + (this.optionHeight / 4 * (this.index))
+      this.selectBoxTop - (this.index * this.optionHeight) + (this.optionHeight / 4 * (this.index));
+
     dom.setAttribute('style', `transform:translateY(${distance}px)`);
     this.domOptionBox = dom;
-    this.curPos = distance;
-    console.log(this.startEv.touches[0]);
+    this.curPosY = distance; //将偏移值赋值给当前坐标
     this.isTouched = true;
     return this;
   }
-
+  moveEnd() {
+    this.curPosY = this.retPosY; //滑动结束，将临时坐标赋值给当前坐标
+  }
   //设置选择框位置
   setRangeTop() {
     console.log(this.optionBox)

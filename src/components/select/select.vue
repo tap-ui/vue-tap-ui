@@ -43,7 +43,7 @@ export default {
       model: this.value,
       startEv: {},
       moveEv: {},
-      selectBoxTop:0,
+      selectBoxTop: 0,
       vis: false,
       oSelect: {},
     }
@@ -65,7 +65,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       //实例化
-      this.oSelect = new Select(this, this.$refs.selectInput,  this.selectBoxTop)
+      this.oSelect = new Select(this, this.$refs.selectInput, this.selectBoxTop)
       //激活watch， 向上传递数据
       this.model = this.oSelect.selected;
     })
@@ -87,29 +87,20 @@ export default {
       this.oSelect.selectBoxTop = ev.target.offsetTop;
 
       this.selectBoxTop = ev.target.offsetTop;
-      // this.startEv = ev;
-      console.log(ev.touches[0]);
       this.$nextTick(() => {
-
         let dom = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
         //预设位置
         this.oSelect.presetPlace(dom).calcScrope();
-
-          // console.log(this.oSelect.curPos);
-          // console.log(this.oSelect.selectBoxTop);
         this.oSelect.selectBoxTop = ev.target.offsetTop;
       })
 
     },
     onTouchMove(ev) {
       ev.preventDefault();
-
-      this.oSelect.boxMove(ev)
+      this.oSelect.boxMove(ev);
     },
     onTouchEnd(ev) {
-      // ev.preventDefault()
-      console.log(ev);
-      this.oSelect.curPos = ev.changedTouches[0].pageY;
+      this.oSelect.moveEnd();
     }
   }
 }
@@ -124,7 +115,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       /* border: 1px solid $color-border; */
-      height: 35px;
+      height: $height-select;
       box-sizing: content-box;
       padding: 0 10px 0 20px;
       overflow: hidden;
