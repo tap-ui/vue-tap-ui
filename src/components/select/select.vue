@@ -10,18 +10,20 @@
       {{model.label}}
     </div>
     <i class="iconfont icon-ICON-"></i>
-    <tap-option
-      ref='optionsBox'
-      :oSelect='oSelect'
-      :startEv='startEv'
-      :moveEv='moveEv'
-      :selectBoxTop='selectBoxTop'
-      :valueChange='valueChange'
-      @input='changeModel'
-      v-if='vis'>
+    <transition name="fade">
+      <tap-option
+        ref='optionsBox'
+        :oSelect='oSelect'
+        :startEv='startEv'
+        :moveEv='moveEv'
+        :selectBoxTop='selectBoxTop'
+        :valueChange='valueChange'
+        @input='changeModel'
+        v-if='vis'>
+            <slot></slot>
+      </tap-option>
+    </transition>
 
-          <slot></slot>
-    </tap-option>
   </div>
 </template>
 
@@ -65,7 +67,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.oSelect = new Select(this, this.$refs.selectInput, this.selectBoxTop); //实例化
-      this.model = this.oSelect.selected;//触发watch， 向上传递数据
+      this.model = this.oSelect.selected; //触发watch， 向上传递数据
     })
   },
   methods: {
@@ -78,7 +80,8 @@ export default {
     onTouchStart(ev) {
       ev.preventDefault();
       this.vis = true;
-      this.selectBoxTop = ev.target.offsetTop;
+      this.selectBoxTop = ev.target.offsetTop
+      // console.log(this.oSelect.index);
       this.$nextTick(() => {
         let domOptionsBox = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
         this.oSelect.onTouchStart(ev, domOptionsBox);
@@ -91,6 +94,15 @@ export default {
     onTouchEnd(ev) {
       ev.preventDefault();
       this.oSelect.onTouchEnd();
+      // this.vis = false;
+      // this.model = this.oSelect.selected;
+      this.oSelect.onTouchEnd().then((time) => {
+        this.model = this.oSelect.selected;
+
+        setTimeout(() => {
+          // this.vis = false;
+        }, time)
+      });
     }
   }
 }
@@ -106,10 +118,16 @@ export default {
       align-items: center;
       /* border: 1px solid $color-border; */
       height: $height-select;
-      box-sizing: content-box;
+      box-sizing: border-box;
       padding: 0 10px 0 20px;
       overflow: hidden;
       box-shadow:2px 2px 5px $color-border;
     }
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .2s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
   }
 </style>

@@ -1,3 +1,7 @@
+import {
+  throttle
+} from '../../common/js/util'
+
 export default class Select {
   constructor(
     context,
@@ -6,20 +10,21 @@ export default class Select {
   ) {
     this.context = context; //vue实例
     this.domSelectInput = selectInput; //选择框dom元素
+    this.selectBoxTop = selectBoxTop;
 
     this.startEv = null;
     this.moveEv = null;
-    this.selectBoxTop = selectBoxTop;
-
-    this.domOptionBox = null;
-    this.options = []; //传参集合
-    this.index = 1;
+    this.domOptionsBox = null; //列表容器dom元素
+    this.values = []; //传参集合
+    this.index = 0;
     this.selected = {};
     this.curPosY = 0; //当前位置
     this.scopeMaxTop = 0;
     this.scopeMaxBottom = 0;
     this.optionHeight = 0;
-    this.getOptionHeight().extractOptions().setSelected(this.index);
+    this.domOptions = [];
+
+    this.getOptionHeight().extractOptionsValue().setSelected();
   }
 
   //获取option的高度
@@ -28,15 +33,15 @@ export default class Select {
     return this;
   }
 
-  //提取参数
-  extractOptions() {
+  //提取传入的的value，label
+  extractOptionsValue() {
     this.context.$slots.default.forEach((vnode) => {
       if (vnode.tag !== 'option') return;
       if (!vnode.data) {
         throw new Error(`<option>of value is required`);
         return;
       }
-      this.options.push({
+      this.values.push({
         label: vnode.children[0].text,
         value: vnode.data.domProps.value
       })
@@ -48,16 +53,14 @@ export default class Select {
   calcScrope() {
     if (this.scopeMaxTop !== 0 && this.scopeMaxBottom !== 0) return;
 
-    this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.options.length - 1)) + this.optionHeight / 4;
+    this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.values.length - 1)) + this.optionHeight / 4;
     this.scopeMaxBottom = this.selectBoxTop + this.optionHeight / 4;
-    console.log(this.scopeMaxTop)
-    console.log(this.scopeMaxBottom)
     return this;
   }
 
   //设置当前的值
-  setSelected(index) {
-    this.selected = this.options[index];
+  setSelected() {
+    this.selected = this.values[this.index];
   }
 
   //计算移动偏移值
@@ -72,48 +75,60 @@ export default class Select {
    */
   onTouchStart(ev, optionsBox) {
     this.startEv = ev;
+    this.domOptionsBox = optionsBox;
     this.selectBoxTop = ev.target.offsetTop;
-    this.presetPlace(optionsBox).calcScrope();
+    this.calcPos(true).calcScrope();
+    this.getDomoptions()
   }
   /**
    * @param  {[type]} moveEv [touchMove事件的event对象]
    */
   onTouchMove(moveEv) {
     let distance = this._getMoveDistance(moveEv); //获取偏移值
-    if (this.curPosY - distance < this.scopeMaxTop || this.curPosY - distance > this.scopeMaxBottom) return;
+    if (this.curPosY - distance < this.scopeMaxTop || this.curPosY - distance > this.scopeMaxBottom) return; //
 
-    this.domOptionBox.setAttribute('style', `transform:translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
+    this.domOptionsBox.setAttribute('style', `transform: translate3d(0, 0, 0) translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
     this.retPosY = this.curPosY - distance; //记录临时坐标
+    this.higtLight();
   }
   onTouchEnd() {
     this.curPosY = this.retPosY; //滑动结束，将临时坐标赋值给当前坐标
-    this.index = this.calaIndex();
-
-    this.setPos();
+    this.index = this.calcIndex();
+    // this.domOptionsBox.setAttribute('style', 'transition:transform .1s');
+    this.calcPos(false);
+    this.setSelected();
+    return Promise.resolve(200);
   }
+
   /**
-   * [presetPlace 预设列表位置]
-   * @param {[DOM]} dom [option列表容器元素的dom,类名为tap-option-optionBox]
+   * [calcPos 计算坐标]
+   * @param  {Boolean} isPreset [是不是预设]
+   * @return {[Select]}           [返回Select当前对象，用于链式调用]
    */
-  presetPlace(dom) {
-    if (this.isTouched) return this;
-    this.domOptionBox = dom;
-    this.setPos()
-    this.isTouched = true;
+  calcPos(isPreset) {
+    // console.log(this.domSelectInput.offsetTop);
+    // console.log('index:' + this.index);
+    let selectInputTop = this.domSelectInput.offsetTop;
+    let distance = this.index == 0 ?
+      selectInputTop :
+      selectInputTop - (this.index * this.optionHeight);
+    this.setPos(distance, isPreset);
     return this;
   }
-  setPos() {
-    console.log(this.index);
-    let distance = this.index == 0 ?
-      this.selectBoxTop + this.optionHeight / 4 :
-      this.selectBoxTop - (this.index * this.optionHeight) + (this.optionHeight / 4 * (this.index));
-
-    this.domOptionBox.setAttribute('style', `transform:translateY(${distance}px)`);
-
+  /**
+   * [setPos description]
+   * @param {[Number]}  distance [description]
+   * @param {Boolean} isPreset [是不是预设]
+   */
+  setPos(distance, isPreset) {
+    // console.log(distance);
+    isPreset ? this.domOptionsBox.setAttribute('style', `transform:translateY(${distance}px)`) :
+      this.domOptionsBox.setAttribute('style', `transition: transform .2s; transform:translateY(${distance}px)`);
     this.curPosY = distance; //将偏移值赋值给当前坐标
   }
-  calaIndex() {
-    //思路是获取每个dom的top值。对比选项卡的top值。绝对值最低的那个就是当前index
+  //根据位置计算当前的index
+  calcIndex() {
+    //思路:获取每个option的top值。与select的位置相减，绝对值越小意味着与select越近
     var ArrayOptionTop = []
     this.context.$slots.default.forEach((item) => {
       if (item.elm.nodeType == 1) {
@@ -128,7 +143,21 @@ export default class Select {
     let min = Math.min.apply(Math, retArr);
     return retArr.indexOf(min);
   }
+  getDomoptions() {
+    this.context.$slots.default.forEach((item) => {
+      if (item.tag == 'option') {
+        this.domOptions.push(item.elm);
+      }
+    });
 
+    console.log(this.domOptions);
+  }
+  higtLight() {
+    this.calcIndex();
+    this.domOptions[this.index].style.color = 'red';
+
+    this.lastIndex = this.calcIndex()
+  }
 
 
 }

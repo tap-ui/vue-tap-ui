@@ -92,13 +92,20 @@ export default {
     }
 
     @descendent optionBox {
-      transition: transform 0.1s;
+      /* transition: transform 0.1s; */
+      /*启动硬件加速*/
+      /* transform: translateZ(0);
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      perspective: 1000; */
       & option {
         display: block;
         height: $height-select;
+        line-height: $height-select;
         text-align: left;
-        padding: 0 10px 0 20px;
+        padding: 0 10px 0 30px;
         box-sizing: border-box;
+
       }
     }
     @descendent comfirm {
