@@ -66,7 +66,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.oSelect = new Select(this, this.$refs.selectInput, this.selectBoxTop); //实例化
+      this.oSelect = new Select(this, this.$refs.selectInput); //实例化
       this.model = this.oSelect.selected; //触发watch， 向上传递数据
     })
   },

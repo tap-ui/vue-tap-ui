@@ -1,17 +1,21 @@
 import {
   throttle
-} from '../../common/js/util'
+} from '../../common/js/util';
+
+import {
+  autoCache
+} from './decorator'
 
 export default class Select {
   constructor(
     context,
-    selectInput,
-    selectBoxTop
+    selectInput
   ) {
     this.context = context; //vue实例
     this.domSelectInput = selectInput; //选择框dom元素
-    this.selectBoxTop = selectBoxTop;
 
+    this.selectBoxTop = 0;
+    // console.log(this.selectBoxTop);
     this.startEv = null;
     this.moveEv = null;
     this.domOptionsBox = null; //列表容器dom元素
@@ -50,9 +54,8 @@ export default class Select {
   }
 
   //计算移动的范围
+  @autoCache //缓存装饰器
   calcScrope() {
-    if (this.scopeMaxTop !== 0 && this.scopeMaxBottom !== 0) return;
-
     this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.values.length - 1)) + this.optionHeight / 4;
     this.scopeMaxBottom = this.selectBoxTop + this.optionHeight / 4;
     return this;
@@ -91,12 +94,14 @@ export default class Select {
     this.retPosY = this.curPosY - distance; //记录临时坐标
     this.higtLight();
   }
+
   onTouchEnd() {
     this.curPosY = this.retPosY; //滑动结束，将临时坐标赋值给当前坐标
     this.index = this.calcIndex();
     // this.domOptionsBox.setAttribute('style', 'transition:transform .1s');
     this.calcPos(false);
     this.setSelected();
+    this.domOptions.length = 0;
     return Promise.resolve(200);
   }
 
@@ -149,13 +154,13 @@ export default class Select {
         this.domOptions.push(item.elm);
       }
     });
-
-    console.log(this.domOptions);
+    // console.log(this.domOptions);
   }
   higtLight() {
-    this.calcIndex();
-    this.domOptions[this.index].style.color = 'red';
-
+    this.index = this.calcIndex();
+    console.log(this.domOptions[this.index].style)
+    this.domOptions[this.index].style.transform = 'scale(1.2)';
+    console.log(this.index);
     this.lastIndex = this.calcIndex()
   }
 
