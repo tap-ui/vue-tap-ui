@@ -3,6 +3,7 @@
     <div class="tap-option-range" ref='selectRange'></div>
 
     <div class="tap-option-optionBox"
+      :class="'tap-option-optionBox--'+align"
       @touchstart='start'
       @touchmove='move'
       @touchend='end'
@@ -10,7 +11,7 @@
       <slot></slot>
     </div>
 
-    <div class="tap-option-comfirm">
+    <div class="tap-option-comfirm" @touchstart='onComfirm'>
       确定
     </div>
   </div>
@@ -26,23 +27,9 @@ export default {
   },
   props: {
     oSelect: {},
-    startEv: {}, //父组件的touchstart的event对象
-    moveEv: {}, //父组件的touchmove的event对象
     selectBoxTop: Number, //父组件的offsetTop
-    vis: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-
-  },
-  watch: {
-    startEv(ev) {
-
-    },
-    moveEv(ev) {
-      // this.oSelect.boxMove(ev);
+    align: {
+      default: 'left'
     }
   },
   created() {
@@ -68,6 +55,11 @@ export default {
     move(ev) {},
     end(ev) {
       ev.preventDefault();
+    },
+    //点击确定按钮的处理
+    onComfirm() {
+      console.log('11');
+      this.$emit('onComfirm')
     }
   }
 }
@@ -91,23 +83,29 @@ export default {
       box-sizing: border-box;
     }
 
+    @descendent align {}
+
     @descendent optionBox {
-      /* transition: transform 0.1s; */
-      /*启动硬件加速*/
-      /* transform: translateZ(0);
-      transform: translate3d(0, 0, 0);
-      backface-visibility: hidden;
-      perspective: 1000; */
       & option {
         display: block;
         height: $height-select;
         line-height: $height-select;
         text-align: left;
-        padding: 0 10px 0 30px;
+        /* padding: 0 10px 0 30px; */
         box-sizing: border-box;
       }
       @modifier highLight {
+        transition: all .3s;
         font-size: 18px;
+      }
+      @modifier left {
+        padding: 0 10px 0 30px;
+      }
+
+      @modifier center {
+        & option {
+          text-align: center;
+        }
       }
     }
     @descendent comfirm {

@@ -1,26 +1,27 @@
 import {
   throttle
 } from '../../common/js/util';
+//
+// import {
+//   autoCache
+// } from './decorator'
 
-import {
-  autoCache
-} from './decorator'
 
 import HighLight from './highLight'
 export default class Select {
   constructor(
-    context,
+    ctx,
     selectInput
   ) {
-    this.context = context; //vue实例
+    this.ctx = ctx; //vue实例
     this.domSelectInput = selectInput; //选择框dom元素
 
     this.selectBoxTop = 0;
-    // console.log(this.selectBoxTop);
-    this.startEv = null;
-    this.moveEv = null;
+    // this.startEv = null;
+    // this.moveEv = null;
     this.domOptionsBox = null; //列表容器dom元素
-    this.values = []; //传参集合
+    this.values = []; //
+    // this.optionNumber = 0; //参数的数量
     this.index = 0;
     this.selected = {};
     this.curPosY = 0; //当前位置
@@ -28,8 +29,8 @@ export default class Select {
     this.scopeMaxBottom = 0;
     this.optionHeight = 0;
     this.domOptions = [];
-
-    this.getOptionHeight().extractOptionsValue().setSelected();
+    this.cache = null;
+    this.getOptionHeight().extractValue().setSelected();
   }
 
   //获取option的高度
@@ -39,8 +40,8 @@ export default class Select {
   }
 
   //提取传入的的value，label
-  extractOptionsValue() {
-    this.context.$slots.default.forEach((vnode) => {
+  extractValue() {
+    this.ctx.$slots.default.forEach((vnode) => {
       if (vnode.tag !== 'option') return;
       if (!vnode.data) {
         throw new Error(`<option>of value is required`);
@@ -51,14 +52,20 @@ export default class Select {
         value: vnode.data.domProps.value
       })
     })
+    // this.emitOptionNumber();
     return this;
   }
-
+  //获取参数数量，并向上传递
+  getOptionNumber() {
+    return this.values.length;
+  }
   //计算移动的范围
-  // @autoCache //缓存装饰器
+  @autoCache //缓存装饰器
   calcScrope() {
     this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.values.length - 1)) + this.optionHeight / 4;
     this.scopeMaxBottom = this.selectBoxTop + this.optionHeight / 4;
+    console.log(this.scopeMaxTop);
+    console.log(this.scopeMaxBottom);
     return this;
   }
 
@@ -82,7 +89,8 @@ export default class Select {
     this.domOptionsBox = optionsBox;
     this.selectBoxTop = ev.target.offsetTop;
     this.calcPos(true).calcScrope();
-    // this.getDomoptions()
+    this.getDomoptions();
+    this.higtLight(true);
   }
   /**
    * @param  {[type]} moveEv [touchMove事件的event对象]
@@ -93,9 +101,7 @@ export default class Select {
 
     this.domOptionsBox.setAttribute('style', `transform: translate3d(0, 0, 0) translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
     this.retPosY = this.curPosY - distance; //记录临时坐标
-    // this.higtLight();
-    // console.log(this.context.$slots.default[0].elm);
-    // console.log(this.context.$slots.default[0].elm.getBoundingClientRect());
+    this.higtLight();
   }
 
   onTouchEnd() {
@@ -105,6 +111,7 @@ export default class Select {
     this.calcPos(false);
     this.setSelected();
     this.domOptions.length = 0;
+    this.oHighLight = null;
     return Promise.resolve(200);
   }
 
@@ -130,8 +137,8 @@ export default class Select {
    */
   setPos(distance, isPreset) {
     // console.log(distance);
-    isPreset ? this.domOptionsBox.setAttribute('style', `transform:translateY(${distance}px)`) :
-      this.domOptionsBox.setAttribute('style', `transition: transform .2s; transform:translateY(${distance}px)`);
+    isPreset ? this.domOptionsBox.setAttribute('style', `will-change: transform; transform:translateY(${distance}px)`) :
+      this.domOptionsBox.setAttribute('style', `will-change: transform; transition: transform .2s; transform:translateY(${distance}px)`);
     this.curPosY = distance; //将偏移值赋值给当前坐标
   }
   //根据位置计算当前的index
@@ -152,25 +159,43 @@ export default class Select {
     return retArr.indexOf(min);
   }
   getDomoptions() {
-    this.context.$slots.default.forEach((item) => {
+    this.ctx.$slots.default.forEach((item) => {
       if (item.tag == 'option') {
         this.domOptions.push(item.elm);
       }
     });
-    // console.log(this.domOptions);
   }
-  higtLight() {
+  higtLight(isStart) {
     this.index = this.calcIndex();
-    if (this.lastIndex == this.index) return;
+
+    if (!isStart && this.lastIndex == this.index) return;
     if (!this.oHighLight) {
       this.oHighLight = new HighLight('tap-option-optionBox--highLight');
     }
-
     this.oHighLight.addClass(this.domOptions[this.index])
-    this.oHighLight.setLastDom(this.domOptions[this.index]);
-    // this.domOptions[this.index].classList.add('tap-option-optionBox--highLight');
-    this.lastIndex = this.calcIndex()
+    this.lastIndex = this.index;
   }
+  getCache() {
+    return this.cache;
+  }
+  setCache(cache) {
+    console.log(cache);
+    this.cache = cache;
+  }
+}
 
-
+function autoCache(target, name, descriptor) {
+  var oldValue = descriptor.value;
+  let cache = target.getCache();
+  console.log(target);
+  console.log(descriptor);
+  descriptor.value = function(...args) {
+    if (cache) {
+      return cache;
+    } else {
+      target.setCache(oldValue.apply(this || {}, args));
+      return target.getCache();
+    }
+  }
+  return descriptor;
 }

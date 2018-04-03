@@ -8,7 +8,6 @@
 function autoCache(target, name, descriptor) {
   var oldValue = descriptor.value;
   let cache = null;
-  console.log(typeof descriptor);
   descriptor.value = function(...args) {
     if (cache) {
       return cache;

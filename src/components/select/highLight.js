@@ -4,11 +4,11 @@ function publish(topic, channel) {
   const channelName = channel || '/';
   const msgChannel = postal.channel(channelName);
   msgChannel.subscribe(topic, callback => {
-    if (typeof v == 'function') {
+    console.log(typeof v);
+    if (typeof callback == 'function') {
       callback();
     }
   });
-
   return function(target, name, descriptor) {
     const fn = descriptor.value;
 
@@ -24,18 +24,19 @@ export default class HighLight {
     this.className = className;
     this.domHighLighted = null;
   }
-  @publish('addClass', 'highLight')
+
   addClass(dom) {
+
     if (dom.nodeType == 1) {
       dom.classList.add(this.className)
     }
     if (this.domHighLighted) {
-      //将
-      return this.remove.bind(this)
-      this.remove()
+      this.remove();
     }
+    this.domHighLighted = dom;
   }
   setLastDom(dom) {
+    console.log(dom);
     this.domHighLighted = dom;
   }
   remove() {
