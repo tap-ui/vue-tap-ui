@@ -93,14 +93,14 @@ export default {
     },
     onTouchEnd(ev) {
       ev.preventDefault();
-      this.oSelect.onTouchEnd();
+      // this.oSelect.onTouchEnd();
       // this.vis = false;
       // this.model = this.oSelect.selected;
       this.oSelect.onTouchEnd().then((time) => {
         this.model = this.oSelect.selected;
 
         setTimeout(() => {
-          // this.vis = false;
+          this.vis = false;
         }, time)
       });
     }

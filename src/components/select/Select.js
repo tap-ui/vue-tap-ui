@@ -6,6 +6,7 @@ import {
   autoCache
 } from './decorator'
 
+import HighLight from './highLight'
 export default class Select {
   constructor(
     context,
@@ -54,7 +55,7 @@ export default class Select {
   }
 
   //计算移动的范围
-  @autoCache //缓存装饰器
+  // @autoCache //缓存装饰器
   calcScrope() {
     this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.values.length - 1)) + this.optionHeight / 4;
     this.scopeMaxBottom = this.selectBoxTop + this.optionHeight / 4;
@@ -81,7 +82,7 @@ export default class Select {
     this.domOptionsBox = optionsBox;
     this.selectBoxTop = ev.target.offsetTop;
     this.calcPos(true).calcScrope();
-    this.getDomoptions()
+    // this.getDomoptions()
   }
   /**
    * @param  {[type]} moveEv [touchMove事件的event对象]
@@ -92,7 +93,9 @@ export default class Select {
 
     this.domOptionsBox.setAttribute('style', `transform: translate3d(0, 0, 0) translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
     this.retPosY = this.curPosY - distance; //记录临时坐标
-    this.higtLight();
+    // this.higtLight();
+    // console.log(this.context.$slots.default[0].elm);
+    // console.log(this.context.$slots.default[0].elm.getBoundingClientRect());
   }
 
   onTouchEnd() {
@@ -134,10 +137,10 @@ export default class Select {
   //根据位置计算当前的index
   calcIndex() {
     //思路:获取每个option的top值。与select的位置相减，绝对值越小意味着与select越近
-    var ArrayOptionTop = []
-    this.context.$slots.default.forEach((item) => {
-      if (item.elm.nodeType == 1) {
-        ArrayOptionTop.push(item.elm.getBoundingClientRect().top)
+    let ArrayOptionTop = [];
+    Array.from(this.domOptionsBox.children).forEach((item) => {
+      if (item.nodeType == 1) {
+        ArrayOptionTop.push(item.getBoundingClientRect().top)
       }
     })
 
@@ -158,9 +161,14 @@ export default class Select {
   }
   higtLight() {
     this.index = this.calcIndex();
-    console.log(this.domOptions[this.index].style)
-    this.domOptions[this.index].style.transform = 'scale(1.2)';
-    console.log(this.index);
+    if (this.lastIndex == this.index) return;
+    if (!this.oHighLight) {
+      this.oHighLight = new HighLight('tap-option-optionBox--highLight');
+    }
+
+    this.oHighLight.addClass(this.domOptions[this.index])
+    this.oHighLight.setLastDom(this.domOptions[this.index]);
+    // this.domOptions[this.index].classList.add('tap-option-optionBox--highLight');
     this.lastIndex = this.calcIndex()
   }
 

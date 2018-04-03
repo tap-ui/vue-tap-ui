@@ -105,7 +105,9 @@ export default {
         text-align: left;
         padding: 0 10px 0 30px;
         box-sizing: border-box;
-
+      }
+      @modifier highLight {
+        font-size: 18px;
       }
     }
     @descendent comfirm {
