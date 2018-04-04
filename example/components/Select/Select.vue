@@ -9,44 +9,24 @@
         <p>label：{{value1.label}}</p>
         <p>value：{{value1.value}}</p>
       </div>
-      <tap-select class="select" v-model='value2'>
-        <option :value='1'>Vue</option>
-        <option :value='2'>React</option>
-        <option :value='3'>Angular</option>
-        <option :value='4'>Webpack</option>
-        <option :value='1'>Vue</option>
-        <option :value='2'>React</option>
-        <option :value='3'>Angular</option>
-        <option :value='4'>Webpack</option>
-        <option :value='1'>Vue</option>
-        <option :value='2'>React</option>
-        <option :value='3'>Angular</option>
-        <option :value='4'>Webpack</option>
-        <option :value='1'>Vue</option>
-        <option :value='2'>React</option>
-        <option :value='3'>Angular</option>
-        <option :value='4'>Webpack</option>
-        <option :value='1'>Vue</option>
-        <option :value='2'>React</option>
-        <option :value='3'>Angular</option>
-        <option :value='4'>Webpack</option>
-        <option :value='1'>Vue</option>
-        <option :value='2'>React</option>
-        <option :value='3'>Angular</option>
-        <option :value='4'>Webpack</option>
-        <option :value='1'>Vue</option>
-        <option :value='2'>React</option>
-        <option :value='3'>Angular</option>
-        <option :value='4'>Webpack</option>
-        <option :value='1'>Vue</option>
-        <option :value='2'>React</option>
-        <option :value='3'>Angular</option>
-        <option :value='4'>Webpack</option>
-      </tap-select>
-      <div>
-        <p>label：{{value2.label}}</p>
-        <p>value：{{value2.value}}</p>
-      </div>
+
+    </section>
+    <section>
+      <h1>长列表停留</h1>
+        <tap-select class="select" v-model='value2'>
+          <option :value='1'>Vue</option>
+          <option :value='2'>React</option>
+          <option :value='3'>Angular</option>
+          <option :value='4'>Webpack</option>
+          <option :value='1'>Parcel</option>
+          <option :value='2'>PWA</option>
+          <option :value='3'>Express</option>
+          <option :value='4'>Koa2</option>
+        </tap-select>
+        <div>
+          <p>label：{{value2.label}}</p>
+          <p>value：{{value2.value}}</p>
+        </div>
     </section>
     <section>
 

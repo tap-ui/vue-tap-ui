@@ -15,9 +15,9 @@
         ref='optionsBox'
         :oSelect='oSelect'
         :selectBoxTop='selectBoxTop'
-        @input='changeModel'
         @onComfirm='onComfirm'
         :align='align'
+        :stayNumber='stayNumber'
         v-if='vis'>
             <slot></slot>
       </tap-option>
@@ -31,7 +31,7 @@ import tapOption from './tap-option.vue'
 import Select from './Select.js';
 import {
   domFind
-} from './util'
+} from '../../common/js/dom'
 
 export default {
   name: 'tap-select',
@@ -42,12 +42,11 @@ export default {
     return {
       // offsetTop : {},
       model: this.value,
-      startEv: {},
-      moveEv: {},
       selectBoxTop: 0,
-      vis: false,
-      oSelect: {},
-      optionNumber: 0
+      vis: false, //控制列表显示的变量
+      oSelect: {}, //实例
+      optionNumber: 0 //传入数据的数量
+
     }
   },
   props: {
@@ -55,7 +54,7 @@ export default {
     value: {
       type: [String, Number, Array, Object]
     },
-    align: {
+    align: { //文字对齐方式
       default: 'left',
       validator(value) {
         return [
@@ -66,18 +65,15 @@ export default {
         }) > -1;
       }
     },
-    stayNumber: {
+    stayNumber: { //option数量阈值，用于鉴别长列表
       default: 8,
       type: Number
     }
   },
   watch: {
     model: function() {
-      this.$emit('input', this.model) //技巧，向上传递数据
+      this.$emit('input', this.model) //利用index事件，向上传递数据
     }
-  },
-  created() {
-
   },
   mounted() {
     this.$nextTick(() => {
@@ -87,9 +83,8 @@ export default {
     })
   },
   methods: {
-    changeModel(value) {
-      this.modle = value;
-    },
+
+    //获取参数的数量，用于鉴别长列表
     setOptionNumber() {
       this.optionNumber = this.oSelect.getOptionNumber();
     },
@@ -98,8 +93,8 @@ export default {
       this.vis = true;
       this.selectBoxTop = ev.target.offsetTop
       this.$nextTick(() => {
-        let domOptionsBox = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
-        this.oSelect.onTouchStart(ev, domOptionsBox);
+        let domOpsBox = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
+        this.oSelect.onTouchStart(ev, domOpsBox);
       })
     },
     onTouchMove(ev) {
@@ -110,9 +105,8 @@ export default {
       ev.preventDefault();
       this.oSelect.onTouchEnd().then((time) => {
         this.model = this.oSelect.selected;
-        if (this.optionNumber <= this.stayNumber) {
+        if (this.optionNumber <= this.stayNumber - 1) { //鉴别长列表
           setTimeout(() => {
-            console.log('执行了？');
             this.vis = false;
           }, time)
         }
@@ -122,10 +116,8 @@ export default {
     onComfirm() {
       console.log(this.vis);
       setTimeout(() => {
-        console.log('执行了？');
         this.vis = false;
       }, 300)
-      console.log(this.vis);
     }
   }
 }

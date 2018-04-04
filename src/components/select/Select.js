@@ -1,12 +1,3 @@
-import {
-  throttle
-} from '../../common/js/util';
-//
-// import {
-//   autoCache
-// } from './decorator'
-
-
 import HighLight from './highLight'
 export default class Select {
   constructor(
@@ -17,19 +8,16 @@ export default class Select {
     this.domSelectInput = selectInput; //选择框dom元素
 
     this.selectBoxTop = 0;
-    // this.startEv = null;
-    // this.moveEv = null;
-    this.domOptionsBox = null; //列表容器dom元素
-    this.values = []; //
-    // this.optionNumber = 0; //参数的数量
-    this.index = 0;
-    this.selected = {};
+    this.domOpsBox = null; //列表容器dom元素
+    this.values = []; //外部传入的value
+    this.index = 0; //当前选中数据的index,相对于values
+    this.selected = {}; //当前选中数据
     this.curPosY = 0; //当前位置
-    this.scopeMaxTop = 0;
-    this.scopeMaxBottom = 0;
+    this.scopeMaxTop = 0; //偏移上限
+    this.scopeMaxBottom = 0; //偏移下限
     this.optionHeight = 0;
-    this.domOptions = [];
-    this.cache = null;
+    this.domOps = []; //option的dom集合
+
     this.getOptionHeight().extractValue().setSelected();
   }
 
@@ -60,12 +48,12 @@ export default class Select {
     return this.values.length;
   }
   //计算移动的范围
-  @autoCache //缓存装饰器
+  // @autoCache //缓存装饰器
   calcScrope() {
+    if (this.iscacled) return;
     this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.values.length - 1)) + this.optionHeight / 4;
     this.scopeMaxBottom = this.selectBoxTop + this.optionHeight / 4;
-    console.log(this.scopeMaxTop);
-    console.log(this.scopeMaxBottom);
+    this.iscacled = true;
     return this;
   }
 
@@ -86,10 +74,10 @@ export default class Select {
    */
   onTouchStart(ev, optionsBox) {
     this.startEv = ev;
-    this.domOptionsBox = optionsBox;
+    this.domOpsBox = optionsBox;
     this.selectBoxTop = ev.target.offsetTop;
     this.calcPos(true).calcScrope();
-    this.getDomoptions();
+    this.getdomOps();
     this.higtLight(true);
   }
   /**
@@ -99,7 +87,7 @@ export default class Select {
     let distance = this._getMoveDistance(moveEv); //获取偏移值
     if (this.curPosY - distance < this.scopeMaxTop || this.curPosY - distance > this.scopeMaxBottom) return; //
 
-    this.domOptionsBox.setAttribute('style', `transform: translate3d(0, 0, 0) translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
+    this.domOpsBox.setAttribute('style', `transform: translate3d(0, 0, 0) translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
     this.retPosY = this.curPosY - distance; //记录临时坐标
     this.higtLight();
   }
@@ -107,10 +95,9 @@ export default class Select {
   onTouchEnd() {
     this.curPosY = this.retPosY; //滑动结束，将临时坐标赋值给当前坐标
     this.index = this.calcIndex();
-    // this.domOptionsBox.setAttribute('style', 'transition:transform .1s');
     this.calcPos(false);
     this.setSelected();
-    this.domOptions.length = 0;
+    this.domOps.length = 0; //清空options dom数组
     this.oHighLight = null;
     return Promise.resolve(200);
   }
@@ -121,8 +108,6 @@ export default class Select {
    * @return {[Select]}           [返回Select当前对象，用于链式调用]
    */
   calcPos(isPreset) {
-    // console.log(this.domSelectInput.offsetTop);
-    // console.log('index:' + this.index);
     let selectInputTop = this.domSelectInput.offsetTop;
     let distance = this.index == 0 ?
       selectInputTop :
@@ -136,16 +121,15 @@ export default class Select {
    * @param {Boolean} isPreset [是不是预设]
    */
   setPos(distance, isPreset) {
-    // console.log(distance);
-    isPreset ? this.domOptionsBox.setAttribute('style', `will-change: transform; transform:translateY(${distance}px)`) :
-      this.domOptionsBox.setAttribute('style', `will-change: transform; transition: transform .2s; transform:translateY(${distance}px)`);
+    isPreset ? this.domOpsBox.setAttribute('style', `will-change: transform; transform:translateY(${distance}px)`) :
+      this.domOpsBox.setAttribute('style', `will-change: transform; transition: transform .2s; transform:translateY(${distance}px)`);
     this.curPosY = distance; //将偏移值赋值给当前坐标
   }
   //根据位置计算当前的index
   calcIndex() {
     //思路:获取每个option的top值。与select的位置相减，绝对值越小意味着与select越近
     let ArrayOptionTop = [];
-    Array.from(this.domOptionsBox.children).forEach((item) => {
+    Array.from(this.domOpsBox.children).forEach((item) => {
       if (item.nodeType == 1) {
         ArrayOptionTop.push(item.getBoundingClientRect().top)
       }
@@ -158,44 +142,25 @@ export default class Select {
     let min = Math.min.apply(Math, retArr);
     return retArr.indexOf(min);
   }
-  getDomoptions() {
+  //拿到每个options的dom元素
+  getdomOps() {
     this.ctx.$slots.default.forEach((item) => {
       if (item.tag == 'option') {
-        this.domOptions.push(item.elm);
+        this.domOps.push(item.elm);
       }
     });
   }
+  //高亮
   higtLight(isStart) {
     this.index = this.calcIndex();
 
-    if (!isStart && this.lastIndex == this.index) return;
+    if (isStart || this.lastIndex == this.index) return;
     if (!this.oHighLight) {
       this.oHighLight = new HighLight('tap-option-optionBox--highLight');
     }
-    this.oHighLight.addClass(this.domOptions[this.index])
+    this.oHighLight.addClass(this.domOps[this.index])
     this.lastIndex = this.index;
-  }
-  getCache() {
-    return this.cache;
-  }
-  setCache(cache) {
-    console.log(cache);
-    this.cache = cache;
-  }
-}
 
-function autoCache(target, name, descriptor) {
-  var oldValue = descriptor.value;
-  let cache = target.getCache();
-  console.log(target);
-  console.log(descriptor);
-  descriptor.value = function(...args) {
-    if (cache) {
-      return cache;
-    } else {
-      target.setCache(oldValue.apply(this || {}, args));
-      return target.getCache();
-    }
+
   }
-  return descriptor;
 }

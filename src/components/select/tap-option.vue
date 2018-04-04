@@ -11,7 +11,7 @@
       <slot></slot>
     </div>
 
-    <div class="tap-option-comfirm" @touchstart='onComfirm'>
+    <div class="tap-option-comfirm" @touchstart='onComfirm' v-if='isBtnVis'>
       确定
     </div>
   </div>
@@ -22,7 +22,8 @@ import Select from './Select.js';
 export default {
   data() {
     return {
-      offsetTop: -1
+      offsetTop: -1,
+      isBtnVis: false
     }
   },
   props: {
@@ -30,15 +31,23 @@ export default {
     selectBoxTop: Number, //父组件的offsetTop
     align: {
       default: 'left'
+    },
+    stayNumber: { //option数量阈值，用于鉴别长列表
+      default: 8,
+      type: Number
     }
-  },
-  created() {
-
   },
   mounted() {
     this.setRangeTop();
+    this.btnVis()
   },
   methods: {
+    btnVis() {
+      this.$nextTick(() => {
+        let optionNumber = this.oSelect.getOptionNumber();
+        this.isBtnVis = optionNumber >= this.stayNumber - 1;
+      })
+    },
     setRangeTop() {
       //这里非常重要， 列表展开后的选择范围，要和父容器的select位置一致。这里根据select的offsetTop决定范围框绝对定位的top值
       this.$nextTick(() => {
@@ -97,6 +106,7 @@ export default {
       @modifier highLight {
         transition: all .3s;
         font-size: 18px;
+        color: red;
       }
       @modifier left {
         padding: 0 10px 0 30px;
