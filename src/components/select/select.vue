@@ -4,12 +4,16 @@
       @touchmove='onTouchMove'
       @touchend='onTouchEnd'
       ref='selectInput'>
-
     <input type="hidden" :name='name' v-model="model">
-    <div :class="'tap-select-align--'+align" v-if='model'>
+    <!-- label显示处 -->
+    <div :class="['tap-select-align--' + align,{
+      'is-disable': disable
+      }]" v-if='model'>
       {{model.label}}
     </div>
+    <!-- icon -->
     <i class="icon iconfont icon-ICON-"></i>
+    <!-- 选项列表组件 -->
     <transition name="fade">
       <tap-option
         ref='optionsBox'
@@ -19,6 +23,7 @@
         :align='align'
         :stayNumber='stayNumber'
         v-if='vis'>
+            <!-- 列表插槽,slot标签将被外部传入的option替换 -->
             <slot></slot>
       </tap-option>
     </transition>
@@ -68,7 +73,8 @@ export default {
     stayNumber: { //option数量阈值，用于鉴别长列表
       default: 8,
       type: Number
-    }
+    },
+    disable: Boolean
   },
   watch: {
     model: function() {
@@ -83,7 +89,6 @@ export default {
     })
   },
   methods: {
-
     //获取参数的数量，用于鉴别长列表
     setOptionNumber() {
       this.optionNumber = this.oSelect.getOptionNumber();
@@ -114,7 +119,6 @@ export default {
     },
     //点击确定按钮的处理
     onComfirm() {
-      console.log(this.vis);
       setTimeout(() => {
         this.vis = false;
       }, 300)
@@ -135,16 +139,17 @@ export default {
       box-sizing: border-box;
       overflow: hidden;
       box-shadow:2px 2px 5px $color-border;
+
+      /*  */
       & .text{
-        /* display: block; */
-        /* text-align: center; */
         margin: 0 auto;
       }
-
+      /* 右边icon */
       & .icon{
         position: absolute;
         right: 20px;
       }
+      /* 对齐方式 */
       @descendent align {
         @modifier left {
           padding: 0 10px 0 20px;
@@ -154,13 +159,19 @@ export default {
           margin: 0 auto;
         }
       }
+      @when disable {
+        background-color: $color-disabled;
+        color: red;
+      }
     }
 
   }
+
+  /* 选项列表显现的过渡动画 */
   .fade-enter-active, .fade-leave-active {
     transition: opacity .2s;
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  .fade-enter, .fade-leave-to{
     opacity: 0;
   }
 </style>

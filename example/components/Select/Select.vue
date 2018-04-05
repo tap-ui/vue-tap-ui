@@ -1,11 +1,12 @@
 <template lang="html">
   <div class="">
+    <p class="intro">ps：由于使用移动端触摸事件，在pc端浏览器,请使用手机模拟器查看效果</p>
     <section>
       <h1>值</h1>
       <tap-select class="select" v-model='value1'>
         <option v-for='item in options' :value="item.value">{{item.label}}</option>
       </tap-select>
-      <div>
+      <div class="show">
         <p>label：{{value1.label}}</p>
         <p>value：{{value1.value}}</p>
       </div>
@@ -13,6 +14,8 @@
     </section>
     <section>
       <h1>长列表停留</h1>
+      <p class="intro">stayNumber: default 8</p>
+      <p class="intro">默认选项超过8个，touchend时不会自动隐藏选项列表，需要点击下方确认按钮</p>
         <tap-select class="select" v-model='value2'>
           <option :value='1'>Vue</option>
           <option :value='2'>React</option>
@@ -24,14 +27,26 @@
           <option :value='4'>Koa2</option>
         </tap-select>
         <div>
-          <p>label：{{value2.label}}</p>
-          <p>value：{{value2.value}}</p>
+          <div class="show">
+            <p>label：{{value2.label}}</p>
+            <p>value：{{value2.value}}</p>
+          </div>
         </div>
     </section>
     <section>
-
-      <h1>居中 align：center</h1>
+      <h1>居中</h1>
+      <p class="intro"> align：default left / center </p>
       <tap-select class="select" align='center'>
+        <option :value='1'>花都</option>
+        <option :value='2'>天河</option>
+        <option :value='3'>越秀</option>
+        <option :value='4'>从化</option>
+        <option :value='5'>黄埔</option>
+      </tap-select>
+    </section>
+    <section>
+      <h1>禁用</h1>
+      <tap-select>
         <option :value='1'>花都</option>
         <option :value='2'>天河</option>
         <option :value='3'>越秀</option>
@@ -75,12 +90,9 @@ export default {
 
 <style lang="css" scoped>
 section{
-
-  border-bottom: 1px solid #eee;
   margin-bottom: 20px;
   padding: 5px;
   h1{
-    /*border-bottom: 1px solid #eee;*/
     text-align: left;
     font-weight: bold;
     text-indent: 10px;
@@ -89,6 +101,14 @@ section{
   button{
     margin:5px;
   }
+  .show{
+      margin: 10px 0;
+  }
 }
-
+.intro{
+  padding: 5px;
+  margin-bottom: 20px;
+  text-align: left;
+  line-height: 20px
+}
 </style>

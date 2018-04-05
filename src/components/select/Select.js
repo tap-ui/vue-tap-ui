@@ -1,11 +1,11 @@
 import HighLight from './highLight'
 export default class Select {
   constructor(
-    ctx,
-    selectInput
+    ctx, //context上下文环境，也就是vue实例
+    domSelectInput //input的dom元素
   ) {
     this.ctx = ctx; //vue实例
-    this.domSelectInput = selectInput; //选择框dom元素
+    this.domSelectInput = domSelectInput; //选择框dom元素
 
     this.selectBoxTop = 0;
     this.domOpsBox = null; //列表容器dom元素
@@ -116,8 +116,8 @@ export default class Select {
     return this;
   }
   /**
-   * [setPos description]
-   * @param {[Number]}  distance [description]
+   * [setPos 设置坐标]
+   * @param {[Number]}  distance [设置坐标]
    * @param {Boolean} isPreset [是不是预设]
    */
   setPos(distance, isPreset) {
@@ -153,14 +153,11 @@ export default class Select {
   //高亮
   higtLight(isStart) {
     this.index = this.calcIndex();
-
-    if (isStart || this.lastIndex == this.index) return;
+    if (!isStart && this.lastIndex == this.index) return;
     if (!this.oHighLight) {
       this.oHighLight = new HighLight('tap-option-optionBox--highLight');
     }
     this.oHighLight.addClass(this.domOps[this.index])
     this.lastIndex = this.index;
-
-
   }
 }

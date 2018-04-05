@@ -1,7 +1,7 @@
 export default class HighLight {
   constructor(className) {
     this.className = className; //类名
-    this.domHighLighted = null; //记录上一个dom
+    this.domHighLighted = null; //上一个记录的dom
   }
   addClass(dom) {
     if (dom.nodeType == 1) {
@@ -10,9 +10,9 @@ export default class HighLight {
       }, 0)
     }
     if (this.domHighLighted) {
-      this.remove();
+      this.remove(); //removeClass上一个dom
     }
-    this.domHighLighted = dom;
+    this.domHighLighted = dom; //记录当前dom
   }
   remove() {
     if (this.domHighLighted) {
