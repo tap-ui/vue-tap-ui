@@ -6,7 +6,6 @@ export default class Select {
   ) {
     this.ctx = ctx; //vue实例
     this.domSelectInput = domSelectInput; //选择框dom元素
-
     this.selectBoxTop = 0;
     this.domOpsBox = null; //列表容器dom元素
     this.values = []; //外部传入的value
@@ -48,12 +47,11 @@ export default class Select {
     return this.values.length;
   }
   //计算移动的范围
-  // @autoCache //缓存装饰器
   calcScrope() {
-    if (this.iscacled) return;
+    if (this.oldSelectBoxTop == this.selectBoxTop) return; //如果页面没有滚动，不需要再次计算范围
     this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.values.length - 1)) + this.optionHeight / 4;
     this.scopeMaxBottom = this.selectBoxTop + this.optionHeight / 4;
-    this.iscacled = true;
+    this.oldSelectBoxTop = this.selectBoxTop;
     return this;
   }
 
@@ -75,10 +73,11 @@ export default class Select {
   onTouchStart(ev, optionsBox) {
     this.startEv = ev;
     this.domOpsBox = optionsBox;
-    this.selectBoxTop = ev.target.offsetTop;
+    this.selectBoxTop = this.domSelectInput.getBoundingClientRect().top; //selectBoxTop需要动态获取，防止滚动条移动后top不准确
     this.calcPos(true).calcScrope();
     this.getdomOps();
     this.higtLight(true);
+    return Promise.resolve();
   }
   /**
    * @param  {[type]} moveEv [touchMove事件的event对象]
@@ -108,7 +107,7 @@ export default class Select {
    * @return {[Select]}           [返回Select当前对象，用于链式调用]
    */
   calcPos(isPreset) {
-    let selectInputTop = this.domSelectInput.offsetTop;
+    let selectInputTop = this.domSelectInput.getBoundingClientRect().top;
     let distance = this.index == 0 ?
       selectInputTop :
       selectInputTop - (this.index * this.optionHeight);
@@ -153,7 +152,7 @@ export default class Select {
   //高亮
   higtLight(isStart) {
     this.index = this.calcIndex();
-    if (!isStart && this.lastIndex == this.index) return;
+    if (!isStart && this.lastIndex == this.index) return; //如果index没有改变，不需要改变class
     if (!this.oHighLight) {
       this.oHighLight = new HighLight('tap-option-optionBox--highLight');
     }

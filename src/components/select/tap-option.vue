@@ -1,5 +1,8 @@
 <template lang="html">
   <div class="tap-option">
+    <div class="tap-option-title" v-if='title'>
+      {{title}}
+    </div>
     <!-- 选择范围 -->
     <div class="tap-option-range" ref='selectRange'></div>
     <!-- 选项列表容器 -->
@@ -21,13 +24,14 @@ import Select from './Select.js';
 export default {
   data() {
     return {
-      offsetTop: -1,
+      viewportTop: -1,
       isBtnVis: false
     }
   },
   props: {
+    title: String,
     oSelect: {},
-    selectBoxTop: Number, //父组件的offsetTop
+    selectBoxTop: Number, //父组件的相对于viewport的位置
     align: {
       default: 'left'
     },
@@ -48,12 +52,11 @@ export default {
       })
     },
     setRangeTop() {
-      //这里非常重要， 列表展开后的选择范围，要和父容器的select位置一致。这里根据select的offsetTop决定范围框绝对定位的top值
       this.$nextTick(() => {
-        this.offsetTop == -1 ?
+        this.viewportTop == -1 ?
           this.$refs.selectRange.style.top = this.selectBoxTop + 'px' :
-          this.$refs.selectRange.style.top = this.offsetTop + 'px';
-        this.offsetTop = this.oSelect.selectBoxTop;
+          this.$refs.selectRange.style.top = this.viewportTop + 'px';
+        this.viewportTop = this.oSelect.selectBoxTop;
       })
     },
     //点击确定按钮的处理
@@ -69,10 +72,23 @@ export default {
 
 @component-namespace tap {
   @component option {
-    position: absolute 0 0 0 0;
+    position: fixed 0 0 0 0;
     background-color: $color-white;
     z-index: 99999;
-    border: 1px solid red;
+    @descendent title {
+      display: flex;
+      position: fixed 0 0 * *;
+      width: 100%;
+      z-index: 100;
+      justify-content: center;
+      background: #eee;
+      box-shadow: 0 15px 10px -12px rgba(0, 0, 0, .22), 0 -15px 10px -10px rgba(0, 0, 0, .22);
+      border-bottom: 1px solid rgba(0, 0, 0, .12);
+      height: 40px;
+      line-height: 40px;
+      color: $color-title;
+    }
+
     @descendent range {
       border-top: 1px solid $color-divider;
       border-bottom: 1px solid $color-divider;

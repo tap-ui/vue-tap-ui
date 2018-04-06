@@ -1,22 +1,26 @@
 <template lang="html">
   <div class="tap-select"
+      :class="{'is-disable': disable}"
       @touchstart='onTouchStart'
       @touchmove='onTouchMove'
       @touchend='onTouchEnd'
-      ref='selectInput'>
+      ref='selectInput'
+
+      >
     <input type="hidden" :name='name' v-model="model">
     <!-- label显示处 -->
-    <div :class="['tap-select-align--' + align,{
-      'is-disable': disable
-      }]" v-if='model'>
+    <div :class="['tap-select-align--' + align]" v-if='model'>
       {{model.label}}
     </div>
     <!-- icon -->
-    <i class="icon iconfont icon-ICON-"></i>
+    <i class="icon iconfont icon-jinyong" v-if='disable'></i>
+    <i class="icon iconfont icon-ICON-" v-else></i>
+
     <!-- 选项列表组件 -->
     <transition name="fade">
       <tap-option
         ref='optionsBox'
+        :title="title"
         :oSelect='oSelect'
         :selectBoxTop='selectBoxTop'
         @onComfirm='onComfirm'
@@ -45,17 +49,17 @@ export default {
   },
   data() {
     return {
-      // offsetTop : {},
       model: this.value,
       selectBoxTop: 0,
       vis: false, //控制列表显示的变量
       oSelect: {}, //实例
-      optionNumber: 0 //传入数据的数量
-
+      optionNumber: 0, //传入数据的数量
+      isEnded: true
     }
   },
   props: {
     name: String,
+    title: String,
     value: {
       type: [String, Number, Array, Object]
     },
@@ -95,27 +99,39 @@ export default {
     },
     onTouchStart(ev) {
       ev.preventDefault();
+      if (this.disable) return; //禁用模式
+      if (!this.isEnded) return; //如果上一次点击还没有结束
+      this.isEnded = false
       this.vis = true;
-      this.selectBoxTop = ev.target.offsetTop
+      this.selectBoxTop = this.$refs.selectInput.getBoundingClientRect().top;
       this.$nextTick(() => {
         let domOpsBox = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
-        this.oSelect.onTouchStart(ev, domOpsBox);
+        this.oSelect.onTouchStart(ev, domOpsBox)
+          .then(() => {
+
+          });
       })
     },
     onTouchMove(ev) {
       ev.preventDefault();
+      if (this.disable) return; //禁用模式
       this.oSelect.onTouchMove(ev);
     },
     onTouchEnd(ev) {
       ev.preventDefault();
-      this.oSelect.onTouchEnd().then((time) => {
-        this.model = this.oSelect.selected;
-        if (this.optionNumber <= this.stayNumber - 1) { //鉴别长列表
-          setTimeout(() => {
-            this.vis = false;
-          }, time)
-        }
-      });
+      if (this.disable) return; //禁用模式
+      this.isEnded = true;
+      this.oSelect.onTouchEnd()
+        .then((time) => {
+          this.model = this.oSelect.selected;
+
+          if (this.optionNumber <= this.stayNumber - 1) { //鉴别长列表
+            setTimeout(() => {
+              this.vis = false;
+
+            }, time)
+          }
+        });
     },
     //点击确定按钮的处理
     onComfirm() {
@@ -161,7 +177,8 @@ export default {
       }
       @when disable {
         background-color: $color-disabled;
-        color: red;
+        opacity: 0.4;
+        cursor: not-allowed;
       }
     }
 
