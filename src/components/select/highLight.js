@@ -14,8 +14,12 @@ export default class HighLight {
     }
     this.domHighLighted = dom; //记录当前dom
   }
-  remove() {
-    if (this.domHighLighted) {
+  remove(dom) {
+    if (dom) {
+      if (dom.nodeType == 1) {
+        dom.classList.remove(this.className)
+      }
+    } else if (this.domHighLighted) {
       this.domHighLighted.classList.remove(this.className);
     }
   }

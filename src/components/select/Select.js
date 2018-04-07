@@ -84,11 +84,11 @@ export default class Select {
    */
   onTouchMove(moveEv) {
     let distance = this._getMoveDistance(moveEv); //获取偏移值
-    if (this.curPosY - distance < this.scopeMaxTop || this.curPosY - distance > this.scopeMaxBottom) return; //
-
-    this.domOpsBox.setAttribute('style', `transform: translate3d(0, 0, 0) translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
+    if (this.curPosY - distance < this.scopeMaxTop || this.curPosY - distance > this.scopeMaxBottom) return; //限制偏移范围
+    this.domOpsBox.setAttribute('style', `will-change: transform;transform: translateZ(0) translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
     this.retPosY = this.curPosY - distance; //记录临时坐标
-    this.higtLight();
+
+    this.higtLight(); //计算高亮
   }
 
   onTouchEnd() {
@@ -121,7 +121,7 @@ export default class Select {
    */
   setPos(distance, isPreset) {
     isPreset ? this.domOpsBox.setAttribute('style', `will-change: transform; transform:translateY(${distance}px)`) :
-      this.domOpsBox.setAttribute('style', `will-change: transform; transition: transform .2s; transform:translateY(${distance}px)`);
+      this.domOpsBox.setAttribute('style', `will-change: transform; transition: transform .2s; transform: translateY(${distance}px)`);
     this.curPosY = distance; //将偏移值赋值给当前坐标
   }
   //根据位置计算当前的index

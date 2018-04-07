@@ -5,7 +5,6 @@
       @touchmove='onTouchMove'
       @touchend='onTouchEnd'
       ref='selectInput'
-
       >
     <input type="hidden" :name='name' v-model="model">
     <!-- label显示处 -->
@@ -60,7 +59,7 @@ export default {
   props: {
     name: String,
     title: String,
-    value: {
+    value: { //虽然v-model会自动创建
       type: [String, Number, Array, Object]
     },
     align: { //文字对齐方式
@@ -106,10 +105,7 @@ export default {
       this.selectBoxTop = this.$refs.selectInput.getBoundingClientRect().top;
       this.$nextTick(() => {
         let domOpsBox = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
-        this.oSelect.onTouchStart(ev, domOpsBox)
-          .then(() => {
-
-          });
+        this.oSelect.onTouchStart(ev, domOpsBox);
       })
     },
     onTouchMove(ev) {

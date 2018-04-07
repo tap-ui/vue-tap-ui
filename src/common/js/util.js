@@ -1,3 +1,11 @@
+let decoratorify = function(fn, ...rest) {
+  return function(target, name, descriptor) {
+    var oldValue = descriptor.value;
+    descriptor.value = fn.call(fn, oldValue, ...rest);
+    return descriptor;
+  }
+}
+
 /**
  * [description]
  * @param  {Function} fn       [需要被延迟执行的函数]
@@ -20,14 +28,47 @@ const throttle = function(fn, interval = 500) {
     if (timer) { //如果定时器还在，说明前一次延迟执行还没有完成
       return false;
     }
-
-    timer = setTimeout(() => {
+    var that = this
+    timer = setTimeout(function() {
       clearTimeout(timer);
       timer = null;
-      _self.apply(this, args);
+      _self.apply(that, args);
     }, interval)
   }
 }
+
+// /**
+//  * [description]
+//  * @param  {Function} fn       [需要被延迟执行的函数]
+//  * @param  {[Number]} interval [时间间隔]
+//  * @return {[Function]}        [被绑定延迟执行的函数]
+//  */
+// const throttle = function(fn, interval = 500) {
+//   let _self = fn, //保存需要被延迟执行的函数引用
+//     timer, // 定时器
+//     firstTime = true;
+//
+//   return function(target, name, descriptor) {
+//     var oldValue = descriptor.value;
+//     console.log(descriptor);
+//     descriptor.value = function() {
+//       var args = arguments;
+//       if (firstTime) { //如果是第一次调用，不需要延迟执行
+//         _self.apply(this, args);
+//         return firstTime = false;
+//       }
+//       if (timer) { //如果定时器还在，说明前一次延迟执行还没有完成
+//         return false;
+//       }
+//       timer = setTimeout(() => {
+//         clearTimeout(timer);
+//         timer = null;
+//         _self.apply(this, args);
+//       }, interval)
+//     }
+//   }
+// }
+
 
 /**
  * [兼容的事件绑定函数， 懒加载]
@@ -50,6 +91,7 @@ let addEvent = function(el, type, fn, capture = false) {
 }
 
 export {
+  decoratorify,
   throttle,
   addEvent
 }

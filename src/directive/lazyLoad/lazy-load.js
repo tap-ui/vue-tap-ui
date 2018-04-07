@@ -8,7 +8,7 @@ export default {
 
     Vue.directive('lazy', { //我们命名指令为 v-lazy
       bind: lazy.add.bind(lazy),
-      componentUpdated: lazy._lazyloadHandler.bind(lazy)
+      componentUpdated: lazy.lazyloadHandler.bind(lazy)
     })
   }
 }
