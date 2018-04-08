@@ -23,11 +23,8 @@ export default class ReactiveListener {
       loaded: false, //加载中
       rendered: false //已渲染
     }
-
     this.checkBindTypeBackground(); //检查是否为背景图片
   }
-
-
   // [获取目标dom 相对于视图的位置]
   _getRect() {
     this.rect = this.el.getBoundingClientRect();
@@ -101,6 +98,7 @@ export default class ReactiveListener {
 
   //设置背景图片
   setBackground(oImg) {
+    if (!this.el) return;
     this.el.setAttribute('style', `background-image:url(${oImg.src})`)
     this.state.rendered = true;
     return Promise.resolve()
@@ -108,6 +106,7 @@ export default class ReactiveListener {
 
   //设置图片加载时的占位图
   setPlaceholder() {
+    if (!this.el) return;
     this.isBGType ?
       this.el.setAttribute('style', `background-image:url(${this.loading})`) :
       this.el.src = this.loading;
@@ -116,7 +115,7 @@ export default class ReactiveListener {
   //加载错误时的图片占位图
   errorPlaceholder() {
     console.log('最终失败');
-    console.log(this.error);
+    if (!this.el) return;
     this.isBGType ?
       this.el.setAttribute('style', `background-image:url(${this.error})`) :
       this.el.src = this.error;
