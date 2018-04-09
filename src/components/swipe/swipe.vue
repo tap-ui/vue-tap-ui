@@ -19,7 +19,24 @@
   </div>
 </template>
 
+
 <script>
+/**
+  * tap-swipe
+  * @module components/swipe
+  * @desc 轮播图
+  * @param {Number} [autoplay] - 自动播放的时间, 0 为不自动播放
+  * @param {Number} [initialSwipe] - 初始的轮播页码
+  * @param {Boolean} [showIndicators] - 是否显示指标
+  * @param {duration} [Number] - 动画持续时间
+  *
+  * @example
+  *  <tap-swipe :autoplay="3000" >
+  *    <tap-swipe-item class="slide1">1</tap-swipe-item>
+  *    <tap-swipe-item class="slide2">2</tap-swipe-item>
+  *    <tap-swipe-item class="slide3">3</tap-swipe-item>
+  * </tap-swipe>
+*/
 export default {
   name: 'tap-swipe',
 
@@ -107,7 +124,6 @@ export default {
 
     onTouchMove(event) {
       this.diff = event.touches[0].clientX - this.startX;
-
       this.move(0, this.diff);
     },
 
