@@ -1,10 +1,31 @@
 <template lang="html">
   <div >
-    <tap-swipe :autoplay="3000">
-      <tap-swipe-item class="slide1">1</tap-swipe-item>
-      <tap-swipe-item class="slide2">2</tap-swipe-item>
-      <tap-swipe-item class="slide3">3</tap-swipe-item>
-    </tap-swipe>
+    <section>
+      <h2>自动播放</h2>
+      <tap-swipe :autoplay="3000" >
+        <tap-swipe-item class="slide1">1</tap-swipe-item>
+        <tap-swipe-item class="slide2">2</tap-swipe-item>
+        <tap-swipe-item class="slide3">3</tap-swipe-item>
+      </tap-swipe>
+    </section>
+
+    <section>
+      <h2>自动播放不带指标</h2>
+      <tap-swipe :autoplay="3000" :showIndicators="false">
+        <tap-swipe-item class="slide1">1</tap-swipe-item>
+        <tap-swipe-item class="slide2">2</tap-swipe-item>
+        <tap-swipe-item class="slide3">3</tap-swipe-item>
+      </tap-swipe>
+    </section>
+
+    <section>
+      <h2>不自动播放</h2>
+      <tap-swipe :autoplay="0" >
+        <tap-swipe-item class="slide1">1</tap-swipe-item>
+        <tap-swipe-item class="slide2">2</tap-swipe-item>
+        <tap-swipe-item class="slide3">3</tap-swipe-item>
+      </tap-swipe>
+    </section>
   </div>
 </template>
 
