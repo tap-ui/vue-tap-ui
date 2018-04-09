@@ -1,0 +1,46 @@
+<style media="screen">
+@component-namespace tap {
+  @component swipe {
+    overflow: hidden;
+    position: relative;
+    /* height: 100%; */
+
+    @descendent items-wrap {
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+
+      > div {
+        position: absolute;
+        transform: translateX(-100%);
+        size: 100% 100%;
+        display :none;
+
+        @when active {
+          display: block;
+          transform: none;
+        }
+      }
+    }
+
+    @descendent indicators {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @descendent indicator {
+      size: 8px 8px;
+      display: inline-block;
+      border-radius: 100%;
+      opacity: 0.2;
+      margin: 0 3px;
+
+      @when active {
+        background: #fff;
+      }
+    }
+  }
+}
+</style>

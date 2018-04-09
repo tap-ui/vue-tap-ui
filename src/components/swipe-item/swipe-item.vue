@@ -1,5 +1,5 @@
 <template >
-  <div class="tap-swipe-item" :style="style">
+  <div class="tap-swipe-item" >
     <slot />
   </div>
 </template>
@@ -14,12 +14,12 @@ export default {
   },
 
   computed: {
-    style() {
-      return {
-        width: this.$parent.width + 'px',
-        // transform: `translate(${this.offset}px, 0)`
-      };
-    }
+    // style() {
+    //   return {
+    //     width: this.$parent.width + 'px',
+    //     // transform: `translate(${this.offset}px, 0)`
+    //   };
+    // }
   },
 
   beforeCreate() {
@@ -34,6 +34,7 @@ export default {
 
 <style lang="css">
 .tap-swipe-item {
+    width: 100%;
     float: left;
     height: 100%;
   }
