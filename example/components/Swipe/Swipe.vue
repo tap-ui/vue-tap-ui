@@ -19,8 +19,8 @@
     </section>
 
     <section>
-      <h2>不自动播放</h2>
-      <tap-swipe :autoplay="0" >
+      <h2>不自动播放 并且初始页面为第二张</h2>
+      <tap-swipe :autoplay="0" :initialSwipe="2">
         <tap-swipe-item class="slide1">1</tap-swipe-item>
         <tap-swipe-item class="slide2">2</tap-swipe-item>
         <tap-swipe-item class="slide3">3</tap-swipe-item>
@@ -32,10 +32,15 @@
 <script>
 
 export default {
+  methods: {
+    handleTransitionend(index) {
+      console.log(index);
+    }
+  }
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 @component-namespace page {
   @component swipe {
     text-align: center;

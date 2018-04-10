@@ -20,14 +20,6 @@ export default {
     //     // transform: `translate(${this.offset}px, 0)`
     //   };
     // }
-  },
-
-  beforeCreate() {
-    this.$parent.swipes.push(this);
-  },
-
-  destroyed() {
-    this.$parent.swipes.splice(this.$parent.swipes.indexOf(this), 1);
   }
 }
 </script>
