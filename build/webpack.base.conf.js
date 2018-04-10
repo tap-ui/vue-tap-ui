@@ -13,15 +13,15 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-//	app:'./src/main.js'
-    app: './example/main.js'
+    app: './example/main.js',
+
   },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    // publicPath: process.env.NODE_ENV === 'production'
+    //   ? config.build.assetsPublicPath
+    //   : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -37,10 +37,6 @@ module.exports = {
         loader: 'vue-loader',
         options: vueLoaderConfig
       },
-      // {
-      //   test:   /\.css$/,
-      //   loader: "style-loader!css-loader!postcss-loader"
-      // },
       {
         test: /\.js$/,
         loader: 'babel-loader',
