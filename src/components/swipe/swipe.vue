@@ -59,13 +59,21 @@ export default {
       default: 500,
     }
   },
-
+  /**
+  * width  swipe的 宽度
+  * startX 手指按下起始的点
+  * diff 手指每次移动的距离
+  * offset 整个swipe的偏移量
+  * index 当前页码下标
+  * currentDuration 当前动画播放时间
+   */
   data() {
     return {
       width: 0,
       offset: 0,
       startX: 0,
       deltaX: 0,
+      diff: 0,
       swipes: [],
       index: 1,
       currentDuration: 0,
@@ -95,8 +103,12 @@ export default {
   },
 
   methods: {
-    // 复制dom对象 在开头 和结尾
+    // 无限滚动需要在开头和结尾复制一个DOM对象
     initialize() {
+
+      this.swipes = this.$children;
+
+
       const cloneDom1 = this.swipes[0].$el.cloneNode(true); //复制node节点
       const cloneDom2 = this.swipes[this.swipes.length - 1].$el.cloneNode(true);
 
@@ -105,10 +117,12 @@ export default {
 
       this.width = this.$el.getBoundingClientRect().width; //获取宽度
 
+
       // 给子元素设置宽度
       document.querySelectorAll('.tap-swipe-item').forEach((item) => {
           item.style.width = this.width + 'px';
-      })
+      });
+
       this.index = this.initialSwipe; //初始化
       this.offset = this.width * - this.index;
       this.currentDuration = 0;
@@ -164,8 +178,8 @@ export default {
     },
     autoPlay() {
 
-      const { autoplay, loop } = this; //获取自动播放的时间
-      if (autoplay && this.count > 1 && loop) {
+      const { autoplay } = this; //获取自动播放的时间
+      if (autoplay && this.count > 1) {
         clearTimeout(this.timer);
 
         this.timer = setTimeout(() => {
@@ -183,6 +197,7 @@ export default {
     },
 
     handleTrnslate(e) {
+      // this.$emit('transitionend', this.index);
     }
   }
 }
