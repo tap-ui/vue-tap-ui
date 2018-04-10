@@ -6,6 +6,10 @@ import Header from '../components/Header/header';
 import LazyLoad from "../components/LazyLoad/LazyLoad";
 import Select from '../components/Select/Select';
 
+import Swipe from '../components/Swipe/Swipe';
+// import Header from '../components/Header/header';
+// import LazyLoad from "../components/LazyLoad/LazyLoad.vue";
+let LazyLoad = ()=> import('../components/LazyLoad/LazyLoad');
 let config = {
   container: {
     path: '/',
@@ -26,6 +30,11 @@ let config = {
     path: '/header',
     name: 'Header',
     component: Header
+  },
+  Swipe: {
+    path: '/swipe',
+    name: 'Swipe',
+    component: Swipe
   },
   LazyLoad: {
     path: '/lazyLoad',

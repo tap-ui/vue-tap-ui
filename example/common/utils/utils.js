@@ -5,7 +5,8 @@ const changeName = {
   'Toast': '吐丝',
   'Header': '导航',
   'LazyLoad': '图片懒加载',
-  'Select': '选择器'
+  'Select': '选择器',
+  'Swipe': '轮播图',
 }
 
 export function valueToName(value) {

@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -7,10 +5,31 @@ const webpackBaseConfig = require('./webpack.base.conf.js');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 process.env.NODE_ENV = 'production';
 
-module.exports = merge(webpackBaseConfig, {
+const cssLoader = ExtractTextPlugin.extract({
+	use: 'css-loader',
+	fallback: 'vue-style-loader'
+})
+
+const webpackConfig = merge(webpackBaseConfig, {
+	plugins: [
+		new ExtractTextPlugin({
+			allChunks: true,
+			filename: 'style.css'
+		}),
+		new OptimizeCssAssetsPlugin({
+			canPrint: false
+		}),
+	]
+});
+
+
+
+
+module.exports = merge(webpackConfig, {
 //  entry: {
 //      main: './src/index.js'
 //  },
@@ -22,7 +41,7 @@ module.exports = merge(webpackBaseConfig, {
         library: 'tap-ui',
         libraryTarget: 'umd',
         umdNamedDefine: true,
-        chunkFilename: '[id].[chunkhash].js'  
+        chunkFilename: '[id].[chunkhash].js'
     },
     externals: {
         vue: {
@@ -53,4 +72,3 @@ module.exports = merge(webpackBaseConfig, {
         new CleanWebpackPlugin('[lib]')
     ]
 });
->>>>>>> 872cf5ce31f75fc02ef790c3351bc7dd6b02088f

@@ -39,8 +39,9 @@ export default {
 }
 </script>
 
-<style>
-  @import '../../common/style/variable.css';
+<style lang="css">
+  @import "../../common/style/variable.css";
+
   @component-namespace tap {
     @component header {
       display: flex;

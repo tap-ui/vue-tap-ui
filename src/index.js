@@ -4,8 +4,10 @@ import Toast from './components/toast';
 import Header from './components/header';
 import Select from './components/select'
 
-import LazyLoad from './directive/lazyLoad'
-
+import Swipe from './components/swipe';
+import SwipeItem from './components/swipe-item';
+import LazyLoad from './directive/lazyLoad';
+// let LazyLoad  = () => import('./directive/lazyLoad')
 
 const install = function(Vue, options = {}) {
   let {
@@ -17,6 +19,8 @@ const install = function(Vue, options = {}) {
   Vue.component(Header.name, Header);
   Vue.component(Select.name, Select);
   Vue.use(LazyLoad, lazy ? lazy : {});
+  Vue.component(Swipe.name, Swipe);
+  Vue.component(SwipeItem.name, SwipeItem);
 }
 
 // // auto install
