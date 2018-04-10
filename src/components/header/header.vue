@@ -54,7 +54,7 @@ export default {
       align-items: center;
       text-align: center;
       white-space: nowrap;
-      box-shadow:0 15px 10px -12px rgba(0,0,0,.22),0 -15px 10px -10px rgba(0,0,0,.22);
+      box-shadow:0 15px 10px -12px rgba(0,0,0,.22);
 
       .tap-button {
         display: inline-block;

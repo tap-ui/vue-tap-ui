@@ -3,6 +3,9 @@ import Button from '../components/Button/button';
 import Badge from '../components/Badge/badge';
 import Toast from '../components/Toast/toast';
 import Header from '../components/Header/header';
+import LazyLoad from "../components/LazyLoad/LazyLoad";
+import Select from '../components/Select/Select';
+
 import Swipe from '../components/Swipe/Swipe';
 // import Header from '../components/Header/header';
 // import LazyLoad from "../components/LazyLoad/LazyLoad.vue";
@@ -13,8 +16,8 @@ let config = {
     name: 'Container',
     component: Container
   },
-  button:{
-    path:'/button',
+  button: {
+    path: '/button',
     name: 'Button',
     component: Button
   },
@@ -37,12 +40,17 @@ let config = {
     path: '/lazyLoad',
     name: "LazyLoad",
     component: LazyLoad
+  },
+  Select: {
+    path: '/select',
+    name: 'Select',
+    component: Select
   }
-/*   toast: {
-    path: '/toast',
-    name: 'Toast',
-    component: Toast
-  }, */
+  /*   toast: {
+      path: '/toast',
+      name: 'Toast',
+      component: Toast
+    }, */
 }
 
 export default config;
