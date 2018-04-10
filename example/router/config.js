@@ -3,13 +3,14 @@ import Button from '../components/Button/button';
 import Badge from '../components/Badge/badge';
 import Toast from '../components/Toast/toast';
 import Header from '../components/Header/header';
-import LazyLoad from "../components/LazyLoad/LazyLoad";
+// import LazyLoad from "../components/LazyLoad/LazyLoad";
 import Select from '../components/Select/Select';
 
 import Swipe from '../components/Swipe/Swipe';
 // import Header from '../components/Header/header';
 // import LazyLoad from "../components/LazyLoad/LazyLoad.vue";
 let LazyLoad = ()=> import('../components/LazyLoad/LazyLoad');
+
 let config = {
   container: {
     path: '/',

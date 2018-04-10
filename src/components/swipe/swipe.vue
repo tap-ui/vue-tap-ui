@@ -8,6 +8,7 @@
         @touchstart="onTouchStart"
         @touchmove="onTouchMove"
         @touchend="onTouchEnd">
+
       <slot/>
     </div>
       <div class="tap-swipe-indicators" v-if="showIndicators">

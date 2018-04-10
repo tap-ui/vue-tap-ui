@@ -4,8 +4,7 @@ import Toast from './components/toast';
 import Header from './components/header';
 import Select from './components/select'
 
-import Swipe from './components/swipe';
-import SwipeItem from './components/swipe-item';
+import { Swipe, SwipeItem } from './components/swipe';
 import LazyLoad from './directive/lazyLoad';
 // let LazyLoad  = () => import('./directive/lazyLoad')
 
