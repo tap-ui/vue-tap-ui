@@ -1,74 +1,40 @@
-const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const webpackBaseConfig = require('./webpack.base.conf.js');
-const CompressionPlugin = require('compression-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+'use strict'
+require('./check-versions')()
 
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'production'
 
-const cssLoader = ExtractTextPlugin.extract({
-	use: 'css-loader',
-	fallback: 'vue-style-loader'
+const ora = require('ora')
+const rm = require('rimraf')
+const path = require('path')
+const chalk = require('chalk')
+const webpack = require('webpack')
+const webpackConfig = require('./webpack.lib.conf')
+
+const spinner = ora('building for production...')
+spinner.start()
+
+let config = webpack(webpackConfig, (err, stats) => {
+  spinner.stop()
+  if (err) throw err
+  process.stdout.write(stats.toString({
+    colors: true,
+    modules: false,
+    children: false, // If you are using ts-loader, setting this to true will make TypeScript errors show up during build.
+    chunks: false,
+    chunkModules: false
+  }) + '\n\n')
+
+  if (stats.hasErrors()) {
+    console.log(chalk.red('  Build failed with errors.\n'))
+    process.exit(1)
+  }
+
+  console.log(chalk.cyan('  Build complete.\n'))
+  console.log(chalk.yellow(
+    '  Tip: built files are meant to be served over an HTTP server.\n' +
+    '  Opening index.html over file:// won\'t work.\n'
+  ))
 })
 
-const webpackConfig = merge(webpackBaseConfig, {
-	plugins: [
-		new ExtractTextPlugin({
-			allChunks: true,
-			filename: 'style.css'
-		}),
-		new OptimizeCssAssetsPlugin({
-			canPrint: false
-		}),
-	]
-});
 
-
-
-
-module.exports = merge(webpackConfig, {
-//  entry: {
-//      main: './src/index.js'
-//  },
-	entry: './src/index.js',
-    output: {
-        path: path.resolve(__dirname, '../lib'),
-        publicPath: '/lib/',
-        filename: 'tap-ui.js',
-        library: 'tap-ui',
-        libraryTarget: 'umd',
-        umdNamedDefine: true,
-        chunkFilename: '[id].[chunkhash].js'
-    },
-    externals: {
-        vue: {
-            root: 'Vue',
-            commonjs: 'vue',
-            commonjs2: 'vue',
-            amd: 'vue'
-        }
-    },
-    plugins: [
-        // @todo
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': '"production"'
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
-//      new CompressionPlugin({
-//          asset: '[path].gz[query]',
-//          algorithm: 'gzip',
-//          test: /\.(js|css)$/,
-//          threshold: 10240,
-//          minRatio: 0.8
-//      }),
-        new ExtractTextPlugin('style.css'),
-        new CleanWebpackPlugin('[lib]')
-    ]
-});
+module.exports = config;

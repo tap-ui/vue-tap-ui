@@ -11,14 +11,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const env = process.env.NODE_ENV === 'testing'
-  ? require('../config/test.env')
-  : require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
-  // entry: {
-  //   vendor: ['vue']
-  // },
+  entry: {
+    vendor: ['vue']
+  },
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
@@ -26,22 +23,17 @@ const webpackConfig = merge(baseWebpackConfig, {
       usePostCSS: true
     })
   },
-  devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
-  // optimization: {
-  //   splitChunks: {
-  //     chunks: "all",
-  //   },
-  // },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
   plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    new webpack.DefinePlugin({
-      'process.env': env
-    }),
     new UglifyJsPlugin({
       uglifyOptions: {
         compress: {
@@ -71,10 +63,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
       },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
     // keep module.id stable when vendor modules does not change
