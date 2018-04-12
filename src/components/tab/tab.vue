@@ -2,7 +2,6 @@
   <div class="">
       <div class="tap-tab-title">
         <!-- nav -->
-
         <nav :class="['tap-tab-title--'+layoutType]" ref='tabNav' >
           <ul class="" ref='tabUl'>
             <li :class="{'tap-tab-title--active': index === activeIndex}"
@@ -19,7 +18,10 @@
           <div ref='tabLine'> </div>
         </div>
       </div>
-      <slot></slot>
+      <!-- 插槽 -->
+      <div class="tap-tab-item-box">
+        <slot></slot>
+      </div>
   </div>
 </template>
 
@@ -70,13 +72,12 @@ export default {
   },
   methods: {
     getTabItems() {
-      return this.$children.filter(
-        item => item.$options._componentTag === "tap-tab-item"
-      );
+      return this.$children.filter(item => item.$options._componentTag === "tap-tab-item");
     },
     updateNav() {
       this.titleList = [];
       this.domItems = [];
+      console.log('xx');
       this.getTabItems().forEach((item, index) => {
         // console.log(item);
         this.titleList.push({
@@ -102,10 +103,14 @@ export default {
     },
     //item切换
     toggleItem() {
-      if (!this.oItemToggle) {
-        this.oItemToggle = new classToggle("displayBlock");
-      }
-      this.oItemToggle.addClass(this.domItems[this.activeIndex].el);
+      // if (!this.oItemToggle) {
+      //   this.oItemToggle = new classToggle("displayBlock");
+      // }
+      // this.oItemToggle.addClass(this.domItems[this.activeIndex].el);
+      let tabItems = this.getTabItems();
+      tabItems.forEach((item, index) => {
+        item.isVis = this.activeIndex === index ? true : false
+      })
     },
     //动态设置下划线长度
     setLIneWidth() {
@@ -208,6 +213,7 @@ export default {
 
             display: flex;
             >li {
+
               flex: 1
             }
           }
@@ -219,9 +225,23 @@ export default {
           /* transform: translateX(-80px); */
           > ul{
             transition: transform .3s;
+            /* overflow: hidden; */
+            /* display: flex;
+             flex-wrap: nowrap; */
+             /* white-space-collapse:discard;  */
+             /* font-size: 0px; */
             > li {
+              /* font-size： 18px; */
+              border:1px solid red;
+              border-right: none;
+              text-align: center;
+               word-spacing: -3px;
               display: inline-block;
+              /* white-space: nowrap; */
+              /* float: left; */
               width: 25%;
+              box-sizing: content-box;
+              /* margin: 0 -3px; */
             }
           }
         }
@@ -241,6 +261,9 @@ export default {
           height: 1px;
           background-color: $color-primary;
         }
+      }
+      @descendent item-box {
+        display: block;
       }
     }
   }

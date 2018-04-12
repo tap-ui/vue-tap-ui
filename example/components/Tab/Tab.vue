@@ -10,6 +10,7 @@
       </tap-tab>
     </section>
     <section>
+      <h1>滑动布局</h1>
       <tap-tab @titleHandler='handler'>
         <tap-tab-item title='标题1'>内容1</tap-tab-item>
         <tap-tab-item title='标题2' value='v2'>内容2</tap-tab-item>
@@ -32,5 +33,17 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+  section{
+
+    margin-bottom: 10px;
+    padding: 5px;
+    h1{
+      /*border-bottom: 1px solid #eee;*/
+      text-align: left;
+      font-weight: bold;
+      text-indent: 10px;
+      font-size: 18px;
+    }
+  }
 </style>

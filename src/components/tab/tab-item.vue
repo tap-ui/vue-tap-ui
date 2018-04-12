@@ -1,15 +1,17 @@
 <template lang="html">
-  <section class="tap-tab-item">
-    <div>
+  <section class="tap-tab-item" v-if='isVis'>
       <slot></slot>
-    </div>
   </section>
 </template>
 
 <script>
 export default {
   name: 'tap-tab-item',
-
+  data() {
+    return {
+      isVis: true
+    }
+  },
   props: {
     title: {
       default: ''
@@ -41,7 +43,7 @@ export default {
   @component-namespace tap {
     @component tab {
       @descendent item {
-        display:none;
+        /* display:none; */
       }
     }
   }
