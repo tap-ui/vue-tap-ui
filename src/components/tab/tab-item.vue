@@ -1,7 +1,6 @@
 <template lang="html">
   <section class="tap-tab-item">
     <div>
-      <!-- {{title}} -->
       <slot></slot>
     </div>
   </section>
@@ -10,11 +9,7 @@
 <script>
 export default {
   name: 'tap-tab-item',
-  data() {
-    return {
 
-    }
-  },
   props: {
     title: {
       default: ''
@@ -22,7 +17,8 @@ export default {
     disabled: {
       type: Boolean,
       default: false
-    }
+    },
+    value: '',
   },
   watch: {
     title() {

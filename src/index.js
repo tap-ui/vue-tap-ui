@@ -22,10 +22,10 @@ const install = function(Vue, options = {}) {
   Vue.component(TabItem.name, TabItem);
 }
 
-// // auto install
-// if (typeof window !== 'undefined' && window.Vue) {
-//   install(window.Vue);
-// };
+// auto install
+if (typeof window !== 'undefined' && window.Vue) {
+  install(window.Vue);
+};
 
 export default {
   install,

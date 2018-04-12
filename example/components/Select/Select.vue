@@ -16,7 +16,7 @@
       <h1>长列表停留</h1>
       <p class="intro">stayNumber: default 8</p>
       <p class="intro">默认选项超过8个，touchend时不会自动隐藏选项列表，需要点击下方确认按钮</p>
-        <tap-select class="select" v-model='value2' title='前端技术'>
+        <tap-select class="select" v-model='value2' title='长列表，不会自动隐藏'>
           <option :value='1'>Vue</option>
           <option :value='2'>React</option>
           <option :value='3'>Angular</option>
@@ -53,8 +53,8 @@
     </section>
     <section>
       <h1>禁用</h1>
-      <p class="intro">disable：true</p>
-      <tap-select disable>
+      <p class="intro">disabled：true</p>
+      <tap-select disabled>
         <option :value='1'>花都</option>
         <option :value='2'>天河</option>
         <option :value='3'>越秀</option>

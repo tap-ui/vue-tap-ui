@@ -175,6 +175,8 @@ export default {
     @when disabled {
       opacity: .4;
       cursor: not-allowed;
+      /* 元素永远不会成为鼠标事件的target */
+      pointer-events: none;
     }
 
 
