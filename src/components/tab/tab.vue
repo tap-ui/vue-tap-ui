@@ -17,12 +17,10 @@
 </template>
 
 <script>
-import TabItem from './tab-item'
-import {
-  classToggle
-} from '../../common/js/dom'
+import TabItem from "./tab-item";
+import { classToggle } from "../../common/js/dom";
 export default {
-  name: 'tap-tab',
+  name: "tap-tab",
   components: {
     TabItem
   },
@@ -31,25 +29,27 @@ export default {
       titleList: [],
       domItems: [],
       activeIndex: 0
-    }
+    };
   },
   watch: {
     activeIndex(index) {
       this.toggleItem();
+      this.scrollLine();
+      this.titleHighLight();
     }
   },
   mounted() {
     this.$nextTick(() => {
       this.toggleItem();
       this.setLIneWidth();
-    })
+      this.titleHighLight()
+    });
   },
   methods: {
-
     getTabItems() {
       return this.$children.filter(
-        item => item.$options._componentTag === 'tap-tab-item'
-      )
+        item => item.$options._componentTag === "tap-tab-item"
+      );
     },
     updateNav() {
       this.titleList = [];
@@ -59,12 +59,12 @@ export default {
         this.titleList.push({
           title: item.title,
           disabled: item.disabled
-        })
+        });
         this.domItems.push({
           el: item.$el,
           index
-        })
-      })
+        });
+      });
       // console.log(this.domItems);
       // console.log(this.$children);
       // console.log(this.titleList);
@@ -74,21 +74,34 @@ export default {
     handleChange(index) {
       this.activeIndex = index;
     },
+
     //item切换
     toggleItem() {
-      if (!this.oClassToggle) {
-        this.oClassToggle = new classToggle('active');
+      if (!this.oItemToggle) {
+        this.oItemToggle = new classToggle("displayBlock");
       }
-      this.oClassToggle.addClass(this.domItems[this.activeIndex].el);
+      this.oItemToggle.addClass(this.domItems[this.activeIndex].el);
     },
     //动态设置下划线长度
     setLIneWidth() {
-      let width = this.$refs.tabTitle[0].getBoundingClientRect().width;
-      this.$refs.tabLine.setAttribute('style', `width:${width}px; transform: translateX(0px)`)
+      let width = this.getCurTitle().getBoundingClientRect().width;
+      this.$refs.tabLine.setAttribute("style", `width:${width}px; transform: translateX(0px)`);
     },
+    getCurTitle() {
+      return this.$refs.tabTitle[this.activeIndex];
+    },
+    scrollLine() {
+      let offsetLeft = this.getCurTitle().offsetLeft
+      this.$refs.tabLine.style.transform = `translateX(${offsetLeft}px)`
+    },
+    titleHighLight() {
+      if (!this.otitleHighLight) {
+        this.otitleHighLight = new classToggle("tap-tab-title--active");
+      }
+      this.otitleHighLight.addClass(this.getCurTitle())
+    }
   }
-
-}
+};
 </script>
 
 <style lang="css">
@@ -100,26 +113,32 @@ export default {
             display: flex;
             height: 40px;
             line-height: 40px;
+            margin: 0;
           > div{
-            border: solid red 1px ;
-            flex: 1
+            /* border: solid red 1px ; */
+            flex: 1;
           }
+        }
+        @modifier active {
+          color: $color-primary;
         }
       }
       @descendent line{
         width: 100%;
         text-align: left;
         display: inline-block;
-        height: 1px;
+        height: 2px;
+        transform: translateY(-10px);
         > div{
-          transition: transform;
-          height: 1px;
+
+          transition: transform .3s;
+          height: 2px;
           background-color: $color-primary;
         }
       }
     }
   }
-  .active {
+  .displayBlock {
     display: block !important;
   }
 </style>

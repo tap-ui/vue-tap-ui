@@ -6,11 +6,11 @@
 
 <script>
 export default {
-  name: 'tap-swipe-item',
+  name: "tap-swipe-item",
   data() {
     return {
-      offset: 0,
-    }
+      offset: 0
+    };
   },
 
   computed: {
@@ -21,7 +21,7 @@ export default {
     //   };
     // }
   }
-}
+};
 </script>
 
 <style lang="css">
