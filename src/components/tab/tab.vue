@@ -201,47 +201,40 @@ export default {
       @descendent title{
         border-top: 1px solid $color-divider;
         overflow: hidden;
+        cursor: pointer;
         >nav{
             height: 40px;
             line-height: 40px;
             margin: 0;
             text-align: center;
+            & li:active{
+              color: $color-primary;
+              background-color: $color-background;
+            }
         }
+
         /* 小于阈值以下，使用flex布局 */
         @modifier flexLayout {
           > ul{
-
             display: flex;
             >li {
-
               flex: 1
             }
           }
         }
+
         /* 超过阈值，使用滑动布局 */
         @modifier slideLayout {
-          /* overflow: hidden; */
           white-space: nowrap;
-          /* transform: translateX(-80px); */
           > ul{
             transition: transform .3s;
-            /* overflow: hidden; */
-            /* display: flex;
-             flex-wrap: nowrap; */
-             /* white-space-collapse:discard;  */
-             /* font-size: 0px; */
             > li {
-              /* font-size： 18px; */
-              border:1px solid red;
               border-right: none;
               text-align: center;
                word-spacing: -3px;
               display: inline-block;
-              /* white-space: nowrap; */
-              /* float: left; */
               width: 25%;
               box-sizing: content-box;
-              /* margin: 0 -3px; */
             }
           }
         }
