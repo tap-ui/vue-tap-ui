@@ -34,7 +34,26 @@ class classToggle {
   }
 }
 
+/**
+ * [domIndex 获取dom相对于父组件的index值]
+ * @param  {[type]} dom [description]
+ * @return {[type]}     [description]
+ */
+function domIndex(dom) {
+  let self = dom;
+  let parent = dom.parentNode;
+  let doms = Array.from(parent.childNodes).filter(dom => dom.nodeType == 1);
+  var index = 0;
+  doms.some((dom, _index) => {
+    if (dom == self) {
+      index = _index;
+      return;
+    }
+  })
+  return index;
+}
 export {
   domFind,
-  classToggle
+  classToggle,
+  domIndex
 }

@@ -20,6 +20,23 @@
         <tap-tab-item title='标题6' value='v4'>内容6</tap-tab-item>
       </tap-tab>
     </section>
+    <section>
+      <h1>自定义标签</h1>
+      <tap-tab>
+        <template slot='customTitle'>
+          <div>
+            Vue
+          </div>
+          <div>React</div>
+          <div>Angular</div>
+
+        </template>
+        <tap-tab-item >内容1</tap-tab-item>
+        <tap-tab-item >内容2</tap-tab-item>
+        <tap-tab-item>内容3</tap-tab-item>
+
+      </tap-tab>
+    </section>
   </div>
 </template>
 

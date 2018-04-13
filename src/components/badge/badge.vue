@@ -1,8 +1,5 @@
 <template>
-  <span
-    class="tap-badge"
-    :style="{ backgroundColor: color}"
-    :class="['is-' + type, 'is-size-' + size]">
+<span class="tap-badge" :style="{ backgroundColor: color}" :class="['is-' + type, 'is-size-' + size]">
     <slot></slot>
   </span>
 </template>

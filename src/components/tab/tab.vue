@@ -1,6 +1,10 @@
 <template lang="html">
   <div class="">
-      <div class="tap-tab-title">
+      <div class="tap-tab-customTitle" @click='handlerCustomTitleChange'>
+        <slot name='customTitle'></slot>
+      </div>
+{{isCustomTitle}}
+      <div class="tap-tab-title" v-if='!isCustomTitle'>
         <!-- nav -->
         <nav :class="['tap-tab-title--'+layoutType]" ref='tabNav' >
           <ul class="" ref='tabUl'>
@@ -27,6 +31,7 @@
 
 <script>
 import TabItem from "./tab-item";
+import { domIndex } from '../../common/js/dom'
 import {
   classToggle
 } from "../../common/js/dom";
@@ -56,6 +61,9 @@ export default {
     },
     layoutType() {
       return this.isSlide ? 'slideLayout' : 'flexLayout'
+    },
+    isCustomTitle() {
+      return this.$slots.customTitle !== undefined
     }
   },
   mounted() {
@@ -77,11 +85,9 @@ export default {
     updateNav() {
       this.titleList = [];
       this.domItems = [];
-      console.log('xx');
       this.getTabItems().forEach((item, index) => {
-        // console.log(item);
         this.titleList.push({
-          title: item.title,
+          title: item.title || '',
           disabled: item.disabled,
           vlaue: item.$options.propsData.value || ''
         });
@@ -103,10 +109,6 @@ export default {
     },
     //item切换
     toggleItem() {
-      // if (!this.oItemToggle) {
-      //   this.oItemToggle = new classToggle("displayBlock");
-      // }
-      // this.oItemToggle.addClass(this.domItems[this.activeIndex].el);
       let tabItems = this.getTabItems();
       tabItems.forEach((item, index) => {
         item.isVis = this.activeIndex === index ? true : false
@@ -121,6 +123,7 @@ export default {
     },
     //获取当前active的title dom
     getCurTitle() {
+      console.log(this.$refs.tabTitle);
       return this.$refs.tabTitle[this.activeIndex];
     },
     //获取当前atcive的item dom
@@ -187,7 +190,11 @@ export default {
       this.scrollLine(middleVal);
       this.isdeal = false;
     },
-
+    //自定义title的按钮事件
+    handlerCustomTitleChange(event) {
+      let index = domIndex(event.target)
+      this.activeIndex = domIndex(event.target);
+    }
   }
 };
 </script>
@@ -242,6 +249,7 @@ export default {
           color: $color-primary;
         }
       }
+
       @descendent line{
         width: 100%;
         text-align: left;
@@ -257,6 +265,22 @@ export default {
       }
       @descendent item-box {
         display: block;
+      }
+
+      /* 自定义 */
+      @descendent customTitle {
+        display: flex;
+        height: 40px;
+        line-height: 40px;
+        margin: 0;
+        text-align: center;
+        > *:active{
+          color: $color-primary;
+          background-color: $color-background;
+        }
+        > * {
+          flex: 1
+        }
       }
     }
   }
