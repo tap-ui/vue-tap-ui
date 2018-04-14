@@ -24,7 +24,8 @@
       <h1>自定义标签</h1>
       <tap-tab>
         <template slot='customTitle'>
-          <div>
+          <div class="item1">
+            <img src="../../assets/tap.png" alt="">
             Vue
           </div>
           <div>React</div>
@@ -32,7 +33,7 @@
 
         </template>
         <tap-tab-item >内容1</tap-tab-item>
-        <tap-tab-item >内容2</tap-tab-item>
+        <tap-tab-item title='xxx'>内容2</tap-tab-item>
         <tap-tab-item>内容3</tap-tab-item>
 
       </tap-tab>
@@ -61,6 +62,14 @@ export default {
       font-weight: bold;
       text-indent: 10px;
       font-size: 18px;
+    }
+    .item1{
+      img{
+        vertical-align:middle;
+        border-radius: 50%;
+        /* background-position: center; */
+        width: 30px;
+      }
     }
   }
 </style>

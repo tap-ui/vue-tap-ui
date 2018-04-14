@@ -1,12 +1,11 @@
 <template lang="html">
   <div class="">
-      <div class="tap-tab-customTitle" @click='handlerCustomTitleChange'>
+      <div class="tap-tab-customTitle" @click='handlerCustomTitleChange' ref='customTitle' v-if='isCustomTitle'>
         <slot name='customTitle'></slot>
       </div>
-{{isCustomTitle}}
-      <div class="tap-tab-title" v-if='!isCustomTitle'>
+      <div class="tap-tab-title">
         <!-- nav -->
-        <nav :class="['tap-tab-title--'+layoutType]" ref='tabNav' >
+        <nav :class="['tap-tab-title--'+layoutType]" ref='tabNav'  v-if='!isCustomTitle'>
           <ul class="" ref='tabUl'>
             <li :class="{'tap-tab-title--active': index === activeIndex}"
                 v-for='(options, index) in titleList'
@@ -123,8 +122,14 @@ export default {
     },
     //获取当前active的title dom
     getCurTitle() {
-      console.log(this.$refs.tabTitle);
-      return this.$refs.tabTitle[this.activeIndex];
+      // console.log(this.$refs.customTitle);
+      // return this.$refs.tabTitle[this.activeIndex];
+      if (this.$refs.tabTitle) {
+        return this.$refs.tabTitle[this.activeIndex];
+      } else {
+        console.log(this.$refs.customTitle.children);
+        return this.$refs.customTitle.children[this.activeIndex]
+      }
     },
     //获取当前atcive的item dom
     getCurItem() {
@@ -206,20 +211,24 @@ export default {
       overflow: hidden;
       width: 100%;
       @descendent title{
-        border-top: 1px solid $color-divider;
+
         overflow: hidden;
         cursor: pointer;
-        >nav{
+        > nav{
+            border-top: 1px solid $color-divider;
+
             height: 40px;
             line-height: 40px;
             margin: 0;
             text-align: center;
-            & li:active{
-              color: $color-primary;
-              background-color: $color-background;
-            }
+              & li{
+                /* background-color: red; */
+              }
+              & li:active{
+                color: $color-primary ;
+                background-color: $color-active;
+              }
         }
-
         /* 小于阈值以下，使用flex布局 */
         @modifier flexLayout {
           > ul{
@@ -269,6 +278,7 @@ export default {
 
       /* 自定义 */
       @descendent customTitle {
+        border-top: 1px solid $color-divider;
         display: flex;
         height: 40px;
         line-height: 40px;
