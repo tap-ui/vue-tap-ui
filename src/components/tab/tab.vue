@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="">
+      <!-- 自定义标签 -->
       <div class="tap-tab-customTitle" @click='handlerCustomTitleChange' ref='customTitle' v-if='isCustomTitle'>
         <slot name='customTitle'></slot>
       </div>
@@ -7,10 +8,14 @@
         <!-- nav -->
         <nav :class="['tap-tab-title--'+layoutType]" ref='tabNav'  v-if='!isCustomTitle'>
           <ul class="" ref='tabUl'>
-            <li :class="{'tap-tab-title--active': index === activeIndex}"
+            <li
                 v-for='(options, index) in titleList'
                 @click='handleChange(index, options)'
                 ref='tabTitle'
+                :class="{
+                  'tap-tab-title--active': index === activeIndex,
+                  'is-disabled': options.disabled
+                }"
             >
                 {{options.title}}
             </li>
@@ -21,7 +26,7 @@
           <div ref='tabLine'> </div>
         </div>
       </div>
-      <!-- 插槽 -->
+      <!-- 插槽,内容区 -->
       <div class="tap-tab-item-box">
         <slot></slot>
       </div>
@@ -98,13 +103,15 @@ export default {
     },
     //改变activeIndex
     handleChange(index, options) {
+      if (this.titleList[index].disabled) return;
       this.activeIndex = index;
       this.emitTitleHandler(options);
     },
     //点击title，向外传递参数
     emitTitleHandler(_options) {
       let options = Object.assign({}, _options, { titleEl: this.getCurTitle(), itemEl: this.getCurItem() })
-      this.$emit('titleHandler', options);
+      this.$emit('titleHandler', options); //激活父元素emit
+      this.getTabItems()[this.activeIndex].emit(options); //激活子元素emit
     },
     //item切换
     toggleItem() {
@@ -122,12 +129,9 @@ export default {
     },
     //获取当前active的title dom
     getCurTitle() {
-      // console.log(this.$refs.customTitle);
-      // return this.$refs.tabTitle[this.activeIndex];
       if (this.$refs.tabTitle) {
         return this.$refs.tabTitle[this.activeIndex];
       } else {
-        console.log(this.$refs.customTitle.children);
         return this.$refs.customTitle.children[this.activeIndex]
       }
     },
@@ -197,8 +201,8 @@ export default {
     },
     //自定义title的按钮事件
     handlerCustomTitleChange(event) {
-      let index = domIndex(event.target)
-      this.activeIndex = domIndex(event.target);
+      this.$emit('titleHandler', options); //激活父元素emit
+      this.activeIndex = domIndex(event, this.$refs.customTitle)
     }
   }
 };
@@ -211,7 +215,6 @@ export default {
       overflow: hidden;
       width: 100%;
       @descendent title{
-
         overflow: hidden;
         cursor: pointer;
         > nav{
@@ -222,11 +225,18 @@ export default {
             margin: 0;
             text-align: center;
               & li{
-                /* background-color: red; */
+
+              user-select: none;
+                /* 禁用 */
+                @when disabled {
+                  background-color: $color-disabled;
+                  opacity: 0.5;
+                }
               }
-              & li:active{
+              /* 点击时激活 */
+              & li:not(.is-disabled):active{
                 color: $color-primary ;
-                background-color: $color-active;
+                background-color: $color-background;
               }
         }
         /* 小于阈值以下，使用flex布局 */
@@ -292,6 +302,7 @@ export default {
           flex: 1
         }
       }
+
     }
   }
   .displayBlock {

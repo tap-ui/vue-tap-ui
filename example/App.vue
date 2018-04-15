@@ -6,7 +6,7 @@
       <i>
           <img src="./assets/tap.png" class="logo">
         </i>
-      <h1>tap-ui</h1>
+      <h1>TapUI</h1>
     </div>
     <div class="detail" v-else>
       <i class="iconfont icon-back back" @click="back"></i>

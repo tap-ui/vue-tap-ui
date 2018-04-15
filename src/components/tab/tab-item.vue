@@ -34,6 +34,9 @@ export default {
   methods: {
     updateNav() {
       this.$parent.updateNav();
+    },
+    emit(option) {
+      this.$emit('titleHandler', option)
     }
   }
 }
