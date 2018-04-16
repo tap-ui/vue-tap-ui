@@ -12,7 +12,9 @@
     <section>
       <h1>滑动布局</h1>
       <tap-tab @titleHandler='handler'>
-        <tap-tab-item title='标题1'>内容1</tap-tab-item>
+        <tap-tab-item title='标题1'>内容1
+          <tap-badge>11</tap-badge>
+        </tap-tab-item>
         <tap-tab-item title='标题2' value='v2'>内容2</tap-tab-item>
         <tap-tab-item title='标题3' value='v3'>内容3</tap-tab-item>
         <tap-tab-item title='标题4' value='v4'>内容4</tap-tab-item>
@@ -28,23 +30,25 @@
         <tap-tab-item title='标题3' value='v3'>内容3</tap-tab-item>
       </tap-tab>
     </section>
-    <section>
+    <section style="margin-bottom: 200px">
+      <!-- 自定义 -->
       <h1>自定义标签</h1>
-      <tap-tab>
+      <tap-tab @titleHandler='handler'>
         <template slot='customTitle'>
-          <div class="TapUI" value='taoUI'>
+          <div class="TapUI" value='taoUI' title='TapUI' >
             <img src="../../assets/tap.png" alt="">
             TapUI
           </div>
-          <div value='noread'>
+          <div value='noRead' title='未读消息' :disabled='true'>
             未读消息
             <tap-badge>30</tap-badge>
           </div>
-          <div class="vue" value='vue'>
+          <div class="vue" value='vue' title='vue'>
             <img src="../../assets/logo.png" alt="">
             Vue
           </div>
         </template>
+
         <tap-tab-item>
           TapUI是基于Vue2.X开发的移动端UI组件库，由广州2个还未毕业的学生，于2018年2月份开始，利用业余时间打造，CSS使用PostCSS开发，基于BEM命名语法
         </tap-tab-item>

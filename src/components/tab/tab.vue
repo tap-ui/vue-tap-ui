@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { domIndex } from '../../common/js/dom'
+import { domIndex, prefixStyle } from '../../common/js/dom'
 import {
   classToggle
 } from "../../common/js/dom";
@@ -105,9 +105,11 @@ export default {
     },
     //点击title，向外传递参数
     emitTitleHandler(_options) {
-      let options = Object.assign({}, _options, { titleEl: this.getCurTitle(), itemEl: this.getCurItem() })
-      this.$emit('titleHandler', options); //激活父元素emit
-      this.getTabItems()[this.activeIndex].emit(options); //激活子元素emit
+      this.$nextTick(() => {
+        let options = Object.assign({}, _options, { titleEl: this.getCurTitle(), itemEl: this.getCurItem() })
+        this.$emit('titleHandler', options); //激活父元素emit
+        this.getTabItems()[this.activeIndex].emit(options); //激活子元素emit
+      })
     },
     //item切换
     toggleItem() {
@@ -118,9 +120,10 @@ export default {
     },
     //动态设置下划线长度
     setLIneWidth() {
+      const transform = prefixStyle('transform')
       this.$nextTick(() => {
         let width = this.getCurTitle().getBoundingClientRect().width;
-        this.$refs.tabLine.setAttribute("style", `width:${width}px; transform: translateX(0px)`);
+        this.$refs.tabLine.setAttribute("style", `width:${width}px; ${transform}: translateX(0px)`);
       })
     },
     //获取当前active的title dom
@@ -133,29 +136,29 @@ export default {
     },
     //获取当前atcive的item dom
     getCurItem() {
-      return this.$children[this.activeIndex].$el;
+      return this.$slots.default.filter(VNode => VNode.tag !== undefined)[this.activeIndex].elm
     },
     //滚动下滑装饰线
     scrollLine(nTarget) {
-      // if (this.isSlide) return;
+      const transform = prefixStyle('transform')
       if (nTarget) {
         //slide模式 居中
-        this.$refs.tabLine.style.transform = `translateX(${nTarget-4}px)`
+        this.$refs.tabLine.style[transform] = `translateX(${nTarget-4}px)`
       } else if (!this.isSlide) {
         //flex模式
         this.$nextTick(() => {
           let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
-          this.$refs.tabLine.style.transform = `translateX(${offsetLeft-4}px)`
+          this.$refs.tabLine.style[transform] = `translateX(${offsetLeft-4}px)`
         })
       } else {
         //slide模式 两端
         if (this.isdeal) {
           let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
-          this.$refs.tabLine.style.transform = `translateX(${offsetLeft-4}px)`
+          this.$refs.tabLine.style[transform] = `translateX(${offsetLeft-4}px)`
         } else {
           setTimeout(() => {
             let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
-            this.$refs.tabLine.style.transform = `translateX(${offsetLeft-4}px)`
+            this.$refs.tabLine.style[transform] = `translateX(${offsetLeft-4}px)`
           }, 400)
         }
 
@@ -164,6 +167,7 @@ export default {
     //滑动布局的逻辑
     onSlide() {
       if (!this.isSlide) return
+      const transform = prefixStyle('transform')
       let curTitle = this.getCurTitle();
       let ul = this.$refs.tabUl; //ul
       let nav = this.$refs.tabNav;
@@ -180,39 +184,41 @@ export default {
       this.isdeal = true;
       //开头的处理
       if (targetOffset < 0) {
-        ul.style.transform = 'translateX(0px)'
+        ul.style[transform] = 'translateX(0px)'
         this.scrollLine()
         return;
       }
       //尾端的处理
       if (-targetOffset < window_width - allWidth) {
-        ul.style.transform = `translateX(${window_width - allWidth}px)`
+        ul.style[transform] = `translateX(${window_width - allWidth}px)`
         this.scrollLine()
         return;
       }
       //正常的设置
-      ul.style.transform = `translateX(${-targetOffset}px)`
+      ul.style[transform] = `translateX(${-targetOffset}px)`
       this.scrollLine(middleVal);
       this.isdeal = false;
     },
     //自定义title的按钮事件
     handlerCustomTitleChange(event) {
-
-      // this.$emit('titleHandler', options); //激活父元素emit
       this.activeIndex = domIndex(event, this.$refs.customTitle)
       this.customTitleEmit();
     },
     customTitleEmit() {
-      let value = this.getCurTitle().getAttribute('value') || '';
-      console.log(this.getCurTitle());
-      // let option = {
-      //   value,
-      //   itemEl: this.getCurItem(),
-      //   title: ,
-      //   titleEl,
-      //   disabled:
-      // }
-      console.log(option);
+      this.$nextTick(() => {
+        let options = {
+          value: this.getCurTitle().getAttribute('value') || '',
+          itemEl: this.getCurItem(),
+          title: this.getCurCustomTitleVnode().data.attrs.title || '',
+          titleEl: this.getCurCustomTitleVnode().elm,
+          disabled: this.getCurCustomTitleVnode().data.attrs.disabled || false
+        }
+        this.$emit('titleHandler', options)
+      })
+
+    },
+    getCurCustomTitleVnode() {
+      return this.$slots.customTitle.filter(vnode => vnode.tag !== undefined)[this.activeIndex]
     }
   }
 };
