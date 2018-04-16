@@ -12,9 +12,7 @@
     <section>
       <h1>滑动布局</h1>
       <tap-tab @titleHandler='handler'>
-        <tap-tab-item title='标题1'>内容1
-          <tap-badge>11</tap-badge>
-        </tap-tab-item>
+        <tap-tab-item title='标题1'>内容1</tap-tab-item>
         <tap-tab-item title='标题2' value='v2'>内容2</tap-tab-item>
         <tap-tab-item title='标题3' value='v3'>内容3</tap-tab-item>
         <tap-tab-item title='标题4' value='v4'>内容4</tap-tab-item>
@@ -25,9 +23,9 @@
     <section>
       <h1>禁用</h1>
       <tap-tab>
-        <tap-tab-item title='标题1' @titleHandler='titleHandler'>内容1</tap-tab-item>
-        <tap-tab-item title='标题2' value='v2' disabled>内容2</tap-tab-item>
-        <tap-tab-item title='标题3' value='v3'>内容3</tap-tab-item>
+        <tap-tab-item title='标题1' @titleHandler='handler'>内容1</tap-tab-item>
+        <tap-tab-item title='标题2' value='v2' :disabled='disabled'>内容2</tap-tab-item>
+        <tap-tab-item title='标题3' value='v3' @click='toggle'>内容3</tap-tab-item>
       </tap-tab>
     </section>
     <section style="margin-bottom: 200px">
@@ -39,11 +37,11 @@
             <img src="../../assets/tap.png" alt="">
             TapUI
           </div>
-          <div value='noRead' title='未读消息' :disabled='true'>
-            未读消息
-            <tap-badge>30</tap-badge>
+          <div value='noRead' title='React' :disabled='disabled' >
+            <i class="iconfont icon-react"></i>
+            React
           </div>
-          <div class="vue" value='vue' title='vue'>
+          <div class="vue" value='vue' title='vue' >
             <img src="../../assets/logo.png" alt="">
             Vue
           </div>
@@ -53,7 +51,7 @@
           TapUI是基于Vue2.X开发的移动端UI组件库，由广州2个还未毕业的学生，于2018年2月份开始，利用业余时间打造，CSS使用PostCSS开发，基于BEM命名语法
         </tap-tab-item>
 
-        <tap-tab-item>内容3</tap-tab-item>
+        <tap-tab-item>React</tap-tab-item>
         <tap-tab-item title='xxx'>
           Vue是一套用于构建用户界面的渐进式框架。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
         </tap-tab-item>
@@ -64,12 +62,20 @@
 
 <script>
 export default {
+  data() {
+    return {
+      disabled: true
+    }
+  },
   methods: {
     handler(options) {
       console.log(options);
     },
     titleHandler(options) {
       console.log(options);
+    },
+    toggle() {
+      this.disabled = !this.disabled
     }
   }
 }
@@ -88,13 +94,14 @@ export default {
       font-size: 18px;
     }
     .tap-tab-customTitle{
-
         img{
           vertical-align:middle;
           width: 30px;
         }
-
-
+        i{
+          font-size: 30px;
+          vertical-align:middle;
+        }
     }
 
   }

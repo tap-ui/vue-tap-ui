@@ -70,7 +70,13 @@ export default {
     this.$nextTick(() => {
       this.toggleItem();
       this.setLIneWidth();
+      this.customTitleDisabled();
     });
+  },
+  updated() {
+    this.customTitleDisabled();
+    // this.updateNav();
+    // console.log('更新？');
   },
   props: {
     threshold: {
@@ -201,24 +207,41 @@ export default {
     },
     //自定义title的按钮事件
     handlerCustomTitleChange(event) {
-      this.activeIndex = domIndex(event, this.$refs.customTitle)
+      let i = domIndex(event, this.$refs.customTitle);
+      if (this.getCustomTitleVnode()[i].data.attrs.disabled) return;
+      this.activeIndex = i;
       this.customTitleEmit();
     },
+    //自定义标签向外传递自定义事件
     customTitleEmit() {
+      let custom = this.getCustomTitleVnode()[this.activeIndex];
       this.$nextTick(() => {
         let options = {
           value: this.getCurTitle().getAttribute('value') || '',
           itemEl: this.getCurItem(),
-          title: this.getCurCustomTitleVnode().data.attrs.title || '',
-          titleEl: this.getCurCustomTitleVnode().elm,
-          disabled: this.getCurCustomTitleVnode().data.attrs.disabled || false
+          title: custom.data.attrs.title || '',
+          titleEl: custom.elm,
+          disabled: custom.data.attrs.disabled || false
         }
         this.$emit('titleHandler', options)
       })
 
     },
-    getCurCustomTitleVnode() {
-      return this.$slots.customTitle.filter(vnode => vnode.tag !== undefined)[this.activeIndex]
+    //获取自定义title集合
+    getCustomTitleVnode() {
+      if (!this.$slots.customTitle) return;
+      return this.$slots.customTitle.filter(VNode => VNode.tag !== undefined);
+    },
+    //检测自定义标签是否禁用
+    customTitleDisabled() {
+      if (!this.$slots.customTitle) return;
+      this.getCustomTitleVnode().forEach((VNode, i) => {
+        if (VNode.data.attrs.disabled) {
+          VNode.elm.classList.add('is-disabled')
+        } else {
+          VNode.elm.classList.remove('is-disabled')
+        }
+      })
     }
   }
 };
@@ -310,13 +333,18 @@ export default {
         line-height: 40px;
         margin: 0;
         text-align: center;
-        > *:active{
+        > *:not(.is-disabled):active{
           color: $color-primary;
           background-color: $color-background;
         }
         > * {
-          flex: 1
+          flex: 1;
+          @when disabled {
+            background-color: $color-disabled;
+            opacity: 0.5;
+          }
         }
+
       }
 
     }
