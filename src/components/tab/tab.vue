@@ -34,16 +34,12 @@
 </template>
 
 <script>
-import TabItem from "./tab-item";
 import { domIndex } from '../../common/js/dom'
 import {
   classToggle
 } from "../../common/js/dom";
 export default {
   name: "tap-tab",
-  components: {
-    TabItem
-  },
   data() {
     return {
       titleList: [],
@@ -144,22 +140,22 @@ export default {
       // if (this.isSlide) return;
       if (nTarget) {
         //slide模式 居中
-        this.$refs.tabLine.style.transform = `translateX(${nTarget}px)`
+        this.$refs.tabLine.style.transform = `translateX(${nTarget-4}px)`
       } else if (!this.isSlide) {
         //flex模式
         this.$nextTick(() => {
           let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
-          this.$refs.tabLine.style.transform = `translateX(${offsetLeft}px)`
+          this.$refs.tabLine.style.transform = `translateX(${offsetLeft-4}px)`
         })
       } else {
         //slide模式 两端
         if (this.isdeal) {
           let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
-          this.$refs.tabLine.style.transform = `translateX(${offsetLeft}px)`
+          this.$refs.tabLine.style.transform = `translateX(${offsetLeft-4}px)`
         } else {
           setTimeout(() => {
             let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
-            this.$refs.tabLine.style.transform = `translateX(${offsetLeft}px)`
+            this.$refs.tabLine.style.transform = `translateX(${offsetLeft-4}px)`
           }, 400)
         }
 
@@ -201,8 +197,22 @@ export default {
     },
     //自定义title的按钮事件
     handlerCustomTitleChange(event) {
-      this.$emit('titleHandler', options); //激活父元素emit
+
+      // this.$emit('titleHandler', options); //激活父元素emit
       this.activeIndex = domIndex(event, this.$refs.customTitle)
+      this.customTitleEmit();
+    },
+    customTitleEmit() {
+      let value = this.getCurTitle().getAttribute('value') || '';
+      console.log(this.getCurTitle());
+      // let option = {
+      //   value,
+      //   itemEl: this.getCurItem(),
+      //   title: ,
+      //   titleEl,
+      //   disabled:
+      // }
+      console.log(option);
     }
   }
 };

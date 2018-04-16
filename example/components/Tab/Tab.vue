@@ -32,15 +32,15 @@
       <h1>自定义标签</h1>
       <tap-tab>
         <template slot='customTitle'>
-          <div class="TapUI">
+          <div class="TapUI" value='taoUI'>
             <img src="../../assets/tap.png" alt="">
             TapUI
           </div>
-          <div>
+          <div value='noread'>
             未读消息
             <tap-badge>30</tap-badge>
           </div>
-          <div class="vue">
+          <div class="vue" value='vue'>
             <img src="../../assets/logo.png" alt="">
             Vue
           </div>
