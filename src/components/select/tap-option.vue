@@ -131,6 +131,7 @@ export default {
       width: 100%;
       border-top: 1px solid $color-border;
       background-color: $color-background;
+      text-align: center;
       &:active {
         color: red;
         box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.22) inset;

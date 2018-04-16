@@ -8,7 +8,6 @@
         @touchstart="onTouchStart"
         @touchmove="onTouchMove"
         @touchend="onTouchEnd">
-
       <slot/>
     </div>
       <div class="tap-swipe-indicators" v-if="showIndicators">
@@ -23,50 +22,50 @@
 
 <script>
 /**
-  * tap-swipe
-  * @module components/swipe
-  * @desc 轮播图
-  * @param {Number} [autoplay] - 自动播放的时间, 0 为不自动播放
-  * @param {Number} [initialSwipe] - 初始的轮播页码
-  * @param {Boolean} [showIndicators] - 是否显示指标
-  * @param {duration} [Number] - 动画持续时间
-  *
-  * @example
-  *  <tap-swipe :autoplay="3000" >
-  *    <tap-swipe-item class="slide1">1</tap-swipe-item>
-  *    <tap-swipe-item class="slide2">2</tap-swipe-item>
-  *    <tap-swipe-item class="slide3">3</tap-swipe-item>
-  * </tap-swipe>
-*/
+ * tap-swipe
+ * @module components/swipe
+ * @desc 轮播图
+ * @param {Number} [autoplay] - 自动播放的时间, 0 为不自动播放
+ * @param {Number} [initialSwipe] - 初始的轮播页码
+ * @param {Boolean} [showIndicators] - 是否显示指标
+ * @param {duration} [Number] - 动画持续时间
+ *
+ * @example
+ *  <tap-swipe :autoplay="3000" >
+ *    <tap-swipe-item class="slide1">1</tap-swipe-item>
+ *    <tap-swipe-item class="slide2">2</tap-swipe-item>
+ *    <tap-swipe-item class="slide3">3</tap-swipe-item>
+ * </tap-swipe>
+ */
 export default {
-  name: 'tap-swipe',
+  name: "tap-swipe",
 
   props: {
     autoplay: Number,
     loop: {
       type: Boolean,
-      default: true,
+      default: true
     },
     initialSwipe: {
       type: Number,
-      default: 1,
+      default: 1
     },
     showIndicators: {
       type: Boolean,
-      default: true,
+      default: true
     },
     duration: {
       type: Number,
-      default: 500,
+      default: 500
     }
   },
   /**
-  * width  swipe的 宽度
-  * startX 手指按下起始的点
-  * diff 手指每次移动的距离
-  * offset 整个swipe的偏移量
-  * index 当前页码下标
-  * currentDuration 当前动画播放时间
+   * width  swipe的 宽度
+   * startX 手指按下起始的点
+   * diff 手指每次移动的距离
+   * offset 整个swipe的偏移量
+   * index 当前页码下标
+   * currentDuration 当前动画播放时间
    */
   data() {
     return {
@@ -77,10 +76,9 @@ export default {
       diff: 0,
       swipes: [],
       index: 1,
-      currentDuration: 0,
-    }
+      currentDuration: 0
+    };
   },
-
 
   mounted() {
     this.initialize();
@@ -96,19 +94,17 @@ export default {
     },
     trackStyle() {
       return {
-        width: (this.count + 2) * this.width + 'px',
+        width: (this.count + 2) * this.width + "px",
         transitionDuration: `${this.currentDuration}ms`,
         transform: `translate3D(${this.offset}px, 0, 0)`
-      }
+      };
     }
   },
 
   methods: {
     // 无限滚动需要在开头和结尾复制一个DOM对象
     initialize() {
-
       this.swipes = this.$children;
-
 
       const cloneDom1 = this.swipes[0].$el.cloneNode(true); //复制node节点
       const cloneDom2 = this.swipes[this.swipes.length - 1].$el.cloneNode(true);
@@ -118,14 +114,13 @@ export default {
 
       this.width = this.$el.getBoundingClientRect().width; //获取宽度
 
-
       // 给子元素设置宽度
-      document.querySelectorAll('.tap-swipe-item').forEach((item) => {
-          item.style.width = this.width + 'px';
+      document.querySelectorAll(".tap-swipe-item").forEach(item => {
+        item.style.width = this.width + "px";
       });
 
       this.index = this.initialSwipe; //初始化
-      this.offset = this.width * - this.index;
+      this.offset = this.width * -this.index;
       this.currentDuration = 0;
       this.autoPlay();
     },
@@ -146,23 +141,22 @@ export default {
       this.currentDuration = this.duration; // 移动到一半，回弹时候的动画时间
       this.index = Math.round(-this.offset / this.width);
       this.offset = -this.index * this.width;
-      this.wh('touch');
+      this.wh("touch");
       this.autoPlay();
     },
 
     move(move = 0, offset = 0) {
-
-      if (move) { // 自动跑
+      if (move) {
+        // 自动跑
         this.index += move;
         this.offset = -this.index * this.width;
       } else {
         this.offset = this.deltaX + offset;
       }
-
     },
     // 校准自动播放或者滑动后的index
     wh(type) {
-      const duration = type == 'touch' ? 250 : this.duration;
+      const duration = type == "touch" ? 250 : this.duration;
       setTimeout(() => {
         if (this.index <= 0) {
           this.index = this.count;
@@ -175,16 +169,14 @@ export default {
         if (!this.currentDuration) {
           this.offset = -this.index * this.width;
         }
-      }, duration)
+      }, duration);
     },
     autoPlay() {
-
       const { autoplay } = this; //获取自动播放的时间
       if (autoplay && this.count > 1) {
         clearTimeout(this.timer);
 
         this.timer = setTimeout(() => {
-
           this.currentDuration = 0;
 
           setTimeout(() => {
@@ -192,7 +184,7 @@ export default {
             this.move(1);
             this.wh();
             this.autoPlay();
-          }, 30)
+          }, 30);
         }, autoplay);
       }
     },
@@ -201,7 +193,7 @@ export default {
       // this.$emit('transitionend', this.index);
     }
   }
-}
+};
 </script>
 
 <style lang="css">

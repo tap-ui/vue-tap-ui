@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="tap-select"
-      :class="{'is-disable': disable}"
+      :class="{'is-disabled': disabled}"
       @touchstart='onTouchStart'
       @touchmove='onTouchMove'
       @touchend='onTouchEnd'
@@ -12,7 +12,7 @@
       {{model.label}}
     </div>
     <!-- icon -->
-    <i class="icon iconfont icon-jinyong" v-if='disable'></i>
+    <i class="icon iconfont icon-jinyong" v-if='disabled'></i>
     <i class="icon iconfont icon-ICON-" v-else></i>
 
     <!-- 选项列表组件 -->
@@ -77,7 +77,7 @@ export default {
       default: 8,
       type: Number
     },
-    disable: Boolean
+    disabled: Boolean
   },
   watch: {
     model: function() {
@@ -98,7 +98,7 @@ export default {
     },
     onTouchStart(ev) {
       ev.preventDefault();
-      if (this.disable) return; //禁用模式
+      if (this.disabled) return; //禁用模式
       if (!this.isEnded) return; //如果上一次点击还没有结束
       this.isEnded = false
       this.vis = true;
@@ -110,12 +110,12 @@ export default {
     },
     onTouchMove(ev) {
       ev.preventDefault();
-      if (this.disable) return; //禁用模式
+      if (this.disabled) return; //禁用模式
       this.oSelect.onTouchMove(ev);
     },
     onTouchEnd(ev) {
       ev.preventDefault();
-      if (this.disable) return; //禁用模式
+      if (this.disabled) return; //禁用模式
       this.isEnded = true;
       this.oSelect.onTouchEnd()
         .then((time) => {
@@ -171,10 +171,11 @@ export default {
           margin: 0 auto;
         }
       }
-      @when disable {
+      @when disabled {
         background-color: $color-disabled;
         opacity: 0.4;
         cursor: not-allowed;
+        pointer-events: none;
       }
     }
 

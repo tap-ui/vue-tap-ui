@@ -17,7 +17,7 @@ export default function(Vue) {
       loading = DEFAULT_URL, //加载中占位图
       error = DEFAULT_URL, //加载失败占位图
       throttleWait = 200, //节流处理的时间阈值， 默认200毫秒，即1秒钟最多执行5次
-      preLoad = 1, //距离阈值，1.3倍
+      preLoad = 1.3, //距离阈值，1.3倍
       retry = 3, //加载出错时，自动重试的次数
       retryInterval = 1000 //加载出错时，自动重试的时间间隔
     }) {
@@ -31,9 +31,9 @@ export default function(Vue) {
         retry: parseInt(retry),
         retryInterval
       }
-      this.lazyloadHandler = throttle(this._lazyloadHandler, {
-        interval: throttleWait
-      })
+      // this.lazyloadHandler = throttle(this._lazyloadHandler, {
+      //   interval: throttleWait
+      // })
       this.bindScroll();
     }
 
@@ -61,8 +61,8 @@ export default function(Vue) {
     }
 
     //图片加载
-    // @decoratorify(throttle, _throttleWait)
-    _lazyloadHandler() {
+    @decoratorify(throttle, _throttleWait)
+    lazyloadHandler() {
       let isView = false;
       if (!this.ListenerQueue.length) return;
       let that = this;
