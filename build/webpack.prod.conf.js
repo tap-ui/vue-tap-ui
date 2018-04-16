@@ -13,9 +13,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 
 const webpackConfig = merge(baseWebpackConfig, {
-  entry: {
-    vendor: ['vue']
-  },
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
@@ -47,11 +44,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     new ExtractTextPlugin({
       filename: utils.assetsPath('index.css'),
       allChunks: true,
-    }),
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: config.build.productionSourceMap
-        ? { safe: true, map: { inline: false } }
-        : { safe: true }
     }),
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing'
