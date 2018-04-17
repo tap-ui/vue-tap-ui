@@ -57,6 +57,8 @@ export default {
       color: $color-white;
       text-align: center;
       display: inline-block;
+      line-height: 1;
+
       @when success {
         background-color: $color-success;
       }
