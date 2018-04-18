@@ -4,16 +4,15 @@
       <tap-button @click="showText" size='block' style="margin: 5px 0">文字提示</tap-button>
     </section>
     <section>
-      <tap-button @click="showIcon('success')">成功提示</tap-button>
-      <tap-button @click="showIcon('fail')">失败提示</tap-button>
+      <tap-button @click="showIcon(0)">成功提示</tap-button>
+      <tap-button @click="showIcon(1)">失败提示</tap-button>
     </section>
     <section>
-      <tap-button @click="showLoading" size='block' style="margin: 5px 0">loading</tap-button>
+      <tap-button @click="showLoading(false)" size='block' style="margin: 5px 0">loading</tap-button>
     </section>
-    <tap-toast message="成功提示~" type="success"></tap-toast>
-    <!-- <tap-toast message="失败~" type="fail"></tap-toast> -->
-    <!-- <tap-toast message="加载中..." type="loading"></tap-toast> -->
-    <!-- <tap-toast message="建议文案不要超过15字~" ></tap-toast> -->
+    <section>
+      <tap-button @click="showLoading(true)" size='block' style="margin: 5px 0">loading 带 mask</tap-button>
+    </section>
   </div>
 </template>
 
@@ -21,20 +20,33 @@
 export default {
   mounted () {
     // console.log(this.$toast.loading);
-    console.log(this.$toast);
-    this.$toast({
-      message: '你好111111111111111111'
-    })
+    // console.log(this.$toast.loading('加载中'));
+    // this.$toast('你好')
+    // this.$toast({
+    //   message: '你好1111111111111112111'
+    // })
   },
   methods: {
     showText () {
-
+      this.$toast('提示最好不要超过15字哟~')
     },
-    showIcon () {
-
+    showIcon (type) {
+      if (type == 0) {
+        this.$toast.success('成功提示')
+      } else {
+        this.$toast.fail('失败提示')
+      }
     },
-    showLoading () {
-
+    showLoading (type) {
+      console.log(type);
+      if (!type) {
+        this.$toast.loading('加载中')
+      } else {
+        this.$toast.loading({
+          mask: true,
+          message: '加载中',
+        })
+      }
     }
   }
 }

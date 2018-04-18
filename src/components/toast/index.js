@@ -1,66 +1,72 @@
 import Vue from 'vue';
 import VueToast from './toast.vue';
+
 import { isObj } from '@/common/js/util';
 
 const ToastConstructor = Vue.extend(VueToast);
+const singleton = true;
+const pool = [];
 
+const defaultOptions = {
+  message: '',
+  position: 'middle',
+  type: 'text',
+  mask: false,
+  duration: 3000,
+  visibe: true,
+}
 
-let toastPool = []
-let seed = 1;
+let currentOptions = { ...defaultOptions };
 
-const remoteInstance = (instance) => {
-  if (!instance) return
-  const len = instance.length
-  const index = toastPool.findIndex(v => v.id === instance.id);
+const parserOptions = (message) => isObj(message) ? message : { message };
 
-  toastPool.splice(index, 1);
+const getInstance = () => {
+  if (!pool.length || !singleton) {
+    const toast = new ToastConstructor({
+      el: document.createElement('div')
+    })
+    document.body.appendChild(toast.$el);
+    pool.push(toast)
+  }
+  return pool[pool.length - 1];
 }
 
 const Toast = (options = {}) => {
-  if (Vue.prototype.$isServer) return
+  const toast = getInstance();
 
-  const instance = new ToastConstructor({
-    propsData: {
-      ...options
+  options = {
+    ...currentOptions,
+    ...parserOptions(options),
+    close() {
+      toast.visibe = false;
     }
-  });
-  instance.message = options.message;
+  }
 
-  const id = `toast_${seed++}`;
-  instance.id = id;
-  instance.vm = instance.$mount();
-  document.body.appendChild(instance.vm.$el);
+  Object.assign(toast, options);
 
-  toastPool.push(instance);
+  clearTimeout(toast.timer);
 
-  instance.vm.$on('closed', () => {
-    remoteInstance(instance);
-    document.body.removeChild(instance.vm.$el);
-    instance.vm.$destroy();
-    // toast.clear();
-  })
-  // return toast
+  if (options.duration) {
+    toast.timer = setTimeout(() => {
+      toast.close()
+    }, toast.duration)
+  }
+
+  return toast;
 }
 
-// const createMthod = type => options => Toast({
-//   type, ...parseOptions(options)
-// })
-//
-// !(() => {
-//   ['loading', 'success', 'fail'].forEach(method => {
-//     Toast[method] = createMthod(method);
-//   })
-// })()
+const createMethod = type => options => Toast({
+  type, ...parserOptions(options)
+})
 
-
-
-// Toast.clear = function () {
-//   toast.visible = false;
-// }
+!(() => {
+  ['loading', 'success', 'fail'].forEach((method) => {
+    Toast[method] = createMethod(method)
+  })
+})()
 
 Vue.prototype.$toast = Toast;
 
-// export default Toast
 export {
   Toast,
   VueToast
