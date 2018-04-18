@@ -21,11 +21,16 @@
       </tap-tab>
     </section>
     <section>
-      <h1>禁用</h1>
+      <h1>
+        禁用
+        <tap-button @click='toggle' size='small'>点击切换</tap-button>
+      </h1>
+
+       是否禁用： {{disabled}}
       <tap-tab>
         <tap-tab-item title='标题1' @titleHandler='handler'>内容1</tap-tab-item>
         <tap-tab-item title='标题2' value='v2' :disabled='disabled'>内容2</tap-tab-item>
-        <tap-tab-item title='标题3' value='v3' @click='toggle'>内容3</tap-tab-item>
+        <tap-tab-item title='标题3' value='v3' >内容3</tap-tab-item>
       </tap-tab>
     </section>
     <section style="margin-bottom: 200px">
@@ -41,7 +46,7 @@
             <i class="iconfont icon-react"></i>
             React
           </div>
-          <div class="vue" value='vue' title='vue' >
+          <div class="vue" value='vue' title='vue'>
             <img src="../../assets/logo.png" alt="">
             Vue
           </div>
@@ -57,6 +62,16 @@
         </tap-tab-item>
       </tap-tab>
     </section>
+    <section>
+      <h1>底部</h1>
+      <tap-tab tabbar>
+        <tap-tab-item title='标题1'>内容1</tap-tab-item>
+        <tap-tab-item title='标题2' value='v2'>内容2</tap-tab-item>
+        <tap-tab-item title='标题3' value='v3'>内容3</tap-tab-item>
+        <tap-tab-item title='标题4' value='v4'>内容4</tap-tab-item>
+      </tap-tab>
+
+    </section>
   </div>
 </template>
 
@@ -69,9 +84,6 @@ export default {
   },
   methods: {
     handler(options) {
-      console.log(options);
-    },
-    titleHandler(options) {
       console.log(options);
     },
     toggle() {
@@ -87,7 +99,6 @@ export default {
     margin-bottom: 10px;
     padding: 5px;
     h1{
-      /*border-bottom: 1px solid #eee;*/
       text-align: left;
       font-weight: bold;
       text-indent: 10px;

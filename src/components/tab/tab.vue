@@ -1,5 +1,9 @@
 <template lang="html">
   <div class="">
+    {{tabbar}}
+      <div class="tap-tab-item-box" v-if='tabbar'>
+        <slot></slot>
+      </div>
       <!-- 自定义标签 -->
       <div class="tap-tab-customTitle" @click='handlerCustomTitleChange' ref='customTitle' v-if='isCustomTitle'>
         <slot name='customTitle'></slot>
@@ -27,7 +31,7 @@
         </div>
       </div>
       <!-- 插槽,内容区 -->
-      <div class="tap-tab-item-box">
+      <div class="tap-tab-item-box" v-if='!tabbar'>
         <slot></slot>
       </div>
   </div>
@@ -45,7 +49,7 @@ export default {
       titleList: [],
       domItems: [],
       activeIndex: 0,
-
+      disableds: []
     };
   },
   watch: {
@@ -72,20 +76,27 @@ export default {
       this.setLIneWidth();
       this.customTitleDisabled();
     });
+    console.log(this.getTabItems());
+  },
+  beforeUpdate() {
+    this.$children.filter(item => item.$options._componentTag === "tap-tab-item");
   },
   updated() {
     this.customTitleDisabled();
-    // this.updateNav();
-    // console.log('更新？');
   },
   props: {
     threshold: {
       type: Number,
       default: 4
+    },
+    tabbar: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     getTabItems() {
+
       return this.$children.filter(item => item.$options._componentTag === "tap-tab-item");
     },
     updateNav() {
@@ -102,6 +113,14 @@ export default {
           index
         });
       });
+    },
+    getdisabled() {
+      this.disableds = [];
+      let _this = this;
+      this.getTabItems().forEach(function(item, index) {
+        _this.disableds.push(item.disabled);
+      })
+      console.log(this.disableds);
     },
     //改变activeIndex
     handleChange(index, options) {

@@ -27,9 +27,12 @@ export default {
       this.updateNav();
     }
   },
+  updated() {
+    this.updateNav();
+  },
   mounted() {
     this.updateNav();
-
+    this.$nextTick(() => {})
   },
   methods: {
     updateNav() {
