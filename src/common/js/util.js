@@ -56,8 +56,15 @@ let addEvent = function(el, type, fn, capture = false) {
   addEvent(el, type, fn)
 }
 
+
+const isObj = (x) => {
+  const type = typeof x
+  return x !== null && (type === 'object' || type == 'function')
+}
+
 export {
   decoratorify,
   throttle,
-  addEvent
+  addEvent,
+  isObj
 }

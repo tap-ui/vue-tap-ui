@@ -46,12 +46,12 @@ let config = {
     path: '/select',
     name: 'Select',
     component: Select
-  }
-  /*   toast: {
-      path: '/toast',
-      name: 'Toast',
-      component: Toast
-    }, */
+  },
+  toast: {
+    path: '/toast',
+    name: 'Toast',
+    component: Toast
+  },
 }
 
 export default config;

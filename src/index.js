@@ -1,6 +1,6 @@
 import Button from './components/button';
 import Badge from './components/badge';
-import Toast from './components/toast';
+import {VueToast} from './components/toast';
 import Header from './components/header';
 import Select from './components/select'
 
@@ -14,7 +14,7 @@ const install = function(Vue, options = {}) {
   } = options;
   Vue.component(Button.name, Button);
   Vue.component(Badge.name, Badge);
-  Vue.component(Toast.name, Toast);
+  Vue.component(VueToast.name, VueToast);
   Vue.component(Header.name, Header);
   Vue.component(Select.name, Select);
   Vue.use(LazyLoad, lazy ? lazy : {});
@@ -31,7 +31,7 @@ export default {
   install,
   Button,
   Badge,
-  Toast,
+  VueToast,
   Header,
   LazyLoad,
   Select
