@@ -1,15 +1,16 @@
 <template lang="html">
-  <section class="">
-      <h2>img标签</h2>
+  <div class="container">
+    <section>
+      <h1>img标签</h1>
       <img v-for='src in srclist' v-lazy='src'>
-      <h2>
-          背景图片
-      </h2>
+    </section>
+    <section>
+      <h1>背景图片</h1>
       <div v-for='src in bglist' v-lazy:background='src'>
 
       </div>
-  </section>
-
+    </section>
+  </div>
 </template>
 
 <script>
@@ -35,21 +36,30 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
+.container{
+  background-color: #eee;
   section{
-    background-color: #eee;
-
+    margin-bottom: 20px;
+    padding: 5px;
+    h1{
+      text-align: left;
+      font-weight: bold;
+      text-indent: 10px;
+      font-size: 18px;
+    }
     img{
-      width: 90%;
-      box-sizing: content-box;
-      margin: 20px 10px;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 10px 0;
       box-shadow: 0 1px 3px rgba(0,0,0,.2);
     }
     div{
-      width: 90%;
+      width: 100%;
       height: 12rem;
-      margin: 20px 10px;
+      box-sizing: border-box;
+      margin: 10px 0;
       background-size: cover;
     }
   }
+}
 </style>

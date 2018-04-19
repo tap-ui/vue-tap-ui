@@ -1,7 +1,9 @@
 <template>
 <button :type="type" class="tap-button" :class="['tap-button--'+ type, 'tap-button--'+size, {
       'is-plain':plain,
-      'is-disabled':disabled
+      'is-disabled':disabled,
+      'tap-button--shadow': shadow,
+      'tap-button--inset': inset
     }]" @click="handleClick" :disabled='disabled'>
   <span class="mint-button-icon" v-if='icon'>
     <slot name='icon'>
@@ -51,6 +53,14 @@ export default {
           return _value == value
         }) > -1
       }
+    },
+    shadow: {
+      type: Boolean,
+      default: false
+    },
+    inset: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -62,7 +72,7 @@ export default {
 @component-namespace tap {
   @component button {
     appearance: none;
-    border-radius: 4px;
+    border-radius: 3px;
     border: 0;
     box-sizing: border-box;
     color: inherit;
@@ -73,15 +83,27 @@ export default {
     overflow: hidden;
     position: relative;
     text-align: center;
-    transition: all 0.2s;
+    transition: all 0.1s;
+    user-select: none;
 
+    @modifier shadow {
+      &:not(.is-disable):active{
+        box-shadow:0 3px 8px rgba(0,0,0,.156863), 0 3px 8px rgba(0,0,0,.227451);
+      }
+    }
+    @modifier inset {
+      &::after {
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.22) inset;
+      }
+
+    }
     /* 点击的active样式 */
     &::after {
       background-color: $color-white;
       content: " ";
       opacity: 0;
       position: absolute 0 0 0 0;
-      box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.22) inset;
+      /* box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.22) inset; */
     }
     &:not(.is-disable):active::after {
       opacity: .4;
@@ -163,21 +185,23 @@ export default {
     @modifier large {
       display: inline-block;
       font-size: 20px;
-      padding: 6px 10px;
+      padding: 6px 12px;
       height: 51px;
     }
     @modifier block {
       width: 100%;
       display: block;
+      box-sizing: border-box;
     }
 
     /* 禁用 */
     @when disabled {
       opacity: .4;
       cursor: not-allowed;
+      /* 元素永远不会成为鼠标事件的target */
+      pointer-events: none;
+
     }
-
-
   }
 }
 </style>

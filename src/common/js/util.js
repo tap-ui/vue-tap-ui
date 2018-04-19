@@ -16,18 +16,18 @@ const throttle = function(fn, throttleWait) {
   let _self = fn, //保存需要被延迟执行的函数引用
     timer, // 定时器
     firstTime = true;
-  let that = this;
   return function() {
     var args = arguments;
+    var that = this
     if (firstTime) { //如果是第一次调用，不需要延迟执行
-      _self.apply(this, args);
+      _self.apply(that, args);
       return firstTime = false;
     }
 
     if (timer) { //如果定时器还在，说明前一次延迟执行还没有完成
       return false;
     }
-    var that = this
+
     timer = setTimeout(function() {
       clearTimeout(timer);
       timer = null;

@@ -1,8 +1,5 @@
 <template>
-  <span
-    class="tap-badge"
-    :style="{ backgroundColor: color}"
-    :class="['is-' + type, 'is-size-' + size]">
+<span class="tap-badge" :style="{ backgroundColor: color}" :class="['is-' + type, 'is-size-' + size]">
     <slot></slot>
   </span>
 </template>
@@ -60,6 +57,8 @@ export default {
       color: $color-white;
       text-align: center;
       display: inline-block;
+      line-height: 1;
+
       @when success {
         background-color: $color-success;
       }
