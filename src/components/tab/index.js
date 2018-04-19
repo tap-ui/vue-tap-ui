@@ -1,3 +1,3 @@
 import Tab from './Tab'
-import TabItem from './tab-item'
-export { Tab, TabItem };
+import TabPane from './tab-pane'
+export { Tab, TabPane };

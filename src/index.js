@@ -3,7 +3,7 @@ import Badge from './components/badge';
 import Toast from './components/toast';
 import Header from './components/header';
 import Select from './components/select'
-import { Tab, TabItem } from './components/tab'
+import { Tab, TabPane } from './components/tab'
 import { Swipe, SwipeItem } from './components/swipe';
 import LazyLoad from './directive/lazyLoad';
 
@@ -19,7 +19,7 @@ const install = function(Vue, options = {}) {
   Vue.component(Swipe.name, Swipe);
   Vue.component(SwipeItem.name, SwipeItem);
   Vue.component(Tab.name, Tab);
-  Vue.component(TabItem.name, TabItem);
+  Vue.component(TabPane.name, TabPane);
 }
 
 // auto install
@@ -38,5 +38,5 @@ export default {
   Swipe,
   SwipeItem,
   Tab,
-  TabItem
+  TabPane
 }

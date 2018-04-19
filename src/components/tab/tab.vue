@@ -1,27 +1,25 @@
-<template lang="html">
+label<template lang="html">
   <div class="">
-    {{tabbar}}
-      <div class="tap-tab-item-box" v-if='tabbar'>
-        <slot></slot>
-      </div>
       <!-- 自定义标签 -->
-      <div class="tap-tab-customTitle" @click='handlerCustomTitleChange' ref='customTitle' v-if='isCustomTitle'>
-        <slot name='customTitle'></slot>
+      <div class="tap-tab-customLabel" @click='handlerCustomLabelChange' ref='customLabel' v-if='isCustomLabel'>
+        <slot name='customLabel'></slot>
       </div>
-      <div class="tap-tab-title">
+
+      <div class="tap-tab-label">
         <!-- nav -->
-        <nav :class="['tap-tab-title--'+layoutType]" ref='tabNav'  v-if='!isCustomTitle'>
-          <ul class="" ref='tabUl'>
+        <nav :class="['tap-tab-label--'+layoutType]" ref='tabNav'  v-if='!isCustomLabel'>
+          <ul ref='tabUl'>
             <li
-                v-for='(options, index) in titleList'
+                v-for='(options, index) in labelList'
                 @click='handleChange(index, options)'
-                ref='tabTitle'
+                ref='tabLabel'
                 :class="{
-                  'tap-tab-title--active': index === activeIndex,
-                  'is-disabled': options.disabled
+                  'tap-tab-label--active': index === activeIndex,
+
+                  'is-disabled': options.disabled,
                 }"
             >
-                {{options.title}}
+                {{options.label}}
             </li>
           </ul>
         </nav>
@@ -31,7 +29,7 @@
         </div>
       </div>
       <!-- 插槽,内容区 -->
-      <div class="tap-tab-item-box" v-if='!tabbar'>
+      <div class="tap-tab-pane-box">
         <slot></slot>
       </div>
   </div>
@@ -46,121 +44,108 @@ export default {
   name: "tap-tab",
   data() {
     return {
-      titleList: [],
-      domItems: [],
+      labelList: [],
+      domPanes: [],
       activeIndex: 0,
       disableds: []
     };
   },
   watch: {
     activeIndex(index) {
-      this.toggleItem();
+      this.togglePane();
       this.scrollLine();
       this.onSlide();
     }
   },
   computed: {
     isSlide() {
-      return this.titleList.length > this.threshold;
+      return this.labelList.length > this.threshold;
     },
     layoutType() {
       return this.isSlide ? 'slideLayout' : 'flexLayout'
     },
-    isCustomTitle() {
-      return this.$slots.customTitle !== undefined
+    isCustomLabel() {
+      return this.$slots.customLabel !== undefined
     }
   },
   mounted() {
     this.$nextTick(() => {
-      this.toggleItem();
+      this.togglePane();
       this.setLIneWidth();
-      this.customTitleDisabled();
+      this.customLabelDisabled();
     });
-    console.log(this.getTabItems());
   },
   beforeUpdate() {
-    this.$children.filter(item => item.$options._componentTag === "tap-tab-item");
+    this.$children.filter(pane => pane.$options._componentTag === "tap-tab-pane");
   },
   updated() {
-    this.customTitleDisabled();
+    this.customLabelDisabled();
   },
   props: {
     threshold: {
       type: Number,
       default: 4
-    },
-    tabbar: {
-      type: Boolean,
-      default: false
     }
   },
   methods: {
-    getTabItems() {
-
-      return this.$children.filter(item => item.$options._componentTag === "tap-tab-item");
+    getTabPanes() {
+      return this.$children.filter(pane => pane.$options._componentTag === "tap-tab-pane");
     },
     updateNav() {
-      this.titleList = [];
-      this.domItems = [];
-      this.getTabItems().forEach((item, index) => {
-        this.titleList.push({
-          title: item.title || '',
-          disabled: item.disabled,
-          vlaue: item.$options.propsData.value || ''
+      this.labelList = [];
+      this.domPanes = [];
+      this.getTabPanes().forEach((pane, index) => {
+        this.labelList.push({
+          label: pane.label || '',
+          disabled: pane.disabled,
+          vlaue: pane.$options.propsData.value || '',
+          index
         });
-        this.domItems.push({
-          el: item.$el,
+        this.domPanes.push({
+          el: pane.$el,
           index
         });
       });
     },
-    getdisabled() {
-      this.disableds = [];
-      let _this = this;
-      this.getTabItems().forEach(function(item, index) {
-        _this.disableds.push(item.disabled);
-      })
-      console.log(this.disableds);
-    },
     //改变activeIndex
     handleChange(index, options) {
-      if (this.titleList[index].disabled) return;
+      if (this.labelList[index].disabled) return;
       this.activeIndex = index;
-      this.emitTitleHandler(options);
+      this.emitLabelHandler(options);
     },
-    //点击title，向外传递参数
-    emitTitleHandler(_options) {
+    //点击label，向外传递参数
+    emitLabelHandler(_options) {
       this.$nextTick(() => {
-        let options = Object.assign({}, _options, { titleEl: this.getCurTitle(), itemEl: this.getCurItem() })
-        this.$emit('titleHandler', options); //激活父元素emit
-        this.getTabItems()[this.activeIndex].emit(options); //激活子元素emit
+        let options = Object.assign({}, _options, { labelEl: this.getCurLabel(), paneEl: this.getCurPane() })
+        this.$emit('labelHandler', options); //激活父元素emit
+        this.getTabPanes()[this.activeIndex].emit(options); //激活子元素emit
       })
     },
-    //item切换
-    toggleItem() {
-      let tabItems = this.getTabItems();
-      tabItems.forEach((item, index) => {
-        item.isVis = this.activeIndex === index ? true : false
+    //pane切换
+    togglePane() {
+      let tabPanes = this.getTabPanes();
+      tabPanes.forEach((pane, index) => {
+        pane.isVis = this.activeIndex === index ? true : false
       })
     },
     //动态设置下划线长度
     setLIneWidth() {
       const transform = prefixStyle('transform')
       this.$nextTick(() => {
-        let width = this.getCurTitle().getBoundingClientRect().width;
+        let width = this.getCurLabel().getBoundingClientRect().width;
         this.$refs.tabLine.setAttribute("style", `width:${width}px; ${transform}: translateX(0px)`);
       })
     },
-    //获取当前active的title dom
-    getCurTitle() {
-      if (this.$refs.tabTitle) {
-        return this.$refs.tabTitle[this.activeIndex];
+    //获取当前active的label dom
+    getCurLabel() {
+      if (this.$refs.tabLabel) {
+        return this.$refs.tabLabel[this.activeIndex];
       } else {
-        return this.$refs.customTitle.children[this.activeIndex]
+        return this.$refs.customLabel.children[this.activeIndex]
       }
     },
-    //获取当前atcive的item dom
-    getCurItem() {
+    //获取当前atcive的pane dom
+    getCurPane() {
       return this.$slots.default.filter(VNode => VNode.tag !== undefined)[this.activeIndex].elm
     },
     //滚动下滑装饰线
@@ -172,17 +157,17 @@ export default {
       } else if (!this.isSlide) {
         //flex模式
         this.$nextTick(() => {
-          let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
+          let offsetLeft = this.getCurLabel().getBoundingClientRect().left;
           this.$refs.tabLine.style[transform] = `translateX(${offsetLeft-4}px)`
         })
       } else {
         //slide模式 两端
         if (this.isdeal) {
-          let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
+          let offsetLeft = this.getCurLabel().getBoundingClientRect().left;
           this.$refs.tabLine.style[transform] = `translateX(${offsetLeft-4}px)`
         } else {
           setTimeout(() => {
-            let offsetLeft = this.getCurTitle().getBoundingClientRect().left;
+            let offsetLeft = this.getCurLabel().getBoundingClientRect().left;
             this.$refs.tabLine.style[transform] = `translateX(${offsetLeft-4}px)`
           }, 400)
         }
@@ -193,19 +178,19 @@ export default {
     onSlide() {
       if (!this.isSlide) return
       const transform = prefixStyle('transform')
-      let curTitle = this.getCurTitle();
+      let curLabel = this.getCurLabel();
       let ul = this.$refs.tabUl; //ul
       let nav = this.$refs.tabNav;
 
-      let allWidth = curTitle.getBoundingClientRect().width * this.titleList.length;
-      let titleLeft = curTitle.offsetLeft;
+      let allWidth = curLabel.getBoundingClientRect().width * this.labelList.length;
+      let labelLeft = curLabel.offsetLeft;
       let window_width = window.innerWidth; //屏幕宽度
-      let activeLeft = curTitle.offsetLeft;
+      let activeLeft = curLabel.offsetLeft;
       // 计算出相对于视口的中间值位置
-      // 中间值 = （屏幕宽度 - 单个title宽度） / 2
-      let middleVal = (window_width - curTitle.getBoundingClientRect().width) / 2;
-      //实际居中目标值 = title的offsetLeft - 中间值
-      let targetOffset = (titleLeft - middleVal);
+      // 中间值 = （屏幕宽度 - 单个label宽度） / 2
+      let middleVal = (window_width - curLabel.getBoundingClientRect().width) / 2;
+      //实际居中目标值 = label的offsetLeft - 中间值
+      let targetOffset = (labelLeft - middleVal);
       this.isdeal = true;
       //开头的处理
       if (targetOffset < 0) {
@@ -224,38 +209,47 @@ export default {
       this.scrollLine(middleVal);
       this.isdeal = false;
     },
-    //自定义title的按钮事件
-    handlerCustomTitleChange(event) {
-      let i = domIndex(event, this.$refs.customTitle);
-      if (this.getCustomTitleVnode()[i].data.attrs.disabled) return;
+    //自定义label的按钮事件
+    handlerCustomLabelChange(event) {
+      let i = domIndex(event, this.$refs.customLabel);
+
+      if (this.getCustomLabelVnode()[i].data && this.getCustomLabelVnode()[i].data.attrs.disabled) return;
       this.activeIndex = i;
-      this.customTitleEmit();
+      this.customLabelEmit();
     },
     //自定义标签向外传递自定义事件
-    customTitleEmit() {
-      let custom = this.getCustomTitleVnode()[this.activeIndex];
+    customLabelEmit() {
+      let custom = this.getCustomLabelVnode()[this.activeIndex];
+      let value = ''
+      if (this.getCurLabel().getAttribute('value')) {
+        value = this.getCurLabel().getAttribute('value')
+      }
       this.$nextTick(() => {
+        let label = custom.data ? custom.data.attrs.label : ''
+        let disabled = custom.data ? custom.data.attrs.disabled : false
         let options = {
-          value: this.getCurTitle().getAttribute('value') || '',
-          itemEl: this.getCurItem(),
-          title: custom.data.attrs.title || '',
-          titleEl: custom.elm,
-          disabled: custom.data.attrs.disabled || false
+          index: this.activeIndex,
+          value,
+          label,
+          disabled,
+          paneEl: this.getCurPane(),
+          labelEl: custom.elm,
         }
-        this.$emit('titleHandler', options)
+        this.$emit('labelHandler', options)
       })
 
     },
-    //获取自定义title集合
-    getCustomTitleVnode() {
-      if (!this.$slots.customTitle) return;
-      return this.$slots.customTitle.filter(VNode => VNode.tag !== undefined);
+    //获取自定义label集合
+    getCustomLabelVnode() {
+      if (!this.$slots.customLabel) return;
+      return this.$slots.customLabel.filter(VNode => VNode.tag !== undefined);
     },
     //检测自定义标签是否禁用
-    customTitleDisabled() {
-      if (!this.$slots.customTitle) return;
-      this.getCustomTitleVnode().forEach((VNode, i) => {
-        if (VNode.data.attrs.disabled) {
+    customLabelDisabled() {
+      if (!this.$slots.customLabel) return;
+      this.getCustomLabelVnode().forEach((VNode, i) => {
+        // console.log(VNode);
+        if (VNode.data && VNode.data.attrs.disabled) {
           VNode.elm.classList.add('is-disabled')
         } else {
           VNode.elm.classList.remove('is-disabled')
@@ -272,18 +266,16 @@ export default {
     @component tab {
       overflow: hidden;
       width: 100%;
-      @descendent title{
+      @descendent label{
         overflow: hidden;
         cursor: pointer;
         > nav{
             border-top: 1px solid $color-divider;
-
             height: 40px;
             line-height: 40px;
             margin: 0;
             text-align: center;
               & li{
-
               user-select: none;
                 /* 禁用 */
                 @when disabled {
@@ -327,12 +319,13 @@ export default {
         }
       }
 
+      /* 下划线 */
       @descendent line{
         width: 100%;
         text-align: left;
         display: inline-block;
         height: 1px;
-        transform: translateY(-10px);
+        transform: translateY(-12px);
         background-color: $color-divider;
         > div{
           transition: transform .3s;
@@ -340,14 +333,15 @@ export default {
           background-color: $color-primary;
         }
       }
-      @descendent item-box {
+      @descendent pane-box {
         display: block;
       }
 
-      /* 自定义 */
-      @descendent customTitle {
+      /* 自定义label */
+      @descendent customLabel {
         border-top: 1px solid $color-divider;
         display: flex;
+
         height: 40px;
         line-height: 40px;
         margin: 0;
@@ -363,9 +357,7 @@ export default {
             opacity: 0.5;
           }
         }
-
       }
-
     }
   }
   .displayBlock {

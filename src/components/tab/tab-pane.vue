@@ -1,19 +1,19 @@
 <template lang="html">
-  <section class="tap-tab-item" v-if='isVis'>
+  <section class="tap-tab-pane" v-if='isVis'>
       <slot></slot>
   </section>
 </template>
 
 <script>
 export default {
-  name: 'tap-tab-item',
+  name: 'tap-tab-pane',
   data() {
     return {
       isVis: true
     }
   },
   props: {
-    title: {
+    label: {
       default: ''
     },
     disabled: {
@@ -23,7 +23,7 @@ export default {
     value: '',
   },
   watch: {
-    title() {
+    label() {
       this.updateNav();
     }
   },
@@ -39,7 +39,7 @@ export default {
       this.$parent.updateNav();
     },
     emit(option) {
-      this.$emit('titleHandler', option)
+      this.$emit('labelHandler', option)
     }
   }
 }

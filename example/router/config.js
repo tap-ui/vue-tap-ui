@@ -7,6 +7,7 @@ import LazyLoad from "../components/LazyLoad/LazyLoad";
 import Select from '../components/Select/Select';
 import Swipe from '../components/Swipe/Swipe';
 import Tab from '../components/Tab/Tab'
+
 let config = {
   container: {
     path: '/',
