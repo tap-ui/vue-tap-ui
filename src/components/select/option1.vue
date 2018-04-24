@@ -22,6 +22,7 @@
 <script>
 import Select from './Select.js';
 export default {
+  name: 'tap-select-option',
   data() {
     return {
       viewportTop: -1,
@@ -92,7 +93,6 @@ export default {
     @descendent range {
       border-top: 1px solid $color-divider;
       border-bottom: 1px solid $color-divider;
-      box-shadow: 0px 0px 3px $color-border;
       height: $height-select;
       width: 100%;
       position: absolute;

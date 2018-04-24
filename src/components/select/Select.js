@@ -49,7 +49,7 @@ export default class Select {
   //计算移动的范围
   calcScrope() {
     if (this.oldSelectBoxTop == this.selectBoxTop) return; //如果页面没有滚动，不需要再次计算范围
-    this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.values.length - 1)) + this.optionHeight / 4;
+    this.scopeMaxTop = this.selectBoxTop - (this.optionHeight * (this.values.length - 1)) - this.optionHeight / 4;
     this.scopeMaxBottom = this.selectBoxTop + this.optionHeight / 4;
     this.oldSelectBoxTop = this.selectBoxTop;
     return this;
@@ -76,7 +76,7 @@ export default class Select {
     this.selectBoxTop = this.domSelectInput.getBoundingClientRect().top; //selectBoxTop需要动态获取，防止滚动条移动后top不准确
     this.calcPos(true).calcScrope();
     this.getdomOps();
-    this.higtLight(true);
+    this.higtLight(true); //计算高亮
     return Promise.resolve();
   }
   /**
@@ -87,7 +87,7 @@ export default class Select {
     if (this.curPosY - distance < this.scopeMaxTop || this.curPosY - distance > this.scopeMaxBottom) return; //限制偏移范围
     this.domOpsBox.setAttribute('style', `will-change: transform;transform: translateZ(0) translateY(${this.curPosY - distance}px)`); // 当前坐标 - 偏移值
     this.retPosY = this.curPosY - distance; //记录临时坐标
-
+    // this.index = this.calcIndex();
     this.higtLight(); //计算高亮
   }
 
@@ -96,8 +96,9 @@ export default class Select {
     this.index = this.calcIndex();
     this.calcPos(false);
     this.setSelected();
-    this.domOps.length = 0; //清空options dom数组
-    this.oHighLight = null;
+    // this.domOps.length = 0; //清空options dom数组
+    this.domOps = [];
+    // this.oHighLight = null;
     return Promise.resolve(200);
   }
 
@@ -145,18 +146,37 @@ export default class Select {
   getdomOps() {
     this.ctx.$slots.default.forEach((item) => {
       if (item.tag == 'option') {
-        this.domOps.push(item.elm);
+        this.domOps.push(item);
       }
     });
   }
   //高亮
   higtLight(isStart) {
     this.index = this.calcIndex();
-    if (!isStart && this.lastIndex == this.index) return; //如果index没有改变，不需要改变class
-    if (!this.oHighLight) {
+    //
+    // if (!isStart && this.lastIndex == this.index) return; //如果index没有改变，不需要改变class
+    // if (!this.oHighLight) {
+    //   this.oHighLight = new HighLight('tap-option-optionBox--highLight');
+    // }
+    // console.log(this.domOps[this.index]);
+    // this.oHighLight.addClass(this.domOps[this.index].elm)
+    if (isStart) {
+      this.oHighLight = null;
       this.oHighLight = new HighLight('tap-option-optionBox--highLight');
+      this.oHighLight.addClass(this.domOps[this.index].elm)
+    } else if (this.lastIndex !== this.index) {
+      this.oHighLight.addClass(this.domOps[this.index].elm)
     }
-    this.oHighLight.addClass(this.domOps[this.index])
+    // this.domOps.forEach((dom, index) => {
+    //   console.log(dom);
+    //   if (this.index !== index) {
+    //     dom.classList.remove('tap-option-optionBox--highLight')
+    //   } else {
+    //     dom.classList.add('tap-option-optionBox--highLight')
+    //   }
+    // })
     this.lastIndex = this.index;
+
+
   }
 }

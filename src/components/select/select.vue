@@ -17,6 +17,7 @@
 
     <!-- 选项列表组件 -->
     <transition name="fade">
+      <div >
       <tap-option
         ref='optionsBox'
         :title="title"
@@ -25,10 +26,12 @@
         @onComfirm='onComfirm'
         :align='align'
         :stayNumber='stayNumber'
-        v-if='vis'>
+        v-if='vis'
+        >
             <!-- 列表插槽,slot标签将被外部传入的option替换 -->
             <slot></slot>
       </tap-option>
+    </div>
     </transition>
 
   </div>
@@ -85,7 +88,9 @@ export default {
     }
   },
   mounted() {
+
     this.$nextTick(() => {
+
       this.oSelect = new Select(this, this.$refs.selectInput); //实例化
       this.model = this.oSelect.selected; //触发watch， 向上传递数据
       this.setOptionNumber();
@@ -107,16 +112,18 @@ export default {
         let domOpsBox = domFind(this.$refs.optionsBox.$el.childNodes, 'tap-option-optionBox');
         this.oSelect.onTouchStart(ev, domOpsBox);
       })
+
     },
     onTouchMove(ev) {
       ev.preventDefault();
+      this.isEnded = false
       if (this.disabled) return; //禁用模式
       this.oSelect.onTouchMove(ev);
     },
     onTouchEnd(ev) {
       ev.preventDefault();
-      if (this.disabled) return; //禁用模式
       this.isEnded = true;
+      if (this.disabled) return; //禁用模式
       this.oSelect.onTouchEnd()
         .then((time) => {
           this.model = this.oSelect.selected;
@@ -124,7 +131,6 @@ export default {
           if (this.optionNumber <= this.stayNumber - 1) { //鉴别长列表
             setTimeout(() => {
               this.vis = false;
-
             }, time)
           }
         });
@@ -133,7 +139,7 @@ export default {
     onComfirm() {
       setTimeout(() => {
         this.vis = false;
-      }, 300)
+      }, 200)
     }
   }
 }
@@ -150,7 +156,7 @@ export default {
       height: $height-select;
       box-sizing: border-box;
       overflow: hidden;
-      box-shadow:2px 2px 5px $color-border;
+      box-shadow:0px 0px 8px $color-border;
 
       /*  */
       & .text{
