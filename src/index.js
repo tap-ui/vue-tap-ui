@@ -1,11 +1,12 @@
 import Button from './components/button';
 import Badge from './components/badge';
-import {VueToast} from './components/toast';
+import { VueToast } from './components/toast';
 import Header from './components/header';
 import Select from './components/select'
 import { Tab, TabPane } from './components/tab'
 import { Swipe, SwipeItem } from './components/swipe';
 import LazyLoad from './directive/lazyLoad';
+import { Radio, RadioGroup } from './components/radio'
 
 const install = function(Vue, options = {}) {
   let { lazy } = options;
@@ -20,6 +21,8 @@ const install = function(Vue, options = {}) {
   Vue.component(SwipeItem.name, SwipeItem);
   Vue.component(Tab.name, Tab);
   Vue.component(TabPane.name, TabPane);
+  Vue.component(Radio.name, Radio)
+  Vue.component(RadioGroup.name, RadioGroup)
 }
 
 // auto install
@@ -38,5 +41,6 @@ export default {
   Swipe,
   SwipeItem,
   Tab,
-  TabPane
+  TabPane,
+  Radio
 }

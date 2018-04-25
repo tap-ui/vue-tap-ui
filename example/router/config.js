@@ -7,6 +7,7 @@ import LazyLoad from "../components/LazyLoad/LazyLoad";
 import Select from '../components/Select/Select';
 import Swipe from '../components/Swipe/Swipe';
 import Tab from '../components/Tab/Tab'
+import Radio from '../components/Radio/Radio'
 
 let config = {
   container: {
@@ -54,6 +55,11 @@ let config = {
     name: 'Toast',
     component: Toast
   },
+  Radio: {
+    path: '/radio',
+    name: 'Radio',
+    component: Radio
+  }
 }
 
 export default config;

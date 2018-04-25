@@ -32,7 +32,7 @@ export default {
       validator(value) {
         return [
           'default',
-          'danger',
+          'error',
           'primary',
           'success',
           'warning'
