@@ -148,7 +148,7 @@ export default {
         color: $color-success;
       }
     }
-    @modifier danger {
+    @modifier error {
       color: $color-white;
       background-color: $color-error;
 

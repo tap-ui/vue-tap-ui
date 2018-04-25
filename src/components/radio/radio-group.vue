@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div class="tap-radioGroup" :class="{'is-disabled': disabled}">
       <slot></slot>
   </div>
 </template>
@@ -8,7 +8,8 @@
 export default {
   name: 'tap-radio-group',
   props: {
-    name: {},
+    value: null,
+    name: null,
     disabled: {
       type: Boolean,
       default: false
@@ -33,25 +34,31 @@ export default {
   },
   watch: {
     value: function(value) {
-      console.log(value);
-      this.$emit('input', value)
+      this.$emit('change', value)
     }
   },
   methods: {
-    emit(v) {
-      console.log(v);
-      // console.log(this.$children);
-      this.$emit('input', v)
-    }
+
   }
 
 }
 </script>
 
 <style lang="css">
+@import '../../common/style/variable.css';
 @component-namespace tap {
   @component radioGroup {
-
+    /* @when disabled {
+      & input:checked +span{
+        border: 1px solid $color-disabled;
+      }
+      & .tap-radio-icon {
+          background-color: $color-background;
+          &:after{
+            background-color:$color-disabled;
+          }
+      }
+    } */
   }
 }
 </style>
