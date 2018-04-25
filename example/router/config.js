@@ -7,6 +7,7 @@ import LazyLoad from "../components/LazyLoad/LazyLoad";
 import Select from '../components/Select/Select';
 import Swipe from '../components/Swipe/Swipe';
 import Tab from '../components/Tab/Tab'
+import Select2 from '../components/Select2/Select2';
 
 let config = {
   container: {
@@ -54,6 +55,11 @@ let config = {
     name: 'Toast',
     component: Toast
   },
+  Select2: {
+    path: '/select2',
+    name: 'Select2',
+    component: Select2
+  }
 }
 
 export default config;

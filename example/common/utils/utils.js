@@ -7,7 +7,8 @@ const changeName = {
   'LazyLoad': '图片懒加载',
   'Select': '选择器',
   'Swipe': '轮播图',
-  'Tab': '标签页'
+  'Tab': '标签页',
+  'Select2': '新选择器'
 }
 
 export function valueToName(value) {

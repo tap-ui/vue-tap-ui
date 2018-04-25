@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 @import '../../common/style/variable.css';
 
 @component-namespace tap {

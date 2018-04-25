@@ -249,7 +249,6 @@ export default {
     customLabelDisabled() {
       if (!this.$slots.customLabel) return;
       this.getCustomLabelVnode().forEach((VNode, i) => {
-        // console.log(VNode);
         if (VNode.data && VNode.data.attrs.disabled) {
           VNode.elm.classList.add('is-disabled')
         } else {

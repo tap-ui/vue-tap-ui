@@ -120,11 +120,9 @@ export default {
       this.oSelect.onTouchEnd()
         .then((time) => {
           this.model = this.oSelect.selected;
-
           if (this.optionNumber <= this.stayNumber - 1) { //鉴别长列表
             setTimeout(() => {
               this.vis = false;
-
             }, time)
           }
         });
@@ -183,7 +181,7 @@ export default {
 
   /* 选项列表显现的过渡动画 */
   .fade-enter-active, .fade-leave-active {
-    transition: opacity .2s;
+    transition: opacity 0.2s;
   }
   .fade-enter, .fade-leave-to{
     opacity: 0;
