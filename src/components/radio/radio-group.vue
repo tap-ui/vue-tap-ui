@@ -15,21 +15,33 @@ export default {
       default: false
     },
     size: {
-      default: 18,
-      type: Number
+      default: 'normal',
+      type: [Number, String],
+      validator(value) {
+        if (typeof value == 'number') return true; //如果为数字
+        return [ //如果是字符串
+          'small',
+          'large',
+          'normal'
+        ].indexOf(value) > -1
+      }
     },
     type: {
       type: String,
       default: 'primary',
       validator(value) {
         return [
-          'default',
+          'black',
           'error',
           'primary',
           'success',
           'warning'
         ].indexOf(value) > -1
       }
+    },
+    icon: {
+      type: String,
+      default: 'none'
     }
   },
   watch: {
@@ -48,6 +60,10 @@ export default {
 @import '../../common/style/variable.css';
 @component-namespace tap {
   @component radioGroup {
+
+    /* &>label + label{
+      border: 1px solid red;
+    } */
     /* @when disabled {
       & input:checked +span{
         border: 1px solid $color-disabled;
