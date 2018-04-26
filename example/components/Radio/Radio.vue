@@ -3,32 +3,26 @@
     <section>
       <h1>主题</h1>
       <aside>
-        默认:primary
+        primary(默认), error, warning, black, success
       </aside>
       <tap-radio-group v-model='val1'>
         <tap-radio :value='1'>单选1</tap-radio>
         <tap-radio :value='2'>单选2</tap-radio>
       </tap-radio-group>
-      <aside>error</aside>
       <tap-radio-group v-model='val2' type='error'>
         <tap-radio value='1'>单选1</tap-radio>
         <tap-radio value='2'>单选2</tap-radio>
       </tap-radio-group>
-        <aside>warning</aside>
       <tap-radio-group v-model='val3' type='warning'>
         <tap-radio value='1'>单选1</tap-radio>
         <tap-radio value='2'>单选2</tap-radio>
       </tap-radio-group>
-      <aside class="">
-        black
-      </aside>
+
       <tap-radio-group v-model='val4'  type='black'>
         <tap-radio value='1'>单选1</tap-radio>
         <tap-radio value='2'>单选2</tap-radio>
       </tap-radio-group>
-      <aside class="">
-        success
-      </aside>
+
       <tap-radio-group v-model='val5'  type='success'>
         <tap-radio value='1'>单选1</tap-radio>
         <tap-radio value='2'>单选2</tap-radio>
@@ -55,18 +49,23 @@
 
     </section>
     <section>
-      <h1>自定义</h1>
-      <tap-radio-group v-model='val9' >
+      <h1>可自定义内容</h1>
+      <tap-radio-group v-model='val12' >
         <tap-radio :value='1'><i class="iconfont icon-vuejs"></i>Vue</tap-radio>
         <tap-radio :value='2'><i class="iconfont icon-react"></i>React</tap-radio>
       </tap-radio-group>
-      <tap-radio-group v-model='val10' >
-        <tap-radio :value='1'>单选1</tap-radio>
-        <tap-radio :value='2'>单选2</tap-radio>
+    </section>
+    <section>
+      <h1>大小</h1>
+      <aside>small,normal,large3个选项</aside>
+      <tap-radio-group v-model='val12' size='large'>
+        <tap-radio :value='1'></i>选项1</tap-radio>
+        <tap-radio :value='2'></i>选项2</tap-radio>
       </tap-radio-group>
-      <tap-radio-group  v-model='val11'>
-        <tap-radio :value='1'>单选1</tap-radio>
-        <tap-radio :value='2'>单选2</tap-radio>
+      <aside>自定义数字</aside>
+      <tap-radio-group v-model='val12' :size='50'>
+        <tap-radio :value='1'></i>选项1</tap-radio>
+        <tap-radio :value='2'></i>选项2</tap-radio>
       </tap-radio-group>
     </section>
     <section>
@@ -85,7 +84,11 @@
       </tap-radio-group>
     </section>
     <section>
-
+      <h1>事件</h1>
+      <tap-radio-group v-model='val13' @change='change'>
+        <tap-radio value='单选1'>单选1</tap-radio>
+        <tap-radio value='单选2'>单选2</tap-radio>
+      </tap-radio-group>
     </section>
   </div>
 </template>
@@ -104,7 +107,14 @@ export default {
       val8: 1,
       val9: 1,
       val10: 1,
-      val11: 1
+      val11: 1,
+      val12: 1,
+      val13: '单选1'
+    }
+  },
+  methods: {
+    change(value) {
+      console.log(value);
     }
   }
 }

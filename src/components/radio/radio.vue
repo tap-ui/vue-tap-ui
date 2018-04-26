@@ -1,12 +1,20 @@
 <template lang="html">
   <label @click='change' class="tap-radio" :class="{'is-disabled': isDisabled}">
+    <!-- 原生按钮，隐藏 -->
     <input type="radio"
           :value='value'
           class='tap-radio-nativeInput'
           v-model='currentValue'
           :disabled='isDisabled'
           >
-    <span class="tap-radio-input" :class="['tap-radio--'+ type,'is-' + type, 'tap-radio-icon--'+ icon ]" ref='radioIcon' :style="{ width: size+'px', height: size + 'px' }" ></span>
+          <!-- 自定义样式按钮 -->
+    <span class="tap-radio-input tap-radio-icon"
+          :class="['tap-radio--'+ type,
+                  'is-' + type,
+                  'tap-radio-icon--'+ icon ]"
+          ref='radioIcon'
+          :style="{ width: size+'px', height: size + 'px' }" ></span>
+          <!-- 文本 -->
     <span class="tap-radio-text" >
       <slot></slot>
     </span>
@@ -23,8 +31,13 @@ export default {
       default: false
     }
   },
+  mounted() {
+    this.setIconFontsize()
+  },
   watch: {
-
+    size: function() {
+      this.setIconFontsize()
+    }
   },
   computed: {
     type: function() {
@@ -39,10 +52,6 @@ export default {
         return this.$parent.size;
       }
 
-
-    },
-    _name: function() {
-      return this.$parent.name ? this.$parent.name : this.name
     },
     isDisabled: function() {
       return this.$parent.disabled ? this.$parent.disabled : this.disabled
@@ -56,15 +65,22 @@ export default {
       }
     },
     icon: function() {
-      console.log(this.$parent.icon);
       return this.$parent.icon
     }
   },
-  mounted() {},
   methods: {
     change(e) {
       if (this.isDisabled) return;
       this.currentValue = this.value
+    },
+    setIconFontsize() {
+      let type = typeof this.$parent.size;
+      if (type == 'string') {
+        let sizeObj = { small: 14, normal: 20, large: 30 };
+        this.$refs.radioIcon.classList.add('tap-radio-icon-fontsize-' + sizeObj[this.$parent.size])
+      } else if (type == 'number') {
+        this.$refs.radioIcon.classList.add('tap-radio-icon-fontsize-' + this.$parent.size)
+      }
     }
   }
 
@@ -92,6 +108,7 @@ export default {
           }
       }
     }
+    /* 原生radio */
     @descendent nativeInput {
       display: none;
       /* 选中状态 */
@@ -117,7 +134,7 @@ export default {
       }
     }
 
-    /*  */
+    /* 自定义radio */
     @descendent input {
       position: relative;
       display: inline-block;
@@ -125,19 +142,18 @@ export default {
       box-sizing: border-box;
       vertical-align: bottom;
       border: 1px solid $color-border;
+      text-align: center;
       &:after{
-        line-height: 20px;
         text-align: center;
         box-sizing: border-box;
         transition: all .3s;
         transform: scale(0);
-        /* content: '\e61c'; */
         border-radius: 50%;
         position: absolute 0 0 0 0;
         margin: auto;
-
       }
     }
+    /* 文本 */
     @descendent text {
       & > * {
         vertical-align: bottom;
@@ -172,8 +188,10 @@ export default {
 
     /* 图标 */
     @descendent icon{
-
-
+      color: #ffffff;
+      font-family: "unicodefont";
+      width: 100%;
+      height: 100%;
       @modifier none{
         &:after {
           content: '';
@@ -183,36 +201,29 @@ export default {
       }
       @modifier selectd {
         &:after {
-          color: #ffffff;
-          font-size: 130%;
-          font-family: "unicodefont";
-          width: 100%;
-          height: 100%;
+
           content: '\e6ad';
         }
       }
       @modifier close {
         &:after {
-          color: #ffffff;
-          font-size: 120%;
-          font-family: "unicodefont";
-          width: 100%;
-          height: 100%;
           content: '\e69a';
         }
       }
       @modifier add {
         &:after {
-          color: #ffffff;
-          font-size: 120%;
-          font-family: "unicodefont";
-          width: 100%;
-          height: 100%;
           content: '\e6b9';
         }
       }
     }
+  }
+}
 
+@for $i from 14 to 80 {
+  .tap-radio-icon-fontsize-$i {
+    &:after{
+      font-size:calc($(i) * 0.9)px;
+    }
   }
 }
 </style>
