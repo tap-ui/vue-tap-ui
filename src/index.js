@@ -7,6 +7,7 @@ import { Tab, TabPane } from './components/tab'
 import { Swipe, SwipeItem } from './components/swipe';
 import LazyLoad from './directive/lazyLoad';
 import { Radio, RadioGroup } from './components/radio'
+import { CheckboxGroup, Checkbox } from './components/checkbox'
 
 const install = function(Vue, options = {}) {
   let { lazy } = options;
@@ -21,8 +22,10 @@ const install = function(Vue, options = {}) {
   Vue.component(SwipeItem.name, SwipeItem);
   Vue.component(Tab.name, Tab);
   Vue.component(TabPane.name, TabPane);
-  Vue.component(Radio.name, Radio)
-  Vue.component(RadioGroup.name, RadioGroup)
+  Vue.component(Radio.name, Radio);
+  Vue.component(RadioGroup.name, RadioGroup);
+  Vue.component(CheckboxGroup.name, CheckboxGroup);
+  Vue.component(Checkbox.name, Checkbox);
 }
 
 // auto install
@@ -42,5 +45,8 @@ export default {
   SwipeItem,
   Tab,
   TabPane,
-  Radio
+  Radio,
+  RadioGroup,
+  CheckboxGroup,
+  Checkbox
 }

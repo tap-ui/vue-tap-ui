@@ -1,6 +1,15 @@
 <template lang="html">
   <div class="">
     <section>
+      <h1>基本使用</h1>
+      <tap-radio-group v-model='val0'>
+        <tap-radio value='炉石传说'>炉石传说</tap-radio>
+        <tap-radio value='部落冲突'>部落冲突</tap-radio>
+        <tap-radio value='绝地求生'>绝地求生</tap-radio>
+      </tap-radio-group>
+      <aside>{{val0}}</aside>
+    </section>
+    <section>
       <h1>主题</h1>
       <aside>
         primary(默认), error, warning, black, success
@@ -30,9 +39,7 @@
     </section>
     <section>
       <h1>禁用</h1>
-      <aside class="">
-        全组禁用
-      </aside>
+      <aside>全组禁用</aside>
       <tap-radio-group v-model='val6' disabled >
         <tap-radio :value='1'>单选1</tap-radio>
         <tap-radio :value='2'>单选2</tap-radio>
@@ -50,7 +57,7 @@
     </section>
     <section>
       <h1>可自定义内容</h1>
-      <tap-radio-group v-model='val12' >
+      <tap-radio-group v-model='val14'>
         <tap-radio :value='1'><i class="iconfont icon-vuejs"></i>Vue</tap-radio>
         <tap-radio :value='2'><i class="iconfont icon-react"></i>React</tap-radio>
       </tap-radio-group>
@@ -58,11 +65,19 @@
     <section>
       <h1>大小</h1>
       <aside>small,normal,large3个选项</aside>
+      <tap-radio-group v-model='val12' size='small'>
+        <tap-radio :value='1'></i>选项1</tap-radio>
+        <tap-radio :value='2'></i>选项2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group v-model='val12' size='normal'>
+        <tap-radio :value='1'></i>选项1</tap-radio>
+        <tap-radio :value='2'></i>选项2</tap-radio>
+      </tap-radio-group>
       <tap-radio-group v-model='val12' size='large'>
         <tap-radio :value='1'></i>选项1</tap-radio>
         <tap-radio :value='2'></i>选项2</tap-radio>
       </tap-radio-group>
-      <aside>自定义数字</aside>
+      <aside>自定义大小</aside>
       <tap-radio-group v-model='val12' :size='50'>
         <tap-radio :value='1'></i>选项1</tap-radio>
         <tap-radio :value='2'></i>选项2</tap-radio>
@@ -82,6 +97,74 @@
         <tap-radio :value='1'>单选1</tap-radio>
         <tap-radio :value='2'>单选2</tap-radio>
       </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='delete'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='subtract'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='dollar'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='star'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='success'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='wrong'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='smile'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='cry'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='info'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='forbidden'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='bad'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='good'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='cart'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='download'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='help'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='like'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
+      <tap-radio-group  v-model='val11' icon='hot'>
+        <tap-radio :value='1'>单选1</tap-radio>
+        <tap-radio :value='2'>单选2</tap-radio>
+      </tap-radio-group>
     </section>
     <section>
       <h1>事件</h1>
@@ -97,6 +180,7 @@
 export default {
   data() {
     return {
+      val0: '炉石传说',
       val1: 1,
       val2: 1,
       val3: 1,
@@ -109,7 +193,8 @@ export default {
       val10: 1,
       val11: 1,
       val12: 1,
-      val13: '单选1'
+      val13: '单选1',
+      val14: 1
     }
   },
   methods: {

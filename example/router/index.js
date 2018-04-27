@@ -6,9 +6,9 @@ Vue.use(Router)
 
 let routes = [];
 //读取配置
-for( let router in config) {
-  let {path, name, component} = config[router];
-  routes.push({path,name,component})
+for (let router in config) {
+  let { path, name, component } = config[router];
+  routes.push({ path, name, component })
 }
 
 //注入配置

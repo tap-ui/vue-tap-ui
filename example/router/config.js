@@ -8,6 +8,7 @@ import Select from '../components/Select/Select';
 import Swipe from '../components/Swipe/Swipe';
 import Tab from '../components/Tab/Tab'
 import Radio from '../components/Radio/Radio'
+import Checkbox from '../components/Checkbox/Checkbox'
 
 let config = {
   container: {
@@ -59,6 +60,11 @@ let config = {
     path: '/radio',
     name: 'Radio',
     component: Radio
+  },
+  Checkbox: {
+    path: '/checkbox',
+    name: 'Checkbox',
+    component: Checkbox
   }
 }
 

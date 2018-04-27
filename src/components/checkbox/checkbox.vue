@@ -1,21 +1,21 @@
 <template lang="html">
-  <label @click='change' class="tap-radio" :class="{'is-disabled': isDisabled}">
+  <label @click='change' class="tap-checkbox" :class="{'is-disabled': isDisabled}">
     <!-- 原生按钮，隐藏 -->
-    <input type="radio"
+    <input type="checkbox"
           :value='value'
-          class='tap-radio-nativeInput'
+          class='tap-checkbox-nativeInput'
           v-model='currentValue'
           :disabled='isDisabled'
           >
           <!-- 自定义样式按钮 -->
-    <span class="tap-radio-input tap-radio-icon"
-          :class="['tap-radio--'+ type,
+    <span class="tap-checkbox-input tap-checkbox-icon"
+          :class="['tap-checkbox--'+ type,
                   'is-' + type,
-                  'tap-radio-icon--'+ icon ]"
-          ref='radioIcon'
+                  'tap-checkbox-icon--'+ icon ]"
+          ref='checkboxIcon'
           :style="{ width: size+'px', height: size + 'px' }" ></span>
           <!-- 文本 -->
-    <span class="tap-radio-text" >
+    <span class="tap-checkbox-text" >
       <slot></slot>
     </span>
   </label>
@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  name: 'tap-radio',
+  name: 'tap-checkbox',
   props: {
     value: {},
     disabled: {
@@ -77,9 +77,9 @@ export default {
       let type = typeof this.$parent.size;
       if (type == 'string') {
         let sizeObj = { small: 14, normal: 20, large: 30 };
-        this.$refs.radioIcon.classList.add('tap-radio-icon-fontsize-' + sizeObj[this.$parent.size])
+        this.$refs.checkboxIcon.classList.add('tap-checkbox-icon-fontsize-' + sizeObj[this.$parent.size])
       } else if (type == 'number') {
-        this.$refs.radioIcon.classList.add('tap-radio-icon-fontsize-' + this.$parent.size)
+        this.$refs.checkboxIcon.classList.add('tap-checkbox-icon-fontsize-' + this.$parent.size)
       }
     }
   }
@@ -96,23 +96,23 @@ export default {
   src: url('../../assets/font/iconfont.eot?#iefix') format('embedded-opentype'), url('../../assets/font/iconfont.woff') format('woff'), url('../../assets/font/iconfont.ttf') format('truetype'), url('../../assets/font/iconfont.svg#iconfont') format('svg');
 }
 @component-namespace tap {
-  @component radio {
+  @component checkbox {
     @when disabled {
       & input:checked +span{
         border: 1px solid $color-disabled!important;
       }
-      & .tap-radio-input {
+      & .tap-checkbox-input {
           background-color: $color-background;
           &:after{
             background-color:$color-disabled;
           }
       }
     }
-    /* 原生radio */
+    /* 原生checkbox */
     @descendent nativeInput {
       display: none;
       /* 选中状态 */
-      &:checked + span.tap-radio-icon--none{
+      &:checked + span.tap-checkbox-icon--none{
         @when primary {
           border: 1px solid $color-primary;
         }
@@ -134,11 +134,10 @@ export default {
       }
     }
 
-    /* 自定义radio */
+    /* 自定义checkbox */
     @descendent input {
       position: relative;
       display: inline-block;
-      border-radius: 50%;
       box-sizing: border-box;
       vertical-align: bottom;
       border: 1px solid $color-border;
@@ -148,7 +147,6 @@ export default {
         box-sizing: border-box;
         transition: all .3s;
         transform: scale(0);
-        border-radius: 50%;
         position: absolute 0 0 0 0;
         margin: auto;
       }
@@ -304,11 +302,10 @@ export default {
   }
 }
 
-@for $i from 14 to 50 {
-  .tap-radio-icon-fontsize-$i {
+@for $i from 14 to 80 {
+  .tap-checkbox-icon-fontsize-$i {
     &:after{
-      line-height: calc($(i) * 0.9)px;
-      font-size:calc($(i) * 0.8)px;
+      font-size:calc($(i) * 0.9)px;
     }
   }
 }
