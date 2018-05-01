@@ -1,7 +1,10 @@
 import Button from './components/button';
 import Badge from './components/badge';
-import {VueToast} from './components/toast';
 import Header from './components/header';
+import {Collapse, Panel} from './components/collapse';
+
+import {VueToast} from './components/toast';
+
 import Select from './components/select'
 import { Tab, TabPane } from './components/tab'
 import { Swipe, SwipeItem } from './components/swipe';
@@ -11,6 +14,8 @@ const install = function(Vue, options = {}) {
   let { lazy } = options;
 
   Vue.component(Button.name, Button);
+  Vue.component(Collapse.name, Collapse);
+  Vue.component(Panel.name, Panel);
   Vue.component(Badge.name, Badge);
   Vue.component(VueToast.name, VueToast);
   Vue.component(Header.name, Header);

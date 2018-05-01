@@ -1,5 +1,6 @@
 import Container from '../components/Container'
 import Button from '../components/Button/button';
+import Collapse from '../components/Collapse/collapse';
 import Badge from '../components/Badge/badge';
 import Toast from '../components/Toast/toast';
 import Header from '../components/Header/header';
@@ -53,6 +54,11 @@ let config = {
     path: '/toast',
     name: 'Toast',
     component: Toast
+  },
+  cell: {
+    path: '/collapse',
+    name: 'Collapse',
+    component: Collapse
   },
 }
 

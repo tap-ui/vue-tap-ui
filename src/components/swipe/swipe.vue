@@ -1,13 +1,14 @@
 <template >
-  <div class="tap-swipe">
+  <div class="tap-swipe"
+  @touchstart="onTouchStart"
+  @touchmove="onTouchMove"
+  @touchend="onTouchEnd">
     <div
         :style="trackStyle"
         class="tap-swipe-items-wrap"
-        ref="wrap"
         @transitionend="handleTrnslate"
-        @touchstart="onTouchStart"
-        @touchmove="onTouchMove"
-        @touchend="onTouchEnd">
+
+        ref="wrap">
       <slot/>
     </div>
       <div class="tap-swipe-indicators" v-if="showIndicators">
@@ -57,6 +58,10 @@ export default {
     duration: {
       type: Number,
       default: 500
+    },
+    percent: { // 滑动超过百分几就下一张
+      type: Number,
+      default: 10,
     }
   },
   /**
@@ -139,7 +144,10 @@ export default {
 
     onTouchEnd() {
       this.currentDuration = this.duration; // 移动到一半，回弹时候的动画时间
-      this.index = Math.round(-this.offset / this.width);
+
+      // const i = Math.round(-this.offset / this.width % 1 * 100) > 10 ? 1 : 0;
+      // this.index = Math.round(-this.offset / this.width);
+      this.index += Math.round(-this.offset / this.width % 1 * 100) > this.percent ? 1 : 0;
       this.offset = -this.index * this.width;
       this.wh("touch");
       this.autoPlay();
