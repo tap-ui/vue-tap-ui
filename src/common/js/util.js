@@ -62,9 +62,24 @@ const isObj = (x) => {
   return x !== null && (type === 'object' || type == 'function')
 }
 
+const typeOf (obj) {
+  const toString = Object.prototype.toString;
+  const typeMap = {
+    "[object Array]": 'array',
+    "[object Object]": 'object',
+    "[object Number]": 'number',
+    "[object String]": 'string',
+    "[object Null]": 'null',
+    "[object Undefined]": 'undefined',
+    "[object Symbol]": 'symbol'
+  }
+  return typeMap[toString.call(obj)];
+}
+
 export {
   decoratorify,
   throttle,
   addEvent,
-  isObj
+  isObj,
+  typeOf
 }
