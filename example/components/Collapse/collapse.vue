@@ -1,49 +1,65 @@
 <template lang="html">
   <div class="collapse-demo-wrap" >
-    <tap-collapse v-model="value">
-      <tap-panel>
-        这是标题1
-        <div slot="content" class="">
-          手风琴特效，当然也可以叫做侧栏菜单导航，集中了当今比较流行的竖向菜单导航， 既可以控制只展开一个，亦可以点击展开或者折叠
-        </div>
-      </tap-panel>
-      <tap-panel>
-        这是标题2
-        <div slot="content" class="">
-          手风琴特效，当然也可以叫做侧栏菜单导航，集中了当今比较流行的竖向菜单导航， 既可以控制只展开一个，亦可以点击展开或者折叠
-        </div>
-      </tap-panel>
-      <tap-panel>
-        这是标题3
-        <div slot="content" class="">
-          手风琴特效，当然也可以叫做侧栏菜单导航，集中了当今比较流行的竖向菜单导航， 既可以控制只展开一个，亦可以点击展开或者折叠
-        </div>
-      </tap-panel>
-    </tap-collapse>
+    <section class="callapse-wrap">
+      <h2>基础用法</h2>
+      <tap-collapse v-model="value">
+        <tap-panel>
+          TapUI
+          <div slot="content" class="">
+            TapUI是基于Vue2.X开发的移动端UI组件库，由广州2个还未毕业的学生，于2018年2月份开始，利用业余时间打造，CSS使用PostCSS开发，基于BEM命名语法
+          </div>
+        </tap-panel>
+        <tap-panel>
+          React
+          <div slot="content" class="">
+            React 是一个用于构建用户界面的 JAVASCRIPT 库。
 
-    <div class="" style="margin-top: 20px;">
+            React主要用于构建UI，很多人认为 React 是 MVC 中的 V（视图）。
 
-    </div>
-    <tap-collapse v-model="value2" accordion>
-      <tap-panel>
-        这是标题1
-        <div slot="content" class="">
-          手风琴特效，当然也可以叫做侧栏菜单导航，集中了当今比较流行的竖向菜单导航， 既可以控制只展开一个，亦可以点击展开或者折叠
-        </div>
-      </tap-panel>
-      <tap-panel>
-        这是标题2
-        <div slot="content" class="">
-          手风琴特效，当然也可以叫做侧栏菜单导航，集中了当今比较流行的竖向菜单导航， 既可以控制只展开一个，亦可以点击展开或者折叠
-        </div>
-      </tap-panel>
-      <tap-panel>
-        这是标题3
-        <div slot="content" class="">
-          手风琴特效，当然也可以叫做侧栏菜单导航，集中了当今比较流行的竖向菜单导航， 既可以控制只展开一个，亦可以点击展开或者折叠
-        </div>
-      </tap-panel>
-    </tap-collapse>
+            React 起源于 Facebook 的内部项目，用来架设 Instagram 的网站，并于 2013 年 5 月开源。
+
+            React 拥有较高的性能，代码逻辑非常简单，越来越多的人已开始关注和使用它。
+          </div>
+        </tap-panel>
+        <tap-panel>
+          Vue
+          <div slot="content" class="">
+              Vue是一套用于构建用户界面的渐进式框架。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
+          </div>
+        </tap-panel>
+      </tap-collapse>
+    </section>
+
+
+    <section class="callapse-wrap">
+      <h2>手风琴模式</h2>
+      <tap-collapse v-model="value2" accordion>
+        <tap-panel>
+          TapUI
+          <div slot="content" class="">
+            TapUI是基于Vue2.X开发的移动端UI组件库，由广州2个还未毕业的学生，于2018年2月份开始，利用业余时间打造，CSS使用PostCSS开发，基于BEM命名语法
+          </div>
+        </tap-panel>
+        <tap-panel>
+          React
+          <div slot="content" class="">
+            React 是一个用于构建用户界面的 JAVASCRIPT 库。
+
+            React主要用于构建UI，很多人认为 React 是 MVC 中的 V（视图）。
+
+            React 起源于 Facebook 的内部项目，用来架设 Instagram 的网站，并于 2013 年 5 月开源。
+
+            React 拥有较高的性能，代码逻辑非常简单，越来越多的人已开始关注和使用它。
+          </div>
+        </tap-panel>
+        <tap-panel>
+          Vue
+          <div slot="content" class="">
+              Vue是一套用于构建用户界面的渐进式框架。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与现代化的工具链以及各种支持类库结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
+          </div>
+        </tap-panel>
+      </tap-collapse>
+    </section>
   </div>
 </template>
 
@@ -51,69 +67,25 @@
 export default {
   data () {
     return {
-      active: '1',
-      children: [],
       value: "2",
       value2: [1]
     }
-  },
-  methods: {
-    // handleToggle(index, e) {
-    //   // console.log(e);
-    //   var contents = Array.from(this.$el.querySelectorAll('.collapse-item-content'))
-    //   // contents = contents.filter(v => console.log(v.classList));
-    //   // console.log(Object.prototype.toString.call(contents), contents);
-    //   for (var i in contents) {
-    //   //   console.log(contents[i]);
-    //     contents[i].style.height = '0';
-    //
-    //   }
-    //
-    //
-    //   this.active = index.toString();
-    //   const el = e.target.parentNode;
-    //   const con = e.target.nextElementSibling;
-    //   // var clientLeft = con.clientLeft;
-    //   const height = con.scrollHeight;
-    //   con.style.height = height + 'px'
-    // },
-  },
-  mounted () {
-
   }
 }
 </script>
 
 <style lang="css">
-.collapse-item-content {
-  position: relative;
-  overflow: hidden;
-  height: 0;
-  font-size: 14px;
-  transition-duration: 300ms;
-  transform: translate3d(0, 0, 0);
-  box-sizing: border-box;
-  border-top: none;
-  /* transition: all .5s ease; */
-}
 
-.collapse-item-content-box {
-  padding: 10px;
-}
 
-.collapse-item-title {
-  padding: 10px;
-  background: #2196f3;
-  color: #fff;
-  cursor: pointer;
-  padding-left: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  border-bottom: 1px solid #efefef;
-}
+.collapse-demo-wrap {
+    section {
+      margin-top: 20px;
+    }
 
-.collapse-item-expand >.collapse-item-content{
-	height:auto;
+    h3 {
+      line-height: 50px;
+      height: 50px;
+      padding-left: 20px;
+    }
 }
 </style>

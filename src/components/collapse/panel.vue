@@ -1,11 +1,11 @@
 <template lang="html">
-    <div class="tap-collapse-item" :class="{'tap-collapse-item-expand': isActive}" >
-      <div class="tap-collapse-item-title"  @click="toggle">
+    <div class="tap-panel" :class="{'tap-panel-expand': isActive}" >
+      <div class="tap-panel-title"  @click="toggle">
         <i class="iconfont icon-forward icon" :class="{'open': isActive}"></i>
         <slot></slot>
       </div>
-      <div class="tap-collapse-item-content" ref="content">
-        <div class="tap-collapse-item-content-box" >
+      <div class="tap-panel-content" ref="content">
+        <div class="tap-panel-content-box" >
           <slot name="content"></slot>
         </div>
       </div>
@@ -60,9 +60,48 @@ export default {
 @import '../../common/style/variable.css';
 
 @component-namespace tap {
-  @component collapse {
-    @descendent
-    background-color: $color-white;
+  @component panel {
+
+
+    @descendent content{
+      position: relative;
+      overflow: hidden;
+      height: 0;
+      font-size: 14px;
+      transition-duration: 300ms;
+      transform: translate3d(0, 0, 0);
+      box-sizing: border-box;
+      border-top: none;
+      background-color: $color-white;
+
+      @descendent box{
+        padding: 10px;
+
+      }
+    }
+
+
+    @descendent title {
+      padding: 10px;
+      /* background: $color-white; */
+      color: $color-title;
+      cursor: pointer;
+      padding-left: 15px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid $color-divider;
+      box-sizing: border-box;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    @modifier expand{
+      .tap-panel-content{
+      	height:auto;
+      }
+    }
   }
 }
 
@@ -71,42 +110,11 @@ export default {
   margin-right: 5px;
   line-height: 14px;
   transition: all .3s ease-in-out;
+
+  &.open {
+    transform: rotate(90deg);
+
+  }
 }
 
-.icon.open {
-  transform: rotate(90deg);
-}
-
-.tap-collapse-item-content {
-  position: relative;
-  overflow: hidden;
-  height: 0;
-  font-size: 14px;
-  transition-duration: 300ms;
-  transform: translate3d(0, 0, 0);
-  box-sizing: border-box;
-  border-top: none;
-}
-
-.tap-collapse-item-content-box {
-  padding: 10px;
-}
-
-
-.tap-collapse-item-title {
-  padding: 10px;
-  /* background: $color-white; */
-  /* color: $color-title; */
-  cursor: pointer;
-  padding-left: 15px;
-  display: flex;
-  align-items: center;
-  border-top: 1px solid #dddee1;
-  box-sizing: border-box;
-}
-
-
-.tap-collapse-item-expand >.tap-collapse-item-content{
-	height:auto;
-}
 </style>

@@ -62,7 +62,7 @@ const isObj = (x) => {
   return x !== null && (type === 'object' || type == 'function')
 }
 
-const typeOf (obj) {
+const typeOf = (obj) => {
   const toString = Object.prototype.toString;
   const typeMap = {
     "[object Array]": 'array',
