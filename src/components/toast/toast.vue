@@ -1,14 +1,17 @@
 <template>
-<transition name="tap-toast-pop">
+<transition name="pop">
   <div class="tap-toast-wrap" v-show="visibe">
     <div class="tap-toast" :class="[`tap-toast--${position}`, `tap-toast--${typeStyle}`]">
 
-      <div v-if="typeStyle == 'text'">{{message}}</div>
+      <div v-if="type == 'text'">{{message}}</div>
 
       <template>
-            <i class="iconfont tap-toast-icon" :class="iconStyle" v-if="iconStyle"></i>
-            <div class="tap-toast-text" v-if="typeStyle == 'default'">{{message}}</div>
-          </template>
+            <div class="loader circle-spin small" v-if="type == 'loading'">
+              <div class="loader-placeholder"></div>
+            </div>
+            <i class="iconfont tap-toast-icon" :class="iconStyle" v-else></i>
+            <div class="tap-toast-text" v-if="type !== 'text'">{{message}}</div>
+      </template>
     </div>
     <div class="tap-mask" v-show="visibe && mask"></div>
   </div>
@@ -77,6 +80,7 @@ export default {
     font-size: 12px;
     z-index: 2020;
     transform: rotate(180deg);
+    transition: top .5s ease;
 
     @modifier middle {
       left: 50%;
@@ -116,6 +120,7 @@ export default {
     @descendent pop-enter,
     pop-leave-active {
       opacity: 0;
+      height: 111px;
     }
 
     @descendent icon {
@@ -139,29 +144,62 @@ export default {
   }
 
 }
+.pop-enter-active,
+.pop-leave-active {
+  transition: all .5s;
+}
 
-.tap-loading-animation {
-  display: block;
-  position: relative;
-  animation: loading 1s linear infinite;
+.pop-enter,
+.pop-leave-to  {
+  opacity: 0;
+  .tap-toast--text {
+    top: 45%;
+  }
+}
+
+.loader {
+	position: relative;
+  margin: 0 auto;
+}
+
+.loader.circle-spin {
+	border-radius: 50%;
+	border: 4px solid rgba(0, 0, 0, .2);
+	width: 60px;
+	height: 60px;
+	box-sizing: content-box;
+}
+
+.loader.circle-spin .loader-placeholder {
+	position: absolute;
+	top: -3px;
+	left: -3px;
+	border-radius: 50%;
+	border: 4px solid transparent;
+	border-top: 4px solid #fff;
+	width: 60px;
+	height: 60px;
+	box-sizing: content-box;
+	animation: circle-spin 1s ease infinite;
+}
+
+@keyframes circle-spin {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes circle-spin {
+	0% {
+		-webkit-transform: rotate(0);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
 }
 
 
-@keyframes loading {
-  from {
-    transform: rotate(0);
-  }
-
-  40% {
-    transform: rotate(180deg);
-  }
-
-  80% {
-    transform: rotate(300deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
 </style>

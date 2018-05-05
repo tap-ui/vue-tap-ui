@@ -1,22 +1,22 @@
 <template >
   <div class="tap-swipe"
-  @touchstart="onTouchStart"
-  @touchmove="onTouchMove"
-  @touchend="onTouchEnd">
+>
     <div
         :style="trackStyle"
-        class="tap-swipe-items-wrap"
+        class="tap-swipe-wrap"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd"
         @transitionend="handleTrnslate"
-
         ref="wrap">
       <slot/>
     </div>
-      <div class="tap-swipe-indicators" v-if="showIndicators">
-        <i class="tap-swipe-indicator"
-            v-for="(a, i) in count"
-            :class="{ 'is-active' : (index > count ? 0 : index - 1 )=== i}">
-        </i>
-      </div>
+    <div class="tap-swipe-indicators" v-if="showIndicators">
+      <i class="tap-swipe-indicator"
+          v-for="(a, i) in count"
+          :class="{ 'is-active' : (index > count ? 0 : index - 1 )=== i}">
+      </i>
+    </div>
   </div>
 </template>
 
@@ -131,6 +131,7 @@ export default {
     },
 
     onTouchStart(event) {
+
       clearTimeout(this.timer);
       this.currentDuration = 0; // 手指移动的时候不需要动画
       this.startX = event.touches[0].clientX;
@@ -138,6 +139,8 @@ export default {
     },
 
     onTouchMove(event) {
+      event.preventDefault();
+      event.stopPropagation();
       this.diff = event.touches[0].clientX - this.startX;
       this.move(0, this.diff);
     },
@@ -145,9 +148,11 @@ export default {
     onTouchEnd() {
       this.currentDuration = this.duration; // 移动到一半，回弹时候的动画时间
 
-      // const i = Math.round(-this.offset / this.width % 1 * 100) > 10 ? 1 : 0;
-      // this.index = Math.round(-this.offset / this.width);
-      this.index += Math.round(-this.offset / this.width % 1 * 100) > this.percent ? 1 : 0;
+      const offsetIndex = -this.offset / this.width;
+
+      const now_percent = Math.abs(this.index - offsetIndex) * 100;
+      this.move(now_percent > this.percent ? this.index - offsetIndex > 0 ? -1 : 1 : 0, 0);
+
       this.offset = -this.index * this.width;
       this.wh("touch");
       this.autoPlay();
@@ -212,6 +217,12 @@ export default {
       overflow: hidden;
       position: relative;
       user-select: none;
+
+      @descendent wrap {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
 
       @descendent indicators {
         position: absolute;

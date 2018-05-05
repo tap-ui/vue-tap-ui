@@ -1,7 +1,6 @@
 import Button from './components/button';
 import Badge from './components/badge';
 import Header from './components/header';
-import {Collapse, Panel} from './components/collapse';
 
 import {VueToast} from './components/toast';
 
@@ -11,6 +10,8 @@ import { Swipe, SwipeItem } from './components/swipe';
 import LazyLoad from './directive/lazyLoad';
 import { Radio, RadioGroup } from './components/radio'
 import { CheckboxGroup, Checkbox } from './components/checkbox'
+import {Collapse, Panel} from './components/collapse';
+import Switch from './components/switch';
 
 const install = function(Vue, options = {}) {
   let { lazy } = options;
@@ -31,6 +32,7 @@ const install = function(Vue, options = {}) {
   Vue.component(RadioGroup.name, RadioGroup);
   Vue.component(CheckboxGroup.name, CheckboxGroup);
   Vue.component(Checkbox.name, Checkbox);
+  Vue.component(Switch.name, Switch);
 }
 
 // auto install
@@ -49,14 +51,9 @@ export default {
   Swipe,
   SwipeItem,
   Tab,
-<<<<<<< HEAD
   TabPane,
   Radio,
   RadioGroup,
   CheckboxGroup,
   Checkbox
 }
-=======
-  TabPane
-}
->>>>>>> cjf

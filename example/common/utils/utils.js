@@ -8,12 +8,10 @@ const changeName = {
   'Select': '选择器',
   'Swipe': '轮播图',
   'Tab': '标签页',
-<<<<<<< HEAD
   'Radio': '单选框',
-  'Checkbox': '多选框'
-=======
+  'Checkbox': '多选框',
   'Collapse': '折叠面板',
->>>>>>> cjf
+  'Switch': '开关',
 }
 
 export function valueToName(value) {

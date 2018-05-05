@@ -10,6 +10,7 @@ import Swipe from '../components/Swipe/Swipe';
 import Tab from '../components/Tab/Tab'
 import Radio from '../components/Radio/Radio'
 import Checkbox from '../components/Checkbox/Checkbox'
+import Switch from '../components/Switch/Switch'
 
 let config = {
   container: {
@@ -67,10 +68,15 @@ let config = {
     name: 'Checkbox',
     component: Checkbox
   },
-  cell: {
+  Collapse: {
     path: '/collapse',
     name: 'Collapse',
     component: Collapse
+  },
+  Switch: {
+    path: '/switch',
+    name: 'Switch',
+    component: Switch
   },
 }
 
