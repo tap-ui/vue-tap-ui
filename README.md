@@ -2,26 +2,12 @@
 
 > 基于vue.js的移动端Ui组件
 
-## Build Setup
+开发
+```
+1. npm install
 
-``` bash
-# install dependencies
-npm install
+2. npm run dev
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
+3. http://127.0.0.1:8080
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
