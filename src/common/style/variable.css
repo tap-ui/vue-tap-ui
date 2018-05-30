@@ -1,0 +1,27 @@
+/* 这是所有组件的基础配色 */
+
+$color-primary:#2d8cf0;
+$color-light-primary: #5cadff;
+$color-dark-primary: #2b85e4;
+$color-info: #2d8cf0;
+$color-success: #19be6b;
+$color-warning: #ff9900;
+$color-error: #ed3f14;
+$color-title: #1c2438;
+$color-content: #495060;
+$color-sub: #80848f;
+$color-disabled: #e5e5e5;
+$color-border: #dddee1;
+$color-divider: #e9eaec;
+$color-background: #f8f8f9;
+$color-white: #FFFFFF;
+$color-active: #D9D9D9;
+/* 高度 */
+
+$height-header: 40px;
+/* z-index */
+
+$z-index-normal: 1;
+/* select组件 */
+
+$height-select: 40px;
